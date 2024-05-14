@@ -17,7 +17,6 @@ public class PlayerMovement : MonoBehaviour
 
     Vector3 moveDirection;
 
-
     void Update()
     {
         GetInput();
@@ -30,7 +29,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     private void GetInput()
-    {
+    {   
         horizontalInput = Input.GetAxis("Horizontal");
         verticalInput = Input.GetAxis("Vertical");
     }
