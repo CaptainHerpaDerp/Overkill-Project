@@ -23,6 +23,9 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 playerVelocity;
 
+
+    Vector2 lookDirection;
+
     Vector3 moveDirection;
 
     private PlayerControlsGamepad playerControls;
@@ -35,6 +38,8 @@ public class PlayerMovement : MonoBehaviour
         playerControls = new PlayerControlsGamepad();
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
+
+        Application.targetFrameRate = 120;
     }
 
     private void OnEnable()
@@ -58,10 +63,24 @@ public class PlayerMovement : MonoBehaviour
         HandleRotation();
     }
 
+    private void FixedUpdate()
+    {
+        HandleMovement();
+        HandleRotation();
+    }
+
+    private void LateUpdate()
+    {
+        //HandleRotation();
+    }
+
     private void GetInput()
     {
         movementInput = playerControls.Controls.Movement.ReadValue<Vector2>();
         lookInput = playerControls.Controls.Aim.ReadValue<Vector2>();
+
+        // Get the direction the player should face based on the aim input
+        lookDirection = new Vector2(lookInput.x, lookInput.y) * Time.deltaTime;
     }
 
     private void HandleMovement()
@@ -71,29 +90,28 @@ public class PlayerMovement : MonoBehaviour
 
         moveDirection = transform.TransformDirection(moveDirection);
 
-      //  transform.position += moveDirection * movementSpeed * Time.deltaTime;
-        rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.deltaTime);
+        // Bad collisions - smooth movement
+        transform.position += moveDirection * movementSpeed * Time.deltaTime;
+
+        // Proper collisions - jerky movement
+        //rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
     }
 
     private void HandleRotation()
     {
-        // Get the direction the player should face based on the aim input
-        Vector2 lookDirection = new Vector2(lookInput.x, lookInput.y) * Time.deltaTime;
 
         // Rotate horizontally (around y-axis)
         transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX));
+        playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY * Time.fixedDeltaTime));
 
-        orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
+        //orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
 
         // Handle the player camera rotation in the x-axis
-        playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY));
 
         //// Rotate vertically (around x-axis)
         //float newRotationX = Mathf.Clamp(transform.eulerAngles.x - lookDirection.y, 0f, 90f); // Limit vertical rotation
         //transform.rotation = Quaternion.Euler(newRotationX, transform.eulerAngles.y, transform.eulerAngles.z);
     }
-
-
 
     private void LimitSpeed()
     {

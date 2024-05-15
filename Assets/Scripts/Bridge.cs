@@ -1,46 +1,22 @@
+using System;
 using UnityEngine;
 
 public class Bridge : MonoBehaviour
 {
-    [SerializeField] private Bridge otherBridge;
+    public bool PlayerInCollider;
 
-    [SerializeField] private GameObject objectToEnable;
-
-    [Header("Determines if the player can enter through this bridge")]
-    public bool IsBridgeUsable;
-
-    // public for debugging purposes, should be private later
-    [SerializeField] private bool isBridgeActive;
+    public Action<GameObject> OnPlayerContact;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!IsBridgeUsable)
-        {
+        if (PlayerInCollider == true)
             return;
-        }
 
-        if (other.CompareTag("Player") && isBridgeActive)
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Bridge");
-
-            if (objectToEnable != null)
-            {
-                objectToEnable.SetActive(false);
-            }
-
-            if (otherBridge.objectToEnable != null)
-            {
-                otherBridge.objectToEnable.SetActive(true);
-            }
-
-            otherBridge.isBridgeActive = false;
-
-            // Get the difference between the player and the bridge
-            Vector3 difference = other.transform.position - transform.position;
-
-           // other.transform.parent.gameObject.transform.position = otherBridge.transform.position + difference;
-            other.transform.position = otherBridge.transform.position + difference;
-        } 
+            PlayerInCollider = true;
+            OnPlayerContact?.Invoke(other.gameObject);
+        }
     }
 
     // Ensure the player has exited the bridge before reactivating it
@@ -48,18 +24,7 @@ public class Bridge : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            isBridgeActive = true;
+            PlayerInCollider = false;
         }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-
-        // Draw a sphere at the position of the bridge
-        Gizmos.DrawWireSphere(transform.position, 0.3f);
-
-        if (otherBridge != null)
-        Gizmos.DrawLine(transform.position, otherBridge.transform.position);
     }
 }
