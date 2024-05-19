@@ -7,8 +7,13 @@ public class Bridge : MonoBehaviour
 
     public Action<GameObject> OnPlayerContact;
 
+    public bool Acessible = true;
+
     private void OnTriggerEnter(Collider other)
     {
+        if (Acessible == false)
+            return;
+
         if (PlayerInCollider == true)
             return;
 

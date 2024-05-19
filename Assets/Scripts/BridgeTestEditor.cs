@@ -93,6 +93,7 @@ public class BridgeTestEditor : Editor
             if (bridgeTest.ExitPoint == null)
             {
                 bridgeTest.ExitPoint = bridgeTest.bridge2Coll.GetComponent<Bridge>();
+                bridgeTest.ExitPoint.Acessible = false;
             }
 
             EditorGUILayout.BeginHorizontal();
@@ -106,6 +107,10 @@ public class BridgeTestEditor : Editor
 
                 bridgeTest.EntryPoint = bridgeTest.ExitPoint;
                 bridgeTest.ExitPoint = entryPoint;
+
+                bridgeTest.EntryPoint.Acessible = true;
+                bridgeTest.ExitPoint.Acessible = false;
+
 
                 //Redraw the gizmos
                 SceneView.RepaintAll();
