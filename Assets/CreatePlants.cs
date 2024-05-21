@@ -6,7 +6,7 @@ public class CreatePlants : MonoBehaviour
 {
     [SerializeField] private Plant plantPrefab;
 
-    private const int maxPlantsInArea = 10;
+    private const int maxPlantsInArea = 5;
 
     private List<Plant> currentPlantsInRange = new();
 
@@ -40,7 +40,7 @@ public class CreatePlants : MonoBehaviour
         {
             if (currentPlantsInRange.Count < maxPlantsInArea && parentPlayer.IsGrounded())
             {
-                float worldPosY = transform.position.y;
+                float worldPosY = GetGroundPosition(transform.position).y;
 
                 var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
 
@@ -49,12 +49,29 @@ public class CreatePlants : MonoBehaviour
                 //TEMPORARY
                 plant.PlantOwner = playerNumber;
 
-                plant.GetComponent<Renderer>().material.color = playerColor;
+                plant.SetColor(playerColor);
+
                 currentPlantsInRange.Add(plant);
             }
 
             yield return new WaitForSeconds(spawnTime);
         }
+    }
+
+    private Vector3 GetGroundPosition(Vector3 position)
+    {
+        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, 1f, layerMask: 6))
+        {
+            // Rather than get the ground position, get the hit point
+
+            return hit.point;
+        }
+        else
+        {
+            Debug.LogWarning("No ground found");
+            return position;
+        }
+        
     }
 
     private IEnumerator ValidateExistingPlants()
@@ -102,7 +119,9 @@ public class CreatePlants : MonoBehaviour
 
         if (!currentPlantsInRange.Contains(plant))
         {
+            print("added plant");
             currentPlantsInRange.Add(plant);
+            plant.PlantOwner = playerNumber;
             plant.SetColor(playerColor);
         }
     }

@@ -71,8 +71,6 @@ public class PlayerMovement : MonoBehaviour
         GetInput();
 
         LimitSpeed();
-
-        print(IsGrounded());
     }
 
     private void FixedUpdate()
@@ -106,7 +104,7 @@ public class PlayerMovement : MonoBehaviour
         pushValue = push.ReadValue<float>();
 
         // Get the direction the player should face based on the aim input
-        lookDirection = new Vector2(lookInput.x, lookInput.y) * Time.deltaTime;
+        lookDirection = new Vector2(lookInput.x, lookInput.y);
     }
 
     private void HandleMovement()
@@ -126,7 +124,7 @@ public class PlayerMovement : MonoBehaviour
     private void HandleRotation()
     {
         // Rotate horizontally (around y-axis)
-        transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX));
+        transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX * Time.fixedDeltaTime));
         //playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY));
         orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
 
