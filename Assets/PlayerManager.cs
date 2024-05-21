@@ -35,10 +35,25 @@ public class PlayerManager : MonoBehaviour
     {
         players.Add(player);
 
-     //   Transform playerParent = player.transform.parent;
+        // Get the device that the player is using
+        InputDevice device = player.devices[0];
+
+        print(device.description.interfaceName);
+
+        //Transform playerParent = player.transform.parent;
         Transform playerParent = player.transform;
 
         PlayerMovement playerMovement = playerParent.GetComponent<PlayerMovement>();
+
+        if (device.description.interfaceName == "RawInput")
+        {
+            playerMovement.rotationSpeedX = 10.0f;
+
+            playerMovement.UseMouseClick = true;
+
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         playerMovement.PlayerColor = playerColors[players.Count - 1];
         playerMovement.PlayerNumber = players.Count;

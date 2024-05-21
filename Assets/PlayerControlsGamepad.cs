@@ -62,6 +62,15 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""b583c8f8-cb72-40a6-b77f-3f7735a57a58"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -145,7 +154,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                 {
                     ""name"": """",
                     ""id"": ""5b2becf9-6b7e-4e06-86ca-63bbeaeb4ba0"",
-                    ""path"": ""<Mouse>/position"",
+                    ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""KBM"",
@@ -183,6 +192,28 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Push"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c56129ef-6cce-4db5-b352-85c92f6d2ba0"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5660d672-f3ba-4ce8-83bc-f48d3a99e0a9"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Jump"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -225,6 +256,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         m_Controls_Aim = m_Controls.FindAction("Aim", throwIfNotFound: true);
         m_Controls_Join = m_Controls.FindAction("Join", throwIfNotFound: true);
         m_Controls_Push = m_Controls.FindAction("Push", throwIfNotFound: true);
+        m_Controls_Jump = m_Controls.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -290,6 +322,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Controls_Aim;
     private readonly InputAction m_Controls_Join;
     private readonly InputAction m_Controls_Push;
+    private readonly InputAction m_Controls_Jump;
     public struct ControlsActions
     {
         private @PlayerControlsGamepad m_Wrapper;
@@ -298,6 +331,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         public InputAction @Aim => m_Wrapper.m_Controls_Aim;
         public InputAction @Join => m_Wrapper.m_Controls_Join;
         public InputAction @Push => m_Wrapper.m_Controls_Push;
+        public InputAction @Jump => m_Wrapper.m_Controls_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -319,6 +353,9 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
             @Push.started += instance.OnPush;
             @Push.performed += instance.OnPush;
             @Push.canceled += instance.OnPush;
+            @Jump.started += instance.OnJump;
+            @Jump.performed += instance.OnJump;
+            @Jump.canceled += instance.OnJump;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -335,6 +372,9 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
             @Push.started -= instance.OnPush;
             @Push.performed -= instance.OnPush;
             @Push.canceled -= instance.OnPush;
+            @Jump.started -= instance.OnJump;
+            @Jump.performed -= instance.OnJump;
+            @Jump.canceled -= instance.OnJump;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -376,5 +416,6 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         void OnAim(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
         void OnPush(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

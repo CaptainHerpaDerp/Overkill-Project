@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722a48834612fe478fd7c2dc4ce8ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 25
+  force: 50
   forceMode: 0
   pushAngle: 45
   playerMovement: {fileID: 2149499087766023847}
@@ -485,14 +485,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e2d9a936a0f684e8f171cc6879ba9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 6
-  playerHeight: 1
+  movementSpeed: 10
+  playerHeight: 2
   groundMask:
     serializedVersion: 2
     m_Bits: 64
   rotationSpeedX: 150
   rotationSpeedY: 100
+  jumpForce: 8
   orientation: {fileID: 2576754146193988099}
+  UseMouseClick: 0
+  _playerNumber: 0
+  _playerColor: {r: 0, g: 0, b: 0, a: 0}
+  UpdatePlayerValues: 0
   rb: {fileID: 0}
 --- !u!114 &3617859758033536753
 MonoBehaviour:
@@ -528,14 +533,30 @@ MonoBehaviour:
     m_ActionId: 0001219b-152d-4467-adf2-f5dc1e75106e
     m_ActionName: Controls/Aim[/DualShock4GamepadHID1/rightStick,/DualShock4GamepadHID/rightStick,/Mouse/position]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: c62d7a45-b460-4eec-855e-0f40b3a500f9
     m_ActionName: Controls/Join[/DualShock4GamepadHID1/start,/DualShock4GamepadHID2/start,/DualShock4GamepadHID/start]
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: b75ff5ea-2b51-4969-a3cc-8a74ec4d6b6e
     m_ActionName: Controls/Push[/DualShock4GamepadHID/rightTrigger]
-  m_NeverAutoSwitchControlSchemes: 1
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b583c8f8-cb72-40a6-b77f-3f7735a57a58
+    m_ActionName: Controls/Jump[/DualShock4GamepadHID/buttonSouth,/Keyboard/space]
+  m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Controls
   m_SplitScreenIndex: -1
@@ -636,9 +657,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   plantPrefab: {fileID: 2969399852961917321, guid: f412b7dce58cbf649bacb20b92e189d0, type: 3}
+  currentPlantsInRange: []
   sphereCollider: {fileID: 1726663599356196859}
   spawnTime: 0.01
   playerRenderer: {fileID: 5815655177183868328}
+  raycastDistance: 2
+  heightOffset: 1.4
 --- !u!135 &1726663599356196859
 SphereCollider:
   m_ObjectHideFlags: 0

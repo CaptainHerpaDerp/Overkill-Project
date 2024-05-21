@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.XR;
@@ -15,6 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("Rotation Settings")]
     public float rotationSpeedX, rotationSpeedY;
 
+    [SerializeField] private float jumpForce;
+
     public Transform orientation;
     //public Camera playerCamera;
 
@@ -27,7 +30,40 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveDirection;
     private float pushValue;
 
-    public int PlayerNumber { get; set; }
+    public bool UseMouseClick;
+
+    [SerializeField] private int _playerNumber;
+
+    public int PlayerNumber
+    {
+        get => _playerNumber;
+
+        set
+        {
+            OnPlayerNumberChange?.Invoke();
+            _playerNumber = value;
+        }
+    }
+
+    public Action OnPlayerNumberChange;
+
+
+    [SerializeField] private Color _playerColor;
+
+    public Color PlayerColor
+    {
+        get => _playerColor;
+
+        set
+        {
+            OnPlayerColorChange?.Invoke();
+            _playerColor = value;
+        }
+    }
+
+    public Action OnPlayerColorChange;
+
+    [SerializeField] private bool UpdatePlayerValues;
 
     public bool IsPushing => pushValue > 0;
 
@@ -35,11 +71,17 @@ public class PlayerMovement : MonoBehaviour
     private InputActionAsset inputAsset;
     private InputActionMap player;
 
-    private InputAction move, aim, push;
+    private InputAction move, aim, push, jump;
+
+    private bool doJump;
 
     [SerializeField] private Rigidbody rb;
 
-    [SerializeField] public Color PlayerColor { get; set; }
+    // TEMP
+    private Vector3 spawnPoint;
+    public Action OnPlayerRespawn;
+
+    private const float respawnY = -10f;
 
     private void Awake()
     {
@@ -57,8 +99,16 @@ public class PlayerMovement : MonoBehaviour
         move = player.FindAction("Movement");   
         aim = player.FindAction("Aim");
         push = player.FindAction("Push");
+        jump = player.FindAction("Jump");
 
         player.Enable();
+
+        if (Gamepad.current != null)
+        {
+            print(Gamepad.current.name);
+        }
+
+        spawnPoint = transform.position;
     }
 
     private void OnDisable()
@@ -71,6 +121,29 @@ public class PlayerMovement : MonoBehaviour
         GetInput();
 
         LimitSpeed();
+
+        if (UpdatePlayerValues)
+        {
+            OnPlayerColorChange?.Invoke();
+            OnPlayerNumberChange?.Invoke();
+            UpdatePlayerValues = false;
+        }
+
+        if (transform.position.y < respawnY)
+        {
+            OnPlayerRespawn?.Invoke();
+            transform.position = spawnPoint;
+        }
+
+        if (doJump)
+        {
+            if (IsGrounded())
+            {
+                rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            }
+
+            doJump = false;
+        }
     }
 
     private void FixedUpdate()
@@ -83,6 +156,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //HandleRotation();
     }
+
 
     public bool IsGrounded()
     {
@@ -101,7 +175,17 @@ public class PlayerMovement : MonoBehaviour
         lookInput = aim.ReadValue<Vector2>();
 
         // Assuming the control scheme's push button is a button, detect if it's pressed
-        pushValue = push.ReadValue<float>();
+
+        if (UseMouseClick)
+        {
+            pushValue = Input.GetMouseButton(0) ? 1 : 0;
+        }
+        else
+        {
+            pushValue = push.ReadValue<float>();
+        }
+
+        doJump = jump.triggered;
 
         // Get the direction the player should face based on the aim input
         lookDirection = new Vector2(lookInput.x, lookInput.y);

@@ -14,6 +14,8 @@ public class Plant : MonoBehaviour
 
     [SerializeField] private Animator plantAnimator;
 
+    public int PlantID { get; private set; }
+
     public int PlantOwner
     {
         get => plantOwner;
@@ -25,21 +27,28 @@ public class Plant : MonoBehaviour
             }
             else
             {
-                plantMeshFilter.mesh = plantMeshes[value];
+                plantMeshFilter.mesh = plantMeshes[value - 1];
 
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
                 if (value != plantOwner)
                 plantAnimator.SetTrigger("Grow");
+
+                // Update the plant owner in the ScoreManager
+                ScoreManager.Instance.UpdatePlantOwnership(PlantID, value);
 
                 plantOwner = value;
             }
         }
     }
 
-
     private const float SHIFT_SPEED = 0.1f;
 
     private bool isGhostPlant;
+
+    private void Awake()
+    {
+        PlantID = gameObject.GetInstanceID();
+    }
 
     private void Start()
     {
@@ -55,7 +64,7 @@ public class Plant : MonoBehaviour
 
     public bool IsOnSurface()
     {
-        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f);
+        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f, layerMask: 6);
     }
 
     public void SetColorInstant(Color color)

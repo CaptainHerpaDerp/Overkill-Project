@@ -6,9 +6,9 @@ public class CreatePlants : MonoBehaviour
 {
     [SerializeField] private Plant plantPrefab;
 
-    private const int maxPlantsInArea = 5;
+    private const int maxPlantsInArea = 7;
 
-    private List<Plant> currentPlantsInRange = new();
+    [SerializeField] private List<Plant> currentPlantsInRange = new();
 
     [SerializeField] private SphereCollider sphereCollider;
 
@@ -17,6 +17,10 @@ public class CreatePlants : MonoBehaviour
     [SerializeField] private Renderer playerRenderer;
 
     private PlayerMovement parentPlayer;
+
+    [SerializeField] private float raycastDistance;
+
+    [SerializeField] private float heightOffset;
 
     private Color playerColor;
     private int playerNumber;
@@ -27,27 +31,51 @@ public class CreatePlants : MonoBehaviour
 
         playerColor = parentPlayer.PlayerColor;
         playerNumber = parentPlayer.PlayerNumber;
+
+        parentPlayer.OnPlayerColorChange += () => playerColor = parentPlayer.PlayerColor;
+        parentPlayer.OnPlayerNumberChange += () => playerNumber = parentPlayer.PlayerNumber;
+
+        parentPlayer.OnPlayerRespawn += () =>
+        {
+            StopAllCoroutines();
+            StartCoroutine(SpawnPlantsInRange());
+        };
+
         playerRenderer.material.color = playerColor;
 
         StartCoroutine(SpawnPlantsInRange());
         StartCoroutine(ValidateExistingPlants());
-
     }
 
     private IEnumerator SpawnPlantsInRange()
     {
+        // Do not spawn plants immediately
+        yield return new WaitForSeconds(1);
+
         while (true)
         {
-            if (currentPlantsInRange.Count < maxPlantsInArea && parentPlayer.IsGrounded())
+            if (currentPlantsInRange.Count < maxPlantsInArea)
             {
-                float worldPosY = GetGroundPosition(transform.position).y;
+                Vector3 worldPos = GetGroundPosition(transform.position);
+
+                // If worldpos returns as zero, it means that the player is not grounded
+                if (worldPos == Vector3.zero)
+                {
+                    yield return new WaitForFixedUpdate();
+                    continue;
+                }
+
+                float worldPosY = worldPos.y + heightOffset;
 
                 var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
+
+                // Register the plant in the ScoreManager
+                ScoreManager.Instance.RegisterPlant(plant.PlantID, playerNumber);
 
                 plant.transform.position = new Vector3(plant.transform.position.x, worldPosY, plant.transform.position.z);
 
                 //TEMPORARY
-                plant.PlantOwner = playerNumber;
+                plant.PlantOwner = playerNumber;      
 
                 plant.SetColor(playerColor);
 
@@ -60,7 +88,7 @@ public class CreatePlants : MonoBehaviour
 
     private Vector3 GetGroundPosition(Vector3 position)
     {
-        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, 1f, layerMask: 6))
+        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, raycastDistance, layerMask: 6))
         {
             // Rather than get the ground position, get the hit point
 
@@ -69,9 +97,8 @@ public class CreatePlants : MonoBehaviour
         else
         {
             Debug.LogWarning("No ground found");
-            return position;
-        }
-        
+            return Vector3.zero;
+        }       
     }
 
     private IEnumerator ValidateExistingPlants()
@@ -112,6 +139,9 @@ public class CreatePlants : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (!parentPlayer.IsGrounded())
+            return;
+
         if (!other.TryGetComponent<Plant>(out var plant))
         {
             return;
@@ -121,6 +151,7 @@ public class CreatePlants : MonoBehaviour
         {
             print("added plant");
             currentPlantsInRange.Add(plant);
+
             plant.PlantOwner = playerNumber;
             plant.SetColor(playerColor);
         }
