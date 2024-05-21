@@ -5,13 +5,16 @@ using UnityEngine.InputSystem;
 
 public class PlayerManager : MonoBehaviour
 {
-    private List<PlayerInput> players = new List<PlayerInput>();
+    private List<PlayerInput> players = new();
 
-    [SerializeField] private List<Transform> spawnPoints = new List<Transform>();
+    [SerializeField] private List<Transform> spawnPoints = new();
+
+    [SerializeField] private List<Color> playerColors = new();
 
     [SerializeField] private List<LayerMask> playerLayers;
 
     private PlayerInputManager playerInputManager;
+
 
     private void Awake()
     {
@@ -35,6 +38,10 @@ public class PlayerManager : MonoBehaviour
      //   Transform playerParent = player.transform.parent;
         Transform playerParent = player.transform;
 
+        PlayerMovement playerMovement = playerParent.GetComponent<PlayerMovement>();
+
+        playerMovement.PlayerColor = playerColors[players.Count - 1];
+        playerMovement.PlayerNumber = players.Count;
 
         playerParent.transform.position = spawnPoints[players.Count - 1].position;
 

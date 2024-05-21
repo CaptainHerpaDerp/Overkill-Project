@@ -24,17 +24,22 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 playerVelocity;
 
     Vector2 lookDirection;
-
     Vector3 moveDirection;
+    private float pushValue;
+
+    public int PlayerNumber { get; set; }
+
+    public bool IsPushing => pushValue > 0;
 
    // private PlayerControlsGamepad playerControls;
     private InputActionAsset inputAsset;
     private InputActionMap player;
 
-    private InputAction move;
-    private InputAction aim;
+    private InputAction move, aim, push;
 
     [SerializeField] private Rigidbody rb;
+
+    [SerializeField] public Color PlayerColor { get; set; }
 
     private void Awake()
     {
@@ -51,6 +56,7 @@ public class PlayerMovement : MonoBehaviour
     {
         move = player.FindAction("Movement");   
         aim = player.FindAction("Aim");
+        push = player.FindAction("Push");
 
         player.Enable();
     }
@@ -66,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
 
         LimitSpeed();
 
+        print(IsGrounded());
     }
 
     private void FixedUpdate()
@@ -79,10 +86,24 @@ public class PlayerMovement : MonoBehaviour
         //HandleRotation();
     }
 
+    public bool IsGrounded()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight, groundMask))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     private void GetInput()
     {
         movementInput = move.ReadValue<Vector2>();
         lookInput = aim.ReadValue<Vector2>();
+
+        // Assuming the control scheme's push button is a button, detect if it's pressed
+        pushValue = push.ReadValue<float>();
 
         // Get the direction the player should face based on the aim input
         lookDirection = new Vector2(lookInput.x, lookInput.y) * Time.deltaTime;

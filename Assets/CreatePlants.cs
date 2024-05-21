@@ -14,25 +14,41 @@ public class CreatePlants : MonoBehaviour
 
     [SerializeField] private float spawnTime;
 
-    [SerializeField] private Color playerColor;
-
     [SerializeField] private Renderer playerRenderer;
+
+    private PlayerMovement parentPlayer;
+
+    private Color playerColor;
+    private int playerNumber;
 
     private void Start()
     {
+        parentPlayer = transform.parent.GetComponent<PlayerMovement>();
+
+        playerColor = parentPlayer.PlayerColor;
+        playerNumber = parentPlayer.PlayerNumber;
+        playerRenderer.material.color = playerColor;
+
         StartCoroutine(SpawnPlantsInRange());
         StartCoroutine(ValidateExistingPlants());
 
-        playerRenderer.material.color = playerColor;
     }
 
     private IEnumerator SpawnPlantsInRange()
     {
         while (true)
         {
-            if (currentPlantsInRange.Count < maxPlantsInArea)
+            if (currentPlantsInRange.Count < maxPlantsInArea && parentPlayer.IsGrounded())
             {
+                float worldPosY = transform.position.y;
+
                 var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
+
+                plant.transform.position = new Vector3(plant.transform.position.x, worldPosY, plant.transform.position.z);
+
+                //TEMPORARY
+                plant.PlantOwner = playerNumber;
+
                 plant.GetComponent<Renderer>().material.color = playerColor;
                 currentPlantsInRange.Add(plant);
             }

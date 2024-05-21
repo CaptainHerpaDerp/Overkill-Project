@@ -892,6 +892,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: GamePad Player
       objectReference: {fileID: 0}
+    - target: {fileID: 5815655177183868328, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: b92518ba05a19a048a8737c030746eaa, type: 2}
+    - target: {fileID: 8596916798283485704, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
+      propertyPath: pushAngle
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 8596916798283485704, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
+      propertyPath: surroundingPlant
+      value: 
+      objectReference: {fileID: 6538481911709972945}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -907,3 +919,14 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2111497816963260412, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
   m_PrefabInstance: {fileID: 1460404800481916622}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6538481911709972945 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5690646424005758751, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
+  m_PrefabInstance: {fileID: 1460404800481916622}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5fc4129a00a2bd438352fdf40aa9be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

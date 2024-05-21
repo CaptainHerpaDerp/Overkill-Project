@@ -53,6 +53,15 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Push"",
+                    ""type"": ""Value"",
+                    ""id"": ""b75ff5ea-2b51-4969-a3cc-8a74ec4d6b6e"",
+                    ""expectedControlType"": ""Integer"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,61 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""isPartOfComposite"": false
                 },
                 {
+                    ""name"": ""WASD"",
+                    ""id"": ""48dd7821-7e06-4cb7-be39-9f3a07b643a3"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d035c164-88b7-4faa-b16a-d206547e87fa"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""635581dd-dbb0-42bd-a358-43ecd6bfcf37"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""caa088fa-7157-4d48-92e6-ec3dafde2e6a"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""8170072e-5adc-4fad-a315-6b041adbc28d"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
                     ""name"": """",
                     ""id"": ""32a44b28-d192-4041-9fbb-94ab50080686"",
                     ""path"": ""<Gamepad>/rightStick"",
@@ -80,12 +144,45 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                 },
                 {
                     ""name"": """",
+                    ""id"": ""5b2becf9-6b7e-4e06-86ca-63bbeaeb4ba0"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Aim"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""91f1d3e7-1a3d-4d72-9447-d6ed3b0c5b0d"",
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8cb896d0-92f6-4926-bd80-44bef2cc57ef"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Join"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""338e2dbd-d1d8-4900-90f8-999275c33bd7"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Push"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -127,6 +224,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         m_Controls_Movement = m_Controls.FindAction("Movement", throwIfNotFound: true);
         m_Controls_Aim = m_Controls.FindAction("Aim", throwIfNotFound: true);
         m_Controls_Join = m_Controls.FindAction("Join", throwIfNotFound: true);
+        m_Controls_Push = m_Controls.FindAction("Push", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -191,6 +289,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Controls_Movement;
     private readonly InputAction m_Controls_Aim;
     private readonly InputAction m_Controls_Join;
+    private readonly InputAction m_Controls_Push;
     public struct ControlsActions
     {
         private @PlayerControlsGamepad m_Wrapper;
@@ -198,6 +297,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         public InputAction @Movement => m_Wrapper.m_Controls_Movement;
         public InputAction @Aim => m_Wrapper.m_Controls_Aim;
         public InputAction @Join => m_Wrapper.m_Controls_Join;
+        public InputAction @Push => m_Wrapper.m_Controls_Push;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -216,6 +316,9 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
             @Join.started += instance.OnJoin;
             @Join.performed += instance.OnJoin;
             @Join.canceled += instance.OnJoin;
+            @Push.started += instance.OnPush;
+            @Push.performed += instance.OnPush;
+            @Push.canceled += instance.OnPush;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -229,6 +332,9 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
             @Join.started -= instance.OnJoin;
             @Join.performed -= instance.OnJoin;
             @Join.canceled -= instance.OnJoin;
+            @Push.started -= instance.OnPush;
+            @Push.performed -= instance.OnPush;
+            @Push.canceled -= instance.OnPush;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -269,5 +375,6 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         void OnMovement(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnJoin(InputAction.CallbackContext context);
+        void OnPush(InputAction.CallbackContext context);
     }
 }

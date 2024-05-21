@@ -4,9 +4,44 @@ using UnityEngine;
 
 public class Plant : MonoBehaviour
 {
-    [SerializeField] private Renderer renderer;
+    [SerializeField] private Renderer plantRenderer;
+
+    private int plantOwner;
+
+    public int PlantOwner
+    {
+        get => plantOwner;
+        set
+        {
+            if (isGhostPlant)
+            {
+                return;
+            }
+            else
+            {
+                plantOwner = value;
+            }
+        }
+    }
 
     private const float SHIFT_SPEED = 0.1f;
+
+    private bool isGhostPlant;
+
+    private void Start()
+    {
+        // Set the plant's y position to be 0.1f
+        if (!IsOnSurface())
+        {
+            isGhostPlant = true;
+            plantRenderer.enabled = false;
+        }
+    }
+
+    public bool IsOnSurface()
+    {
+        return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 1f);
+    }
 
     public void SetColor(Color color)
     {
@@ -23,11 +58,11 @@ public class Plant : MonoBehaviour
         while (true)
         {
             // lerp the color of the plant
-            renderer.material.color = Color.Lerp(renderer.material.color, newColor, SHIFT_SPEED);
+            plantRenderer.material.color = Color.Lerp(plantRenderer.material.color, newColor, SHIFT_SPEED);
            
             yield return new WaitForFixedUpdate();
 
-            if (renderer.material.color == newColor)
+            if (plantRenderer.material.color == newColor)
             {
                 break;
             }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: -1290141998321831902}
   - component: {fileID: 6724796949243369174}
   m_Layer: 0
-  m_Name: Cylinder
+  m_Name: PlantPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 04a7c3c0e250023499f3ac17b3834801, type: 2}
+  - {fileID: 2100000, guid: cc5ea9bf6d35ca34e8b12921a0d2a419, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -148,4 +148,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fbb561c312193c4b8d814a2cdef71c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  renderer: {fileID: 6368170668987759192}
+  plantRenderer: {fileID: 6368170668987759192}
+  PlantOwner: 0
