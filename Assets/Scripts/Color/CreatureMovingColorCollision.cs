@@ -2,13 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingColorCollision : MonoBehaviour
+public class CreatureMovingColorCollision : MonoBehaviour
 {
-    private MovingColorChange movingChangeScript;
+    private CreatureMovingColorChange movingChangeScript;
 
     private void Start()
     {
-        movingChangeScript = GetComponentInParent<MovingColorChange>();
+        movingChangeScript = GetComponentInParent<CreatureMovingColorChange>();
         
         if (movingChangeScript == null)
         {
@@ -18,7 +18,6 @@ public class MovingColorCollision : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("hey");
         if (movingChangeScript != null)
         {
             movingChangeScript.OnColorTriggerEnter(other);

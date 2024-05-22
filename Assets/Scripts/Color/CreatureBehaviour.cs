@@ -17,15 +17,18 @@ public class CreatureBehaviour : MonoBehaviour {
     [SerializeField] 
     private SphereCollider growCollider;
     
+    
     private LayerMask plantLayer;
     private GameObject[] plants;
     private ColorEnum.PLANTCOLOR creatureColor;
     private NavMeshAgent agent;
-    private Transform target;
+    private CreatureMovingColorChange creatureMovingChangeScript;
+    private Transform target = null;
     private float currentGrowRadius = 1;
     
     private void Start() {
         plantLayer = (1 << 3); // 11 is number of Plant layer
+        creatureMovingChangeScript = gameObject.GetComponent<CreatureMovingColorChange>();
         agent = gameObject.GetComponent<NavMeshAgent>();
         plants = plantsHierarchyParent.GetChildren(false);
     }
@@ -47,8 +50,13 @@ public class CreatureBehaviour : MonoBehaviour {
         creatureColor = newColor;
     }
 
+    private void UpdateCreatureTarget(Transform newTarget) {
+        target = newTarget;
+        creatureMovingChangeScript.SetCreatureTarget(newTarget);
+    }
+
     #region Red
-    private Transform ChooseEnemyPlant() {
+    private void ChooseEnemyPlant() {
         float distToPlant = 1000f;
         
         foreach (GameObject plant in plants) {
@@ -63,11 +71,9 @@ public class CreatureBehaviour : MonoBehaviour {
             float TMPDist = Vector3.Distance(transform.position, plant.transform.position);
             if (TMPDist < distToPlant) {
                 distToPlant = TMPDist;
-                target = plant.transform;
+                UpdateCreatureTarget(plant.transform);
             }
         }
-
-        return target;
     }
 
     private void RedMoveToTargetPlant() {
@@ -80,7 +86,7 @@ public class CreatureBehaviour : MonoBehaviour {
         
         ColorEnum.PLANTCOLOR plantColor = target.gameObject.GetComponent<PlantColor>().GetThisPlantColor();
         if (plantColor == ColorEnum.PLANTCOLOR.RED || plantColor == ColorEnum.PLANTCOLOR.DEFAULT) {
-            target = null;
+            UpdateCreatureTarget(null);
             return;
         }
 
@@ -129,7 +135,7 @@ public class CreatureBehaviour : MonoBehaviour {
             float TMPDist = Vector3.Distance(transform.position, plant.transform.position);
             if (TMPDist < distToPlant) {
                 distToPlant = TMPDist;
-                target = plant.transform;
+                UpdateCreatureTarget(plant.transform);
             }
         }
 
@@ -146,7 +152,7 @@ public class CreatureBehaviour : MonoBehaviour {
         
         ColorEnum.PLANTCOLOR plantColor = target.gameObject.GetComponent<PlantColor>().GetThisPlantColor();
         if (plantColor == ColorEnum.PLANTCOLOR.BLUE) {
-            target = null;
+            UpdateCreatureTarget(null);
             return;
         }
 

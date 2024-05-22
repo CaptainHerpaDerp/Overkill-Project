@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovingColorChange : MonoBehaviour {
+public class PlayerMovingColorChange : MonoBehaviour {
     
-    public ColorEnum.PLANTCOLOR characterColor;
+    public ColorEnum.PLANTCOLOR playerColor;
 
     public void OnColorTriggerEnter(Collider other) {
-        other.gameObject.GetComponent<PlantColor>().ChangeThisPlantColor(characterColor);
+        other.gameObject.GetComponent<PlantColor>().ChangeThisPlantColor(playerColor);
     }
 
     public void SetCharacterColor(ColorEnum.PLANTCOLOR newColor) {
-        characterColor = newColor;
+        playerColor = newColor;
     }
 }
