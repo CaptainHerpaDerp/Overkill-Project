@@ -8,7 +8,7 @@ public class SurroundingPlant : MonoBehaviour
 
     private void Start()
     {
-        PlayerMovement parentPlayer = transform.parent.GetComponent<PlayerMovement>();
+        Player parentPlayer = transform.parent.GetComponent<Player>();
 
         playerNumber = parentPlayer.PlayerNumber;
         parentPlayer.OnPlayerNumberChange += () => playerNumber = parentPlayer.PlayerNumber;

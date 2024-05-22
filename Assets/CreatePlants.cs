@@ -16,7 +16,7 @@ public class CreatePlants : MonoBehaviour
 
     [SerializeField] private Renderer playerRenderer;
 
-    private PlayerMovement parentPlayer;
+    private Player parentPlayer;
 
     [SerializeField] private float heightOffset;
 
@@ -31,7 +31,7 @@ public class CreatePlants : MonoBehaviour
 
     private void Start()
     {
-        parentPlayer = transform.parent.GetComponent<PlayerMovement>();
+        parentPlayer = transform.parent.GetComponent<Player>();
 
         playerColor = parentPlayer.PlayerColor;
         playerNumber = parentPlayer.PlayerNumber;

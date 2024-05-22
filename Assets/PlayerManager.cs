@@ -45,20 +45,22 @@ public class PlayerManager : MonoBehaviour
         //Transform playerParent = player.transform.parent;
         Transform playerParent = player.transform;
 
-        PlayerMovement playerMovement = playerParent.GetComponent<PlayerMovement>();
+        Player Player = playerParent.GetComponent<Player>();
+
+        ScoreManager.Instance.PlayerList.Add(Player);
 
         if (device.description.interfaceName == "RawInput")
         {
-            playerMovement.rotationSpeedX = 10.0f;
+            Player.rotationSpeedX = 10.0f;
 
-            playerMovement.UseMouseClick = true;
+            Player.UseMouseClick = true;
 
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
         }
 
-        playerMovement.PlayerColor = playerColors[players.Count - 1];
-        playerMovement.PlayerNumber = players.Count;
+        Player.PlayerColor = playerColors[players.Count - 1];
+        Player.PlayerNumber = players.Count;
 
         playerParent.transform.position = spawnPoints[players.Count - 1].position;
 
