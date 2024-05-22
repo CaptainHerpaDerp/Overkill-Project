@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 
     float xRotation, yRotation;
 
+    [SerializeField] private bool isGamePad;
+
     void Start()
     {
         // Lock the cursor to the center of the screen

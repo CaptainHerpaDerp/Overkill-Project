@@ -1,44 +1,35 @@
+using System;
 using UnityEngine;
 
 public class Bridge : MonoBehaviour
 {
-    [SerializeField] private Bridge otherBridge;
+    public bool PlayerInCollider;
 
-    [SerializeField] private Transform teleportationSpot;
+    public Action<GameObject> OnPlayerContact;
 
-    [SerializeField] private GameObject objectToEnable;
-
-    public bool IsBridgeActive;
+    public bool Acessible = true;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") && IsBridgeActive)
+        if (Acessible == false)
+            return;
+
+        if (PlayerInCollider == true)
+            return;
+
+        if (other.CompareTag("Player"))
         {
-            Debug.Log("Bridge");
-
-            if (objectToEnable != null)
-            {
-                objectToEnable.SetActive(false);
-            }
-
-            if (otherBridge.objectToEnable != null)
-            {
-                otherBridge.objectToEnable.SetActive(true);
-            }
-
-            // Get the difference between the player and the bridge
-            Vector3 difference = other.transform.position - transform.position;
-
-            other.transform.parent.gameObject.transform.position = otherBridge.transform.position + difference;
-            otherBridge.IsBridgeActive = false;
+            PlayerInCollider = true;
+            OnPlayerContact?.Invoke(other.gameObject);
         }
     }
 
+    // Ensure the player has exited the bridge before reactivating it
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            IsBridgeActive = true;
+            PlayerInCollider = false;
         }
     }
 }

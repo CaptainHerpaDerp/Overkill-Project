@@ -3,20 +3,21 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - PlantSurface
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Ground
   - Water
   - UI
-  - Ground
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Plant
+  - Player1
+  - Player2
+  - Player3
+  - Player4
+  - Colorable
   - 
   - 
   - 
