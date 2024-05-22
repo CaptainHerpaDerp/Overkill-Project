@@ -14,8 +14,8 @@ public class CreatureBehaviour : MonoBehaviour {
     
     
     [SerializeField] private LayerMask plantLayer;
-  //  private GameObject[] plants;
-    private ColorEnum.TEAMCOLOR creatureColor;
+    //  private GameObject[] plants;
+    [SerializeField] private ColorEnum.TEAMCOLOR creatureColor;
     private NavMeshAgent agent;
     private CreatureMovingColorChange creatureMovingChangeScript;
     private GreenExpandingSphere greenExpandingSphere;  
@@ -23,11 +23,25 @@ public class CreatureBehaviour : MonoBehaviour {
     private float currentGrowRadius = 1;
 
     [SerializeField] Collider[] plantsInside;
-    
-    private void Start() {
+
+    private void Start()
+    {
         creatureMovingChangeScript = gameObject.GetComponent<CreatureMovingColorChange>();
         agent = gameObject.GetComponent<NavMeshAgent>();
-      //  plants = plantsHierarchyParent.GetChildren(false);
+        //  plants = plantsHierarchyParent.GetChildren(false);
+        greenExpandingSphere = gameObject.GetComponentInChildren<GreenExpandingSphere>();
+
+        greenExpandingSphere.PlantTriggered += (plant) =>
+        {
+            if (plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
+            {
+                plant.Activate(creatureColor);
+            }
+            else
+            {
+                plant.TeamColor = creatureColor;
+            }
+        };
     }
 
     private void Update() {
@@ -35,8 +49,10 @@ public class CreatureBehaviour : MonoBehaviour {
             RedMoveToTargetPlant();
         }
         else if (creatureColor == ColorEnum.TEAMCOLOR.GREEN) {
-            IncreaseGrowCollider();
-            CheckPlantsInGrow();
+            greenExpandingSphere.StartPulse();
+
+            //IncreaseGrowCollider();
+            //CheckPlantsInGrow();
         }
         else if (creatureColor == ColorEnum.TEAMCOLOR.BLUE) {
             BlueMoveToTargetPlant();
