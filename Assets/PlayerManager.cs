@@ -3,6 +3,7 @@ using Fergicide;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static ColorEnum;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -40,7 +41,7 @@ public class PlayerManager : MonoBehaviour
         // Get the device that the player is using
         InputDevice device = player.devices[0];
 
-        print(device.description.interfaceName);
+       // print(device.description.interfaceName);
 
         //Transform playerParent = player.transform.parent;
         Transform playerParent = player.transform;
@@ -59,8 +60,8 @@ public class PlayerManager : MonoBehaviour
             Cursor.visible = false;
         }
 
-        Player.PlayerColor = playerColors[players.Count - 1];
-        Player.PlayerNumber = players.Count;
+        //Player.TeamColor = playerColors[players.Count - 1];
+        Player.TeamColor = (TEAMCOLOR)players.Count - 1;
 
         playerParent.transform.position = spawnPoints[players.Count - 1].position;
 

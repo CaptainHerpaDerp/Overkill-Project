@@ -142,6 +142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantsAroundCollider: {fileID: 8776902640530063299}
   ChangeColorCooldown: 7
+  plantLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &812645257964873348
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +160,10 @@ MonoBehaviour:
   plantsHierarchyParent: {fileID: 0}
   growSpeed: 0.5
   growCollider: {fileID: 8077777159121757161}
+  plantLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  plantsInside: []
 --- !u!195 &2803217288405516261
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -282,6 +289,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72e4e59c2155ae14c93eb5818ee084a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sphereCollider: {fileID: 0}
+  convertSpeed: 0
 --- !u!1 &7839476246004693943
 GameObject:
   m_ObjectHideFlags: 0

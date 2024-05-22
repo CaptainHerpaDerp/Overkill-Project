@@ -10,42 +10,34 @@ public class Plant : MonoBehaviour
 
     [SerializeField] private List<Mesh> plantMeshes = new();
 
-    [SerializeField] private int plantOwner;
+    [SerializeField] private ColorEnum.TEAMCOLOR teamColor;
 
     [SerializeField] private Animator plantAnimator;
 
-    private IEnumerator colorShiftRoutine;
-
     public int PlantID { get; private set; }
 
-    public int PlantOwner
+    public ColorEnum.TEAMCOLOR TeamColor
     {
-        get => plantOwner;
+        get => teamColor;
         set
         {
-            if (isGhostPlant)
-            {
-                return;
-            }
-            else
-            {
-                plantMeshFilter.mesh = plantMeshes[value - 1];
+            plantMeshFilter.mesh = plantMeshes[(int)value];
 
-                // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
-                if (value != plantOwner)
+            // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
+            if (value != teamColor)
+            {
                 plantAnimator.SetTrigger("Grow");
-
-                // Update the plant owner in the ScoreManager
-                ScoreManager.Instance.UpdatePlantOwnership(PlantID, value);
-
-                plantOwner = value;
+                SetColor(ColorEnum.GetColor(value));
             }
+
+            // Update the plant owner in the ScoreManager
+            ScoreManager.Instance.UpdatePlantOwnership(PlantID, value);
+
+            teamColor = value;
         }
     }
 
     private const float SHIFT_SPEED = 0.1f;
-
-    private bool isGhostPlant;
 
     private void Awake()
     {
@@ -63,11 +55,11 @@ public class Plant : MonoBehaviour
         return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f, layerMask: 6);
     }
 
-    public void Activate(Color color, int PlayerNumber)
+    public void Activate(ColorEnum.TEAMCOLOR PlayerNumber)
     {
         plantRenderer.enabled = true;
-        PlantOwner = PlayerNumber;
-        SetColor(color);
+        TeamColor = PlayerNumber;
+        SetColor(ColorEnum.GetColor(teamColor));
     }
 
     public void SetColorInstant(Color color)

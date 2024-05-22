@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static ColorEnum;
 
 [RequireComponent(typeof(PlayerInput))]
 public class Player : MonoBehaviour
@@ -31,36 +32,22 @@ public class Player : MonoBehaviour
 
     public bool UseMouseClick;
 
-    [SerializeField] private int _playerNumber;
+    [SerializeField] private TEAMCOLOR teamColor;
 
-    public int PlayerNumber
+    public bool LockMovement;
+
+    public TEAMCOLOR TeamColor
     {
-        get => _playerNumber;
-
+        get => teamColor;
+        
         set
         {
             OnPlayerNumberChange?.Invoke();
-            _playerNumber = value;
+            teamColor = value;
         }
     }
 
     public Action OnPlayerNumberChange;
-
-
-    [SerializeField] private Color _playerColor;
-
-    public Color PlayerColor
-    {
-        get => _playerColor;
-
-        set
-        {
-            OnPlayerColorChange?.Invoke();
-            _playerColor = value;
-        }
-    }
-
-    public Action OnPlayerColorChange;
 
     [SerializeField] private bool UpdatePlayerValues;
 
@@ -123,7 +110,6 @@ public class Player : MonoBehaviour
 
         if (UpdatePlayerValues)
         {
-            OnPlayerColorChange?.Invoke();
             OnPlayerNumberChange?.Invoke();
             UpdatePlayerValues = false;
         }
@@ -192,6 +178,9 @@ public class Player : MonoBehaviour
 
     private void HandleMovement()
     {
+        if (LockMovement)
+            return;
+
         // Get the direction the player should move based on the movement input
         Vector3 moveDirection = new(movementInput.x, 0f, movementInput.y);
 

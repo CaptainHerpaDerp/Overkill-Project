@@ -62,8 +62,9 @@ public class GlobalPlantPaint : MonoBehaviour
                     newPlant.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
                 }
 
+                // Set the plant's default team to "None"
                 if (scoreManager != null)
-                scoreManager.RegisterPlant(newPlant.PlantID, 0);
+                scoreManager.RegisterPlant(newPlant.PlantID, ColorEnum.TEAMCOLOR.DEFAULT);
 
                 // Randomize the position
 

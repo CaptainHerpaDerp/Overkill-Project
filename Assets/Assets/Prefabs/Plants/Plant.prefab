@@ -52,7 +52,8 @@ MonoBehaviour:
   plantMeshes:
   - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
   - {fileID: -5495902117074765545, guid: d6b4522041b2b2a4a8deb35aa712c40b, type: 3}
-  plantOwner: 0
+  - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
+  teamColor: 4
   plantAnimator: {fileID: 4903612896744174771}
 --- !u!136 &5338406014094490111
 CapsuleCollider:

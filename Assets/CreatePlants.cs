@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static ColorEnum;
 
 public class CreatePlants : MonoBehaviour
 {
@@ -20,8 +21,7 @@ public class CreatePlants : MonoBehaviour
 
     [SerializeField] private float heightOffset;
 
-    private Color playerColor;
-    private int playerNumber;
+    private TEAMCOLOR teamColor;
 
     [Header("Paint Properties")]
     [SerializeField] private Vector3 plantSpawnOffset;
@@ -33,11 +33,9 @@ public class CreatePlants : MonoBehaviour
     {
         parentPlayer = transform.parent.GetComponent<Player>();
 
-        playerColor = parentPlayer.PlayerColor;
-        playerNumber = parentPlayer.PlayerNumber;
+        teamColor = parentPlayer.TeamColor;
 
-        parentPlayer.OnPlayerColorChange += () => playerColor = parentPlayer.PlayerColor;
-        parentPlayer.OnPlayerNumberChange += () => playerNumber = parentPlayer.PlayerNumber;
+        parentPlayer.OnPlayerNumberChange += () => teamColor = parentPlayer.TeamColor;
 
         parentPlayer.OnPlayerRespawn += () =>
         {
@@ -45,7 +43,7 @@ public class CreatePlants : MonoBehaviour
             StartCoroutine(SpawnPlantsInRange());
         };
 
-        playerRenderer.material.color = playerColor;
+        playerRenderer.material.color = GetColor(teamColor);
 
        // StartCoroutine(SpawnPlantsInRange());
         StartCoroutine(ValidateExistingPlants());
@@ -74,14 +72,12 @@ public class CreatePlants : MonoBehaviour
                 var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
 
                 // Register the plant in the ScoreManager
-                ScoreManager.Instance.RegisterPlant(plant.PlantID, playerNumber);
+                ScoreManager.Instance.RegisterPlant(plant.PlantID, teamColor);
 
                 plant.transform.position = new Vector3(plant.transform.position.x, worldPosY, plant.transform.position.z);
 
                 //TEMPORARY
-                plant.PlantOwner = playerNumber;      
-
-                plant.SetColor(playerColor);
+                plant.TeamColor = teamColor;      
 
                 currentPlantsInRange.Add(plant);
             }
@@ -131,7 +127,7 @@ public class CreatePlants : MonoBehaviour
 
             if (!sphereCollider.bounds.Contains(plant.transform.position))
             {
-                print("Plant removed" + plant); // This line should be plant.transform.position
+               // print("Plant removed" + plant); // This line should be plant.transform.position
                 plantsToRemove.Add(plant);
             }
         }
@@ -152,10 +148,10 @@ public class CreatePlants : MonoBehaviour
 
         if (!currentPlantsInRange.Contains(plant))
         {
-            print("added plant");
+           // print("added plant");
             currentPlantsInRange.Add(plant);
 
-            plant.Activate(playerColor, playerNumber);
+            plant.Activate(teamColor);
         }
     }
 
