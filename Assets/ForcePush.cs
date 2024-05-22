@@ -16,15 +16,15 @@ public class ForcePush : MonoBehaviour
     [SerializeField] private HashSet<Rigidbody> rigidbodies = new();
 
     // Reference the parent script
-    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private Player Player;
 
     [SerializeField] private SurroundingPlant surroundingPlant;
 
     private void Start()
     {
-        if (playerMovement == null)
+        if (Player == null)
         {
-            playerMovement = GetComponentInParent<PlayerMovement>();
+            Player = GetComponentInParent<Player>();
         }
 
         StartCoroutine(PushOpponent());
@@ -90,7 +90,7 @@ public class ForcePush : MonoBehaviour
         while (true)
         {
             // Only apply force if the player is pressing the push button
-            if (playerMovement.IsPushing)
+            if (Player.IsPushing)
                 foreach (var item in rigidbodies)
                 {
                     Vector3 diff = (item.transform.position - transform.position).normalized;

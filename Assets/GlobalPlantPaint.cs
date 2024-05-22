@@ -15,6 +15,11 @@ public class GlobalPlantPaint : MonoBehaviour
 
     [SerializeField] private Vector3 offset;
     [SerializeField] private float randomizationOffset = 0.5f;
+    [SerializeField] private float randomizationScale;
+    [SerializeField] private float boundaryPadding = 1f;
+
+
+    [SerializeField] private bool doRandomRotation;
 
     [SerializeField] Transform plantParent;
 
@@ -24,6 +29,7 @@ public class GlobalPlantPaint : MonoBehaviour
     {
         scoreManager = ScoreManager.Instance;
         PlacePlants();
+        VerifyPlantPositions();
     }
 
     public void PlacePlants()
@@ -51,14 +57,18 @@ public class GlobalPlantPaint : MonoBehaviour
 
                 Plant newPlant = Instantiate(plantPrefab, hit.point + offset + randomOffset, Quaternion.identity, parent: plantParent).GetComponent<Plant>();
 
+                if (doRandomRotation)
+                {
+                    newPlant.transform.rotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+                }
+
+                if (scoreManager != null)
                 scoreManager.RegisterPlant(newPlant.PlantID, 0);
 
                 // Randomize the position
 
             }
         }
-
-        VerifyPlantPositions();
     }
 
     public void ClearPlants()
@@ -89,10 +99,11 @@ public class GlobalPlantPaint : MonoBehaviour
             Renderer renderer = surface.GetComponent<Renderer>();
             if (renderer != null)
             {
+                // Account for padding
                 Bounds bounds = renderer.bounds;
-                for (float x = bounds.min.x; x < bounds.max.x; x += spacing)
+                for (float x = bounds.min.x + boundaryPadding; x < bounds.max.x - boundaryPadding; x += spacing)
                 {
-                    for (float z = bounds.min.z; z < bounds.max.z; z += spacing)
+                    for (float z = bounds.min.z + boundaryPadding; z < bounds.max.z - boundaryPadding; z += spacing)
                     {
                         Vector3 point = new Vector3(x, bounds.center.y, z);
                         points.Add(point);

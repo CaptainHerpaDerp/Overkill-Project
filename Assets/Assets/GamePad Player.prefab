@@ -153,6 +153,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dfaultsConfig: {fileID: 11400000, guid: c82045d73cdf8a74f81037cd22027783, type: 2}
   dfaultsMaterial: {fileID: 2100000, guid: 8faa7b8426cbe8c4eb5961d24fe325f4, type: 2}
+--- !u!1 &2702898992917212260
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3376179046649004610}
+  m_Layer: 0
+  m_Name: CrownPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3376179046649004610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2702898992917212260}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2111497816963260412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3090116098234160709
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,7 +330,7 @@ MonoBehaviour:
   force: 50
   forceMode: 0
   pushAngle: 45
-  playerMovement: {fileID: 2149499087766023847}
+  Player: {fileID: 0}
   surroundingPlant: {fileID: 5690646424005758751}
 --- !u!135 &7638214624509406412
 SphereCollider:
@@ -486,6 +517,7 @@ Transform:
   - {fileID: 1606857196493388974}
   - {fileID: 7642822857266558038}
   - {fileID: 1049079707045204088}
+  - {fileID: 3376179046649004610}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2149499087766023847

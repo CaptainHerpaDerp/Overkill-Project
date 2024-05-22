@@ -70,8 +70,8 @@ public class BridgeTest : MonoBehaviour
 
                 float arrowSize = 3f;
 
-                //Handles.color = Color.yellow;
-                //Handles.ArrowHandleCap(0, center - (direction * arrowSize), Quaternion.LookRotation(direction), arrowSize, EventType.Repaint);
+                Handles.color = Color.yellow;
+                Handles.ArrowHandleCap(0, center - (direction * arrowSize), Quaternion.LookRotation(direction), arrowSize, EventType.Repaint);
             }
 
             else
@@ -94,9 +94,9 @@ public class BridgeTest : MonoBehaviour
 
                 float arrowSize = 3f;
 
-                //Handles.color = Color.green;
-                //Handles.ArrowHandleCap(0, (center - (direction * arrowSize) + direction * 1), Quaternion.LookRotation(direction), arrowSize, EventType.Repaint);
-                //Handles.ArrowHandleCap(0, (center - (negativeDirection * arrowSize) + negativeDirection * 1), Quaternion.LookRotation(negativeDirection), arrowSize, EventType.Repaint);
+                Handles.color = Color.green;
+                Handles.ArrowHandleCap(0, (center - (direction * arrowSize) + direction * 1), Quaternion.LookRotation(direction), arrowSize, EventType.Repaint);
+                Handles.ArrowHandleCap(0, (center - (negativeDirection * arrowSize) + negativeDirection * 1), Quaternion.LookRotation(negativeDirection), arrowSize, EventType.Repaint);
             }
         }
     }
