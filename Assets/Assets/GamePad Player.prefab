@@ -489,7 +489,7 @@ MonoBehaviour:
   playerHeight: 2
   groundMask:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 8
   rotationSpeedX: 150
   rotationSpeedY: 100
   jumpForce: 8
@@ -661,8 +661,10 @@ MonoBehaviour:
   sphereCollider: {fileID: 1726663599356196859}
   spawnTime: 0.01
   playerRenderer: {fileID: 5815655177183868328}
-  raycastDistance: 2
   heightOffset: 1.4
+  plantSpawnOffset: {x: 0, y: 0, z: 0}
+  layerMask: 0
+  raycastDistance: 2
 --- !u!135 &1726663599356196859
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -673,7 +675,7 @@ SphereCollider:
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0

@@ -18,12 +18,16 @@ public class CreatePlants : MonoBehaviour
 
     private PlayerMovement parentPlayer;
 
-    [SerializeField] private float raycastDistance;
-
     [SerializeField] private float heightOffset;
 
     private Color playerColor;
     private int playerNumber;
+
+    [Header("Paint Properties")]
+    [SerializeField] private Vector3 plantSpawnOffset;
+    [SerializeField] private int layerMask;
+    [SerializeField] private float raycastDistance;
+
 
     private void Start()
     {
@@ -43,7 +47,7 @@ public class CreatePlants : MonoBehaviour
 
         playerRenderer.material.color = playerColor;
 
-        StartCoroutine(SpawnPlantsInRange());
+       // StartCoroutine(SpawnPlantsInRange());
         StartCoroutine(ValidateExistingPlants());
     }
 
@@ -88,7 +92,9 @@ public class CreatePlants : MonoBehaviour
 
     private Vector3 GetGroundPosition(Vector3 position)
     {
-        if (Physics.Raycast(position, Vector3.down, out RaycastHit hit, raycastDistance, layerMask: 6))
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastDistance, layerMask: this.layerMask))
         {
             // Rather than get the ground position, get the hit point
 
@@ -139,9 +145,6 @@ public class CreatePlants : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!parentPlayer.IsGrounded())
-            return;
-
         if (!other.TryGetComponent<Plant>(out var plant))
         {
             return;
@@ -152,8 +155,7 @@ public class CreatePlants : MonoBehaviour
             print("added plant");
             currentPlantsInRange.Add(plant);
 
-            plant.PlantOwner = playerNumber;
-            plant.SetColor(playerColor);
+            plant.Activate(playerColor, playerNumber);
         }
     }
 

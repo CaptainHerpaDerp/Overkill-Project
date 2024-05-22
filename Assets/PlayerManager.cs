@@ -15,7 +15,6 @@ public class PlayerManager : MonoBehaviour
 
     private PlayerInputManager playerInputManager;
 
-
     private void Awake()
     {
         playerInputManager = GetComponent<PlayerInputManager>();

@@ -14,6 +14,8 @@ public class Plant : MonoBehaviour
 
     [SerializeField] private Animator plantAnimator;
 
+    private IEnumerator colorShiftRoutine;
+
     public int PlantID { get; private set; }
 
     public int PlantOwner
@@ -53,18 +55,19 @@ public class Plant : MonoBehaviour
     private void Start()
     {
         SetColorInstant(Color.white);
-
-        // Set the plant's y position to be 0.1f
-        if (!IsOnSurface())
-        {
-            isGhostPlant = true;
-            plantRenderer.enabled = false;
-        }
+        plantRenderer.enabled = false;
     }
 
     public bool IsOnSurface()
     {
         return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f, layerMask: 6);
+    }
+
+    public void Activate(Color color, int PlayerNumber)
+    {
+        plantRenderer.enabled = true;
+        PlantOwner = PlayerNumber;
+        SetColor(color);
     }
 
     public void SetColorInstant(Color color)
