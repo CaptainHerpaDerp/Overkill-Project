@@ -1,4 +1,5 @@
 using Cinemachine;
+using Fergicide;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,6 +11,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private List<Transform> spawnPoints = new();
 
     [SerializeField] private List<Color> playerColors = new();
+
+    [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
 
     [SerializeField] private List<LayerMask> playerLayers;
 
@@ -58,6 +61,8 @@ public class PlayerManager : MonoBehaviour
         playerMovement.PlayerNumber = players.Count;
 
         playerParent.transform.position = spawnPoints[players.Count - 1].position;
+
+        playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[players.Count - 1];
 
         // What is mathf.log??
 
