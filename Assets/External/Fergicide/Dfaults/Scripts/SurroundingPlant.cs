@@ -4,14 +4,14 @@ public class SurroundingPlant : MonoBehaviour
 {
     [SerializeField] private SphereCollider sphereCollider;
 
-    private int playerNumber;
+    private ColorEnum.TEAMCOLOR playerNumber;
 
     private void Start()
     {
         Player parentPlayer = transform.parent.GetComponent<Player>();
 
-        playerNumber = parentPlayer.PlayerNumber;
-        parentPlayer.OnPlayerNumberChange += () => playerNumber = parentPlayer.PlayerNumber;
+        playerNumber = parentPlayer.TeamColor;
+        parentPlayer.OnPlayerNumberChange += () => playerNumber = parentPlayer.TeamColor;
     }
 
     /// <summary>
@@ -35,7 +35,7 @@ public class SurroundingPlant : MonoBehaviour
             totalPlants++;
 
             // Check if the plant is owned by the player
-            if (plant.PlantOwner == playerNumber)
+            if (plant.TeamColor == playerNumber)
             {
                 playerPlants++;
             }

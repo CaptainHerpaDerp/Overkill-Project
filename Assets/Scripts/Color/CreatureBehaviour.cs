@@ -1,14 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.ProBuilder.MeshOperations;
-using Color = System.Drawing.Color;
 
 public class CreatureBehaviour : MonoBehaviour {
     [SerializeField]
-    private GameObject plantsHierarchyParent;
+    private Transform plantsHierarchyParent;
 
     [Header("Green")] 
     [SerializeField] 
@@ -18,35 +13,53 @@ public class CreatureBehaviour : MonoBehaviour {
     private SphereCollider growCollider;
     
     
-    private LayerMask plantLayer;
-    private GameObject[] plants;
-    private ColorEnum.PLANTCOLOR creatureColor;
+    [SerializeField] private LayerMask plantLayer;
+    //  private GameObject[] plants;
+    [SerializeField] private ColorEnum.TEAMCOLOR creatureColor;
     private NavMeshAgent agent;
     private CreatureMovingColorChange creatureMovingChangeScript;
+    private GreenExpandingSphere greenExpandingSphere;  
     private Transform target = null;
     private float currentGrowRadius = 1;
-    
-    private void Start() {
-        plantLayer = (1 << 3); // 11 is number of Plant layer
+
+    [SerializeField] Collider[] plantsInside;
+
+    private void Start()
+    {
         creatureMovingChangeScript = gameObject.GetComponent<CreatureMovingColorChange>();
         agent = gameObject.GetComponent<NavMeshAgent>();
-        plants = plantsHierarchyParent.GetChildren(false);
+        //  plants = plantsHierarchyParent.GetChildren(false);
+        greenExpandingSphere = gameObject.GetComponentInChildren<GreenExpandingSphere>();
+
+        greenExpandingSphere.PlantTriggered += (plant) =>
+        {
+            if (plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
+            {
+                plant.Activate(creatureColor);
+            }
+            else
+            {
+                plant.TeamColor = creatureColor;
+            }
+        };
     }
 
     private void Update() {
-        if (creatureColor == ColorEnum.PLANTCOLOR.RED) {
+        if (creatureColor == ColorEnum.TEAMCOLOR.RED) {
             RedMoveToTargetPlant();
         }
-        else if (creatureColor == ColorEnum.PLANTCOLOR.GREEN) {
-            IncreaseGrowCollider();
-            CheckPlantsInGrow();
+        else if (creatureColor == ColorEnum.TEAMCOLOR.GREEN) {
+            greenExpandingSphere.StartPulse();
+
+            //IncreaseGrowCollider();
+            //CheckPlantsInGrow();
         }
-        else if (creatureColor == ColorEnum.PLANTCOLOR.BLUE) {
+        else if (creatureColor == ColorEnum.TEAMCOLOR.BLUE) {
             BlueMoveToTargetPlant();
         }
     }
     
-    public void SetCreatureColor(ColorEnum.PLANTCOLOR newColor) {
+    public void SetCreatureColor(ColorEnum.TEAMCOLOR newColor) {
         creatureColor = newColor;
     }
 
@@ -59,19 +72,35 @@ public class CreatureBehaviour : MonoBehaviour {
     private void ChooseEnemyPlant() {
         float distToPlant = 1000f;
         
-        foreach (GameObject plant in plants) {
-            PlantColor plantColorScript = plant.GetComponent<PlantColor>();
-            if (plantColorScript.GetThisPlantColor() == ColorEnum.PLANTCOLOR.RED || plantColorScript.GetThisPlantColor() == ColorEnum.PLANTCOLOR.DEFAULT) {
+        foreach (Transform plant in plantsHierarchyParent) {
+            Plant plantScript = plant.GetComponent<Plant>();
+
+            if (plantScript == null)
+            {
+                Debug.LogError("Plant component not found");
                 continue;
             }
 
-            if (!plantColorScript.GetColorChangeState())
+            if (plantScript.TeamColor == ColorEnum.TEAMCOLOR.RED || plantScript.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT) {
                 continue;
+            }
+
+            //print("marker1");
+
+            // TODO might need?
+            //if (!plantScript.GetColorChangeState())
+            //    continue;
 
             float TMPDist = Vector3.Distance(transform.position, plant.transform.position);
             if (TMPDist < distToPlant) {
                 distToPlant = TMPDist;
                 UpdateCreatureTarget(plant.transform);
+
+            //    print("got target");
+            }
+            else
+            {
+              //  print("no target");
             }
         }
     }
@@ -82,10 +111,14 @@ public class CreatureBehaviour : MonoBehaviour {
         }
 
         if (target == null)
-            return;
+        {
+            print("double null");
+             return;
+        }
         
-        ColorEnum.PLANTCOLOR plantColor = target.gameObject.GetComponent<PlantColor>().GetThisPlantColor();
-        if (plantColor == ColorEnum.PLANTCOLOR.RED || plantColor == ColorEnum.PLANTCOLOR.DEFAULT) {
+        ColorEnum.TEAMCOLOR plantColor = target.gameObject.GetComponent<Plant>().TeamColor;
+
+        if (plantColor == ColorEnum.TEAMCOLOR.RED || plantColor == ColorEnum.TEAMCOLOR.DEFAULT) {
             UpdateCreatureTarget(null);
             return;
         }
@@ -103,16 +136,26 @@ public class CreatureBehaviour : MonoBehaviour {
     }
 
     private void CheckPlantsInGrow() {
-        Collider[] plantsInside = Physics.OverlapSphere(transform.position, currentGrowRadius, 
+        plantsInside = Physics.OverlapSphere(transform.position, currentGrowRadius, 
             plantLayer, QueryTriggerInteraction.Collide);
         
         foreach (Collider plantCollider in plantsInside) {
-            PlantColor plantColorScript = plantCollider.gameObject.GetComponent<PlantColor>();
-            if (plantColorScript.GetThisPlantColor() == ColorEnum.PLANTCOLOR.GREEN) {
+
+            Plant plantScript = plantCollider.gameObject.GetComponent<Plant>();
+
+            if (plantScript == null)
+            {
+                Debug.LogError("Plant component not found");
+                continue;
+            }
+
+            // IF the plant is on the animal's team, continue
+            if (plantScript.TeamColor == ColorEnum.TEAMCOLOR.GREEN) {
                 continue;
             }
             
-            plantColorScript.ChangeThisPlantColor(ColorEnum.PLANTCOLOR.GREEN);
+            // Otherwise, change the plant's color to green
+            plantScript.Activate(ColorEnum.TEAMCOLOR.GREEN);
         }
     }
 
@@ -123,14 +166,18 @@ public class CreatureBehaviour : MonoBehaviour {
     private Transform ChooseDefaultPlant() {
         float distToPlant = 1000f;
         
-        foreach (GameObject plant in plants) {
-            PlantColor plantColorScript = plant.GetComponent<PlantColor>();
-            if (plantColorScript.GetThisPlantColor() != ColorEnum.PLANTCOLOR.DEFAULT) {
+        foreach (Transform plant in plantsHierarchyParent) {
+            Plant plantScript = plant.GetComponent<Plant>();
+
+            if (plantScript == null)
+            {
+                Debug.LogError("Plant component not found");
                 continue;
             }
 
-            if (!plantColorScript.GetColorChangeState())
+            if (plantScript.TeamColor != ColorEnum.TEAMCOLOR.DEFAULT) {
                 continue;
+            }
 
             float TMPDist = Vector3.Distance(transform.position, plant.transform.position);
             if (TMPDist < distToPlant) {
@@ -150,11 +197,12 @@ public class CreatureBehaviour : MonoBehaviour {
         if (target == null)
             return;
         
-        ColorEnum.PLANTCOLOR plantColor = target.gameObject.GetComponent<PlantColor>().GetThisPlantColor();
-        if (plantColor == ColorEnum.PLANTCOLOR.BLUE) {
+        ColorEnum.TEAMCOLOR plantColor = target.gameObject.GetComponent<Plant>().TeamColor;
+        if (plantColor == ColorEnum.TEAMCOLOR.BLUE) {
             UpdateCreatureTarget(null);
             return;
         }
+
 
         agent.SetDestination(target.position);
     }

@@ -5,25 +5,23 @@ using Color = UnityEngine.Color;
 
 public class ColorEnum
 {
-    public enum PLANTCOLOR {
+    public enum TEAMCOLOR {
         RED,
-        PURPLE,
-        BLUE, 
         GREEN,
+        BLUE, 
+        PURPLE,
         DEFAULT
     }
 
     static readonly Color[] RGBColors = new Color[] {
         Color.red,
-        new Color(160, 32, 240),
-        Color.blue,
         Color.green,
+        Color.blue,
+        Color.magenta,
         Color.black
     };
 
-    public static Color GetColor(PLANTCOLOR color) {
+    public static Color GetColor(TEAMCOLOR color) {
         return RGBColors[(int)color];
     }
-
-
 }

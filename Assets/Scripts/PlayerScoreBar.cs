@@ -31,10 +31,10 @@ public class PlayerScoreBar : MonoBehaviour
     {
         while (true)
         {
-            player1Score = scoreManager.GetScoreForPlayer(1);
-            player2Score = scoreManager.GetScoreForPlayer(2);
-            player3Score = scoreManager.GetScoreForPlayer(3);
-            player4Score = scoreManager.GetScoreForPlayer(4);
+            player1Score = scoreManager.GetScoreForPlayer(0);
+            player2Score = scoreManager.GetScoreForPlayer(1);
+            player3Score = scoreManager.GetScoreForPlayer(2);
+            player4Score = scoreManager.GetScoreForPlayer(3);
 
             RecalculateSizes();
 
