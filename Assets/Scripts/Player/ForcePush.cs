@@ -10,6 +10,9 @@ public class ForcePush : MonoBehaviour
     public ForceMode forceMode = ForceMode.Force;
 
     [SerializeField] private float pushAngle;
+    [SerializeField] private float pushDistance;
+
+    [SerializeField] SphereCollider sphereCollider;
 
     private float totalForce;
 
@@ -29,6 +32,9 @@ public class ForcePush : MonoBehaviour
 
         StartCoroutine(PushOpponent());
         StartCoroutine(UpdateForceValue());
+
+        // Set the sphere collider radius to the push distance
+        sphereCollider.radius = pushDistance;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -103,7 +109,7 @@ public class ForcePush : MonoBehaviour
                     {
                         Debug.Log("Total force: " + totalForce);
 
-                        item.AddForce(diff * (totalForce), forceMode);
+                        item.AddForce(diff * (totalForce / Vector3.Distance(transform.position, item.transform.position)), forceMode);
                     }
                 }
 
