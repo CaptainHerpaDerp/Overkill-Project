@@ -1,22 +1,39 @@
 using GaiaElements;
 using TeamColors;
 using UnityEngine;
-using GameManagement;
+using Core;
 
 namespace Creatures
 {
     public class RedCreatureBehaviour : Creature
     {
-
         [SerializeField]
         private Transform plantsHierarchyParent;
 
         [SerializeField]
         private float TargetTurnDistance;
 
+        // Copies the ScoreManager array using observed values
+        private int[] playerTeamScore = new int[5];
+
         public override void Act()
         {
             CheckTarget();
+        }
+
+        private void OnEnable()
+        {
+            ScoreReceptionManager.OnValueChanged += UpdateScore;
+        }
+
+        private void OnDisable()
+        {
+            ScoreReceptionManager.OnValueChanged -= UpdateScore;
+        }
+
+        private void UpdateScore(int playerIndex, int newScore)
+        {
+            playerTeamScore[playerIndex] = newScore;
         }
 
         private void ChooseEnemyPlant()
@@ -60,9 +77,9 @@ namespace Creatures
 
         private ColorEnum.TEAMCOLOR FindHighestScoreNotRed()
         {
-            int blueScore = ScoreManager.Instance.GetScoreForPlayer(ColorEnum.TEAMCOLOR.BLUE);
-            int greenScore = ScoreManager.Instance.GetScoreForPlayer(ColorEnum.TEAMCOLOR.GREEN);
-            int purpleScore = ScoreManager.Instance.GetScoreForPlayer(ColorEnum.TEAMCOLOR.PURPLE);
+            int blueScore = playerTeamScore[(int)ColorEnum.TEAMCOLOR.BLUE];
+            int greenScore = playerTeamScore[(int)ColorEnum.TEAMCOLOR.GREEN];
+            int purpleScore = playerTeamScore[(int)ColorEnum.TEAMCOLOR.PURPLE];
 
             if (blueScore > greenScore)
                 return blueScore > purpleScore ? ColorEnum.TEAMCOLOR.BLUE : ColorEnum.TEAMCOLOR.PURPLE;

@@ -5,6 +5,8 @@ using UnityEngine;
 using TeamColors;
 using static TeamColors.ColorEnum;
 using Players;
+using Core;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 
 namespace GameManagement
 {
@@ -32,7 +34,8 @@ namespace GameManagement
         [SerializeField] Vector3 playerOffset;
 
         [Header("Player Sphere Adjustment")]
-        [SerializeField] private float minSphereSize;
+        [SerializeField] private float minSphereSize = 1;
+        [SerializeField] private float maxSphereSize = 5;
         [SerializeField] private float placementSphereUpdateInterval;
         [SerializeField] private float sizeModifier;
 
@@ -89,7 +92,7 @@ namespace GameManagement
 
                     float sphereSize = minSphereSize + scoreRatio;
 
-                    player.ForcePushRadius = sphereSize;
+                    player.PlantConversionRadius = Mathf.Clamp(sphereSize, minSphereSize, maxSphereSize);
                 }
 
                 yield return new WaitForSeconds(placementSphereUpdateInterval);
@@ -173,8 +176,13 @@ namespace GameManagement
             if (registeredPlants.ContainsKey(plantID))
             {
                 registeredPlants[plantID] = newTeamColor;
+
                 playerTeamScore[(int)newTeamColor]++;
+                // Update the score for the old team
+                ScoreReceptionManager.ChangePlayerScore((int)newTeamColor, playerTeamScore[(int)newTeamColor]);
+
                 playerTeamScore[(int)oldTeamColor]--;
+                ScoreReceptionManager.ChangePlayerScore((int)oldTeamColor, playerTeamScore[(int)oldTeamColor]);
             }
             else
             {

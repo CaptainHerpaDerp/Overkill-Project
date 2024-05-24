@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Collections;
 using Players;
+using Creatures;
 
 public class ForcePush : MonoBehaviour
 {
@@ -100,6 +101,11 @@ public class ForcePush : MonoBehaviour
             if (Player.IsPushing)
                 foreach (var item in rigidbodies)
                 {
+                    if (item.GetComponent<CreatureManager>())
+                    {
+                        print("pushing creature");
+                    }
+
                     Vector3 diff = (item.transform.position - transform.position).normalized;
 
                     // Calculate the angle between the player and the opponent
@@ -108,7 +114,7 @@ public class ForcePush : MonoBehaviour
                     // Only apply force if the opponent is within the push angle
                     if (angle < pushAngle)
                     {
-                        Debug.Log("Total force: " + totalForce);
+                        //Debug.Log("Total force: " + totalForce);
 
                         item.AddForce(diff * (totalForce / Vector3.Distance(transform.position, item.transform.position)), forceMode);
                     }

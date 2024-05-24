@@ -38,7 +38,7 @@ namespace Players
 
         [SerializeField] private TEAMCOLOR teamColor;
 
-        public float ForcePushRadius
+        public float PlantConversionRadius
         {
             get
             {
