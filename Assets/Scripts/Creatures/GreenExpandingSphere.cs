@@ -1,65 +1,67 @@
 using System;
 using System.Collections;
 using UnityEngine;
-
-public class GreenExpandingSphere : MonoBehaviour
+using GaiaElements;
+namespace Creatures
 {
-    public Action<Plant> PlantTriggered;
-
-    [SerializeField] private float maxRadius = 10;
-    [SerializeField] private float pulseDuration = 15;
-    [SerializeField] private float pulseCooldown = 5;
-    [SerializeField] private float pulseSpeed = 1;
-
-    bool started = false;
-
-    [SerializeField] private SphereCollider sphereCollider; 
-
-    private float currentRadius => sphereCollider.radius;
-
-
-    public void StartPulse()
+    public class GreenExpandingSphere : MonoBehaviour
     {
-        if (!started)
-        {
-            started = true;
-            StartCoroutine(DoPulse());
-        }
-    }
+        public Action<Plant> PlantTriggered;
 
-    private IEnumerator DoPulse()
-    {
-        float startTime = Time.time;
-        float endTime = startTime + pulseDuration;
-        float startRadius = transform.localScale.x;
-        float endRadius = maxRadius;
+        [SerializeField] private float maxRadius = 10;
+        [SerializeField] private float pulseDuration = 15;
+        [SerializeField] private float pulseCooldown = 5;
+        [SerializeField] private float pulseSpeed = 1;
 
-        while (true)
+        bool started = false;
+
+        [SerializeField] private SphereCollider sphereCollider;
+
+        private float currentRadius => sphereCollider.radius;
+
+        public void StartPulse()
         {
-            if (currentRadius >= maxRadius)
+            if (!started)
             {
-                sphereCollider.radius = 1;
-                yield return new WaitForSeconds(pulseCooldown);
-                continue;
+                started = true;
+                StartCoroutine(DoPulse());
             }
-
-            sphereCollider.radius += Time.deltaTime * pulseSpeed;
-         
-            yield return new WaitForFixedUpdate();
         }
-    }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Plant plant;
-        if (other.TryGetComponent(out plant))
+        private IEnumerator DoPulse()
         {
-            Debug.Log("Plant Triggered");
-            PlantTriggered?.Invoke(plant);
+            float startTime = Time.time;
+            float endTime = startTime + pulseDuration;
+            float startRadius = transform.localScale.x;
+            float endRadius = maxRadius;
+
+            while (true)
+            {
+                if (currentRadius >= maxRadius)
+                {
+                    sphereCollider.radius = 1;
+                    yield return new WaitForSeconds(pulseCooldown);
+                    continue;
+                }
+
+                sphereCollider.radius += Time.deltaTime * pulseSpeed;
+
+                yield return new WaitForFixedUpdate();
+            }
         }
-        else
+
+        private void OnTriggerEnter(Collider other)
         {
-            Debug.LogError("Plant component not found");
+            Plant plant;
+            if (other.TryGetComponent(out plant))
+            {
+                Debug.Log("Plant Triggered");
+                PlantTriggered?.Invoke(plant);
+            }
+            else
+            {
+                Debug.LogError("Plant component not found");
+            }
         }
     }
 }

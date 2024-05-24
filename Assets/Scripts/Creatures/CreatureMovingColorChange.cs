@@ -1,51 +1,54 @@
-using System.Collections;
-using System.Collections.Generic;
+using GaiaElements;
+using TeamColors;
 using UnityEngine;
-using static ColorEnum;
+using static TeamColors.ColorEnum;
 
-public class CreatureMovingColorChange : MonoBehaviour
+namespace Creatures
 {
-    [HideInInspector]
-    public ColorEnum.TEAMCOLOR creatureColor;
 
-    private Transform target = null;
-
-    public void OnColorTriggerEnter(Collider other)
+    public class CreatureMovingColorChange : MonoBehaviour
     {
-        Debug.Log(target);
-        if (other.gameObject.transform == target)
+        [HideInInspector]
+        public TEAMCOLOR creatureColor;
+
+        private Transform target = null;
+
+        public void OnColorTriggerEnter(Collider other)
         {
-            other.TryGetComponent(out Plant plantColor);
-
-            if (plantColor != null)
+            Debug.Log(target);
+            if (other.gameObject.transform == target)
             {
+                other.TryGetComponent(out Plant plantColor);
 
-                if (creatureColor == TEAMCOLOR.RED)
-                    plantColor.TeamColor = creatureColor;
+                if (plantColor != null)
+                {
 
-                if (creatureColor == TEAMCOLOR.BLUE)
-                    plantColor.Activate(TEAMCOLOR.BLUE);
-            }
-            else
-            {
-                Debug.LogError("Plant component not found");
+                    if (creatureColor == TEAMCOLOR.RED)
+                        plantColor.TeamColor = creatureColor;
+
+                    if (creatureColor == TEAMCOLOR.BLUE)
+                        plantColor.Activate(TEAMCOLOR.BLUE);
+                }
+                else
+                {
+                    Debug.LogError("Plant component not found");
+                }
             }
         }
-    }
 
-    public void SetCreatureColor(ColorEnum.TEAMCOLOR newColor)
-    {
-        creatureColor = newColor;
-    }
+        public void SetCreatureColor(ColorEnum.TEAMCOLOR newColor)
+        {
+            creatureColor = newColor;
+        }
 
-    public void SetCreatureTarget(Transform newTarget)
-    {
-        target = newTarget;
+        public void SetCreatureTarget(Transform newTarget)
+        {
+            target = newTarget;
+        }
+
     }
 
 }
-
-
 /*using System;
 using System.Collections;
 using System.Collections.Generic;

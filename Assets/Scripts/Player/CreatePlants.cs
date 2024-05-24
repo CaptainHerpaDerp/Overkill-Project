@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static ColorEnum;
+using static TeamColors.ColorEnum;
+using GaiaElements;
+using Players;
 
 public class CreatePlants : MonoBehaviour
 {
@@ -39,7 +41,7 @@ public class CreatePlants : MonoBehaviour
         parentPlayer.OnPlayerRespawn += () =>
         {
             StopAllCoroutines();
-            StartCoroutine(SpawnPlantsInRange());
+            //StartCoroutine(SpawnPlantsInRange());
         };
 
         playerRenderer.material.color = GetColor(teamColor);
@@ -48,42 +50,42 @@ public class CreatePlants : MonoBehaviour
         StartCoroutine(ValidateExistingPlants());
     }
 
-    private IEnumerator SpawnPlantsInRange()
-    {
-        // Do not spawn plants immediately
-        yield return new WaitForSeconds(1);
+    //private IEnumerator SpawnPlantsInRange()
+    //{
+    //    // Do not spawn plants immediately
+    //    yield return new WaitForSeconds(1);
 
-        while (true)
-        {
-            if (currentPlantsInRange.Count < maxPlantsInArea)
-            {
-                Vector3 worldPos = GetGroundPosition(transform.position);
+    //    while (true)
+    //    {
+    //        if (currentPlantsInRange.Count < maxPlantsInArea)
+    //        {
+    //            Vector3 worldPos = GetGroundPosition(transform.position);
 
-                // If worldpos returns as zero, it means that the player is not grounded
-                if (worldPos == Vector3.zero)
-                {
-                    yield return new WaitForFixedUpdate();
-                    continue;
-                }
+    //            // If worldpos returns as zero, it means that the player is not grounded
+    //            if (worldPos == Vector3.zero)
+    //            {
+    //                yield return new WaitForFixedUpdate();
+    //                continue;
+    //            }
 
-                float worldPosY = worldPos.y + heightOffset;
+    //            float worldPosY = worldPos.y + heightOffset;
 
-                var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
+    //            var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
 
-                // Register the plant in the ScoreManager
-                ScoreManager.Instance.RegisterPlant(plant.PlantID, teamColor);
+    //            // Register the plant in the ScoreManager
+    //            ScoreManager.Instance.RegisterPlant(plant.PlantID, teamColor);
 
-                plant.transform.position = new Vector3(plant.transform.position.x, worldPosY, plant.transform.position.z);
+    //            plant.transform.position = new Vector3(plant.transform.position.x, worldPosY, plant.transform.position.z);
 
-                //TEMPORARY
-                plant.TeamColor = teamColor;      
+    //            //TEMPORARY
+    //            plant.TeamColor = teamColor;      
 
-                currentPlantsInRange.Add(plant);
-            }
+    //            currentPlantsInRange.Add(plant);
+    //        }
 
-            yield return new WaitForSeconds(spawnTime);
-        }
-    }
+    //        yield return new WaitForSeconds(spawnTime);
+    //    }
+    //}
 
     private Vector3 GetGroundPosition(Vector3 position)
     {

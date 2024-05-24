@@ -1,52 +1,54 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class CreatureMovingColorCollision : MonoBehaviour
+namespace Creatures
 {
-    private CreatureMovingColorChange movingChangeScript;
-
-    [SerializeField] private SphereCollider sphereCollider;
-
-    [SerializeField] private float convertSpeed;
-
-    private void Start()
+    public class CreatureMovingColorCollision : MonoBehaviour
     {
-        movingChangeScript = GetComponentInParent<CreatureMovingColorChange>();
-        
-        if (movingChangeScript == null)
+        private CreatureMovingColorChange movingChangeScript;
+
+        [SerializeField] private SphereCollider sphereCollider;
+
+        [SerializeField] private float convertSpeed;
+
+        private void Start()
         {
-            Debug.LogError("MovingColorChange script not found in parent object.");
-        }
+            movingChangeScript = GetComponentInParent<CreatureMovingColorChange>();
 
-        StartCoroutine(DetectPlantsInCollider());  
-    }
-
-    // Get all plants within the collider
-    private IEnumerator DetectPlantsInCollider()
-    {
-        while (true)
-        {
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius);
-
-            foreach (var hitCollider in hitColliders)
+            if (movingChangeScript == null)
             {
-                movingChangeScript.OnColorTriggerEnter(hitCollider);
+                Debug.LogError("MovingColorChange script not found in parent object.");
             }
 
-            yield return new WaitForSeconds(convertSpeed);
+            StartCoroutine(DetectPlantsInCollider());
         }
-    }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if (movingChangeScript != null)
-    //    {
-    //        movingChangeScript.OnColorTriggerEnter(other);
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("MovingColorChange script not found in parent object.");
-    //    }
-    //}
+        // Get all plants within the collider
+        private IEnumerator DetectPlantsInCollider()
+        {
+            while (true)
+            {
+                Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius);
+
+                foreach (var hitCollider in hitColliders)
+                {
+                    movingChangeScript.OnColorTriggerEnter(hitCollider);
+                }
+
+                yield return new WaitForSeconds(convertSpeed);
+            }
+        }
+
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    if (movingChangeScript != null)
+        //    {
+        //        movingChangeScript.OnColorTriggerEnter(other);
+        //    }
+        //    else
+        //    {
+        //        Debug.LogError("MovingColorChange script not found in parent object.");
+        //    }
+        //}
+    }
 }

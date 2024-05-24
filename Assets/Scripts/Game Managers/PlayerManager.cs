@@ -2,88 +2,95 @@ using Fergicide;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static ColorEnum;
+using static TeamColors.ColorEnum;
+using Players;
 
-public class PlayerManager : MonoBehaviour
+namespace GameManagement
 {
-    private List<PlayerInput> players = new();
-
-    [SerializeField] private List<Transform> spawnPoints = new();
-
-    [SerializeField] private List<Color> playerColors = new();
-
-    [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
-
-    [SerializeField] private List<LayerMask> playerLayers;
-
-    private PlayerInputManager playerInputManager;
-
-    private void Awake()
+    public class PlayerManager : MonoBehaviour
     {
-        playerInputManager = GetComponent<PlayerInputManager>();
-    }
+        private List<PlayerInput> players = new();
 
-    private void OnEnable()
-    {
-        playerInputManager.onPlayerJoined += AddPlayer;
-    }
+        [SerializeField] private List<Transform> spawnPoints = new();
 
-    private void OnDisable()
-    {
-        playerInputManager.onPlayerJoined -= AddPlayer;
-    }
+        [SerializeField] private List<Color> playerColors = new();
 
-    private void AddPlayer(PlayerInput player)
-    {
-        players.Add(player);
+        [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
 
-        // Get the device that the player is using
-        InputDevice device = player.devices[0];
+        [SerializeField] private List<LayerMask> playerLayers;
 
-       // print(device.description.interfaceName);
+        private PlayerInputManager playerInputManager;
 
-        //Transform playerParent = player.transform.parent;
-        Transform playerParent = player.transform;
+        // DEBUG
+        public int firstPlayerIndex = 0;
 
-        Player Player = playerParent.GetComponent<Player>();
-
-        ScoreManager.Instance.PlayerList.Add(Player);
-
-        if (device.description.interfaceName == "RawInput")
+        private void Awake()
         {
-            Player.rotationSpeedX = 10.0f;
-
-            Player.UseMouseClick = true;
-
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
+            playerInputManager = GetComponent<PlayerInputManager>();
         }
 
-        //Player.TeamColor = playerColors[players.Count - 1];
+        private void OnEnable()
+        {
+            playerInputManager.onPlayerJoined += AddPlayer;
+        }
 
-        Player.TeamColor = (TEAMCOLOR)players.Count - 1;
+        private void OnDisable()
+        {
+            playerInputManager.onPlayerJoined -= AddPlayer;
+        }
 
-        playerParent.transform.position = spawnPoints[players.Count - 1].position;
+        private void AddPlayer(PlayerInput player)
+        {
+            players.Add(player);
 
-        playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[players.Count - 1];
+            // Get the device that the player is using
+            InputDevice device = player.devices[0];
 
-        // What is mathf.log??
+            // print(device.description.interfaceName);
 
-        // Answer: Mathf.Log is a method that returns the logarithm of a specified number in a specified base.
+            //Transform playerParent = player.transform.parent;
+            Transform playerParent = player.transform;
 
-        // Mathf.Log(8, 2) returns 3 because 2^3 = 8
-       // int layerToAdd = (int)Mathf.Log(playerLayers[players.Count - 1].value, 2); 
+            Player parentPlayer = playerParent.GetComponent<Player>();
 
-        //playerParent.GetComponentInChildren<CinemachineVirtualCamera>().gameObject.layer = layerToAdd;
+            ScoreManager.Instance.PlayerList.Add(parentPlayer);
 
-        // What is |= in C#?
+            if (device.description.interfaceName == "RawInput")
+            {
+                parentPlayer.rotationSpeedX = 10.0f;
 
-        // Answer: |= is a bitwise OR assignment operator. It takes the current value of the variable on the left and the value on the right, performs a bitwise OR operation on them, and assigns the result to the variable on the left.
+                parentPlayer.UseMouseClick = true;
 
-        // Example: a |= b is equivalent to a = a | b
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+            }
 
-     //   playerParent.GetComponentInChildren<Camera>().cullingMask |= 1 << layerToAdd;
+            //Player.TeamColor = playerColors[players.Count - 1];
 
-        //playerParent.GetComponentInChildren<InputHandler>.horizontal = player.actions.FindAction("Look");
+            parentPlayer.TeamColor = (TEAMCOLOR)players.Count + firstPlayerIndex - 1;
+
+            playerParent.transform.position = spawnPoints[players.Count + firstPlayerIndex - 1].position;
+
+            playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[players.Count + firstPlayerIndex - 1];
+
+            // What is mathf.log??
+
+            // Answer: Mathf.Log is a method that returns the logarithm of a specified number in a specified base.
+
+            // Mathf.Log(8, 2) returns 3 because 2^3 = 8
+            // int layerToAdd = (int)Mathf.Log(playerLayers[players.Count - 1].value, 2); 
+
+            //playerParent.GetComponentInChildren<CinemachineVirtualCamera>().gameObject.layer = layerToAdd;
+
+            // What is |= in C#?
+
+            // Answer: |= is a bitwise OR assignment operator. It takes the current value of the variable on the left and the value on the right, performs a bitwise OR operation on them, and assigns the result to the variable on the left.
+
+            // Example: a |= b is equivalent to a = a | b
+
+            //   playerParent.GetComponentInChildren<Camera>().cullingMask |= 1 << layerToAdd;
+
+            //playerParent.GetComponentInChildren<InputHandler>.horizontal = player.actions.FindAction("Look");
+        }
     }
 }
