@@ -9,6 +9,7 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance;
 
     private Dictionary<int, TEAMCOLOR> registeredPlants = new Dictionary<int, ColorEnum.TEAMCOLOR>();
+    private int[] playerTeamScore = new int[5];
 
     [SerializeField] private int gameTime;
     [SerializeField] private TextMeshProUGUI timerText;
@@ -99,32 +100,12 @@ public class ScoreManager : MonoBehaviour
 
     public int GetScoreForPlayer(TEAMCOLOR teamColor)
     {
-        int score = 0;
-
-        foreach (KeyValuePair<int, ColorEnum.TEAMCOLOR> plant in registeredPlants)
-        {
-            if (plant.Value == teamColor)
-            {
-                score++;
-            }
-        }
-
-        return score;
+        return playerTeamScore[(int)teamColor];
     }
 
     public int GetScoreForPlayer(int team)
     {
-        int score = 0;
-
-        foreach (KeyValuePair<int, TEAMCOLOR> plant in registeredPlants)
-        {
-            if (plant.Value == (TEAMCOLOR)team)
-            {
-                score++;
-            }
-        }
-
-        return score;
+        return playerTeamScore[team];
     }
 
     public void RegisterPlant(int plantID, TEAMCOLOR teamColor)
@@ -136,14 +117,17 @@ public class ScoreManager : MonoBehaviour
         else
         {
             registeredPlants.Add(plantID, teamColor);
+            playerTeamScore[(int)teamColor]++;
         }
     }
 
-    public void UpdatePlantOwnership(int plantID, TEAMCOLOR teamColor)
+    public void UpdatePlantOwnership(int plantID, TEAMCOLOR newTeamColor, TEAMCOLOR oldTeamColor)
     {
         if (registeredPlants.ContainsKey(plantID))
         {
-            registeredPlants[plantID] = teamColor;
+            registeredPlants[plantID] = newTeamColor;
+            playerTeamScore[(int)newTeamColor]++;
+            playerTeamScore[(int)oldTeamColor]--;
         }
         else
         {

@@ -3510,7 +3510,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7143600711742689960, guid: 1eb1d0bded77e5d459e3736756618e68, type: 3}
   m_PrefabInstance: {fileID: 2099204202}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &3192380085450132378
+--- !u!1001 &3842038659961684190
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -3518,53 +3518,49 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 137258018837751254, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
-      propertyPath: m_Name
-      value: PaintCreature
-      objectReference: {fileID: 0}
-    - target: {fileID: 812645257964873348, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
-      propertyPath: plantsHierarchyParent
-      value: 
-      objectReference: {fileID: 783774052}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.6
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalPosition.y
       value: 0.72
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalPosition.z
       value: -15.25
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2238000187920643248, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+    - target: {fileID: 4951509097798987890, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8366759020271276751, guid: 2e35a5a33c8cc364ba5dffab58c1e405, type: 3}
+      propertyPath: m_Name
+      value: PaintCreature
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3639,4 +3635,4 @@ SceneRoots:
   - {fileID: 325931097}
   - {fileID: 1237612778}
   - {fileID: 783774053}
-  - {fileID: 3192380085450132378}
+  - {fileID: 3842038659961684190}

@@ -31,7 +31,7 @@ public class Plant : MonoBehaviour
             }
 
             // Update the plant owner in the ScoreManager
-            ScoreManager.Instance.UpdatePlantOwnership(PlantID, value);
+            ScoreManager.Instance.UpdatePlantOwnership(PlantID, value, teamColor);
 
             teamColor = value;
         }
