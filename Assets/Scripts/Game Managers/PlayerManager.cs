@@ -1,4 +1,3 @@
-using Cinemachine;
 using Fergicide;
 using System.Collections.Generic;
 using UnityEngine;
@@ -61,6 +60,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         //Player.TeamColor = playerColors[players.Count - 1];
+
         Player.TeamColor = (TEAMCOLOR)players.Count - 1;
 
         playerParent.transform.position = spawnPoints[players.Count - 1].position;

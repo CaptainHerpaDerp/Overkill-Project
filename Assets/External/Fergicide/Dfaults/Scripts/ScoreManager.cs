@@ -27,6 +27,11 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private Transform p3Pos, p2Pos, p1Pos;
     [SerializeField] Vector3 playerOffset;
 
+    [Header("Player Sphere Adjustment")]
+    [SerializeField] private float minSphereSize;
+    [SerializeField] private float placementSphereUpdateInterval;
+    [SerializeField] private float sizeModifier;
+
     public void Awake()
     {
         if (Instance == null)
@@ -47,6 +52,44 @@ public class ScoreManager : MonoBehaviour
         crownInstance.SetActive(false);
 
         StartCoroutine(GiveCrownToPlayer());
+        StartCoroutine(AdjustPlayerPlacementSpheres());
+    }
+
+    /// <summary>
+    /// Adjust the size of the player placement spheres based on their scores, allowing losing players to catch up
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator AdjustPlayerPlacementSpheres()
+    {
+        yield return new WaitForSeconds(1);
+
+        while (true)
+        {
+            foreach (Player player in PlayerList)
+            {
+                float maximumScore = 0;
+
+                foreach (Player compPlayer in PlayerList)
+                {
+                    if (player == compPlayer)
+                    {
+                        continue;
+                    }
+
+                    maximumScore += GetScoreForPlayer(compPlayer.TeamColor);
+                }
+
+                float score = GetScoreForPlayer(player.TeamColor);
+
+                float scoreRatio = (maximumScore / score) * sizeModifier;
+
+                float sphereSize = minSphereSize + scoreRatio;
+
+                player.ForcePushRadius = sphereSize;
+            }
+
+            yield return new WaitForSeconds(placementSphereUpdateInterval);
+        }
     }
 
     private IEnumerator GiveCrownToPlayer()
@@ -71,7 +114,7 @@ public class ScoreManager : MonoBehaviour
             {
                 topPlayer = winningPlayer;
                 crownInstance.SetActive(true);
-                
+
                 //set the crowns parent to the last child in the player
                 crownInstance.transform.SetParent(topPlayer.transform.GetChild(topPlayer.transform.childCount - 1));
 
@@ -168,7 +211,7 @@ public class ScoreManager : MonoBehaviour
             else if (secondPlace == null || score > secondPlaceScore)
             {
                 thirdPlace = secondPlace;
-                thirdPlaceScore = secondPlaceScore ;
+                thirdPlaceScore = secondPlaceScore;
 
                 secondPlace = player;
                 secondPlaceScore = score;

@@ -28,7 +28,6 @@ public class CreatePlants : MonoBehaviour
     [SerializeField] private int layerMask;
     [SerializeField] private float raycastDistance;
 
-
     private void Start()
     {
         parentPlayer = transform.parent.GetComponent<Player>();

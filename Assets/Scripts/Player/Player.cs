@@ -19,7 +19,7 @@ public class Player : MonoBehaviour
     [SerializeField] private float jumpForce; 
 
     public Transform orientation;
-    //public Camera playerCamera;
+    public Camera playerCamera;
 
     private Vector2 movementInput;
     private Vector2 lookInput;
@@ -28,11 +28,26 @@ public class Player : MonoBehaviour
 
     Vector2 lookDirection;
     Vector3 moveDirection;
+
     private float pushValue;
+    private float dpadValue;
 
     public bool UseMouseClick;
 
     [SerializeField] private TEAMCOLOR teamColor;
+
+    public float ForcePushRadius
+    {
+        get
+        {
+            return GetComponentInChildren<CreatePlants>().GetComponent<SphereCollider>().radius;
+        }
+
+        set       
+        {
+            GetComponentInChildren<CreatePlants>().GetComponent<SphereCollider>().radius = value;
+        }
+    }
 
     public bool LockMovement;
 
@@ -57,7 +72,7 @@ public class Player : MonoBehaviour
     private InputActionAsset inputAsset;
     private InputActionMap player;
 
-    private InputAction move, aim, push, jump;
+    private InputAction move, aim, push, jump, dPadUp, dPadDown;
 
     private bool doJump;
 
@@ -66,6 +81,7 @@ public class Player : MonoBehaviour
     // TEMP
     private Vector3 spawnPoint;
     public Action OnPlayerRespawn;
+    [SerializeField] private float fovZoomFactor;
 
     private const float respawnY = -10f;
 
@@ -86,6 +102,9 @@ public class Player : MonoBehaviour
         aim = player.FindAction("Aim");
         push = player.FindAction("Push");
         jump = player.FindAction("Jump");
+
+        dPadUp = player.FindAction("DPadUp");
+        dPadDown = player.FindAction("DPadDown");
 
         player.Enable();
 
@@ -129,6 +148,8 @@ public class Player : MonoBehaviour
 
             doJump = false;
         }
+
+        print($"dpad: {dpadValue}");
     }
 
     private void FixedUpdate()
@@ -170,6 +191,32 @@ public class Player : MonoBehaviour
             pushValue = push.ReadValue<float>();
         }
 
+        if (dPadDown.IsPressed())
+        {
+            if (playerCamera.fieldOfView < 130)
+            {
+                playerCamera.fieldOfView++;
+
+                // Move the camera farther from the player
+                Vector3 diffNormalized = transform.position - playerCamera.transform.position;
+                playerCamera.transform.position += diffNormalized * fovZoomFactor;
+            }
+        }
+
+        if (dPadUp.IsPressed())
+        {
+            if (playerCamera.fieldOfView > 30)
+            {
+                playerCamera.fieldOfView--;
+
+                // Move the camera closer to the player
+                Vector3 diffNormalized = transform.position - playerCamera.transform.position;
+                playerCamera.transform.position -= diffNormalized * fovZoomFactor;
+            }
+        }
+
+       // dpadValue = dPadUp.triggered ? 1 : dPadDown.triggered ? -1 : 0;
+
         doJump = jump.triggered;
 
         // Get the direction the player should face based on the aim input
@@ -198,7 +245,7 @@ public class Player : MonoBehaviour
         // Rotate horizontally (around y-axis)
         transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX * Time.fixedDeltaTime));
         //playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY));
-        orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
+       // orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
 
         // Handle the player camera rotation in the x-axis
 
