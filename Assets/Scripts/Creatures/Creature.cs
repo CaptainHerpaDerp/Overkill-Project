@@ -13,6 +13,14 @@ namespace Creatures
 
         public Transform target { get; protected set; }
 
+        /// <summary>
+        /// Triggered upon creature conversion, handles logic for terminating a specific colour's logic
+        /// </summary>
+        public virtual void StopBehaviour()
+        {
+
+        }
+
         protected virtual void TriggerColorChange(ColorEnum.TEAMCOLOR newColor)
         {
             ONOwnColorChanged?.Invoke(newColor);

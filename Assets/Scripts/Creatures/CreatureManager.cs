@@ -137,8 +137,11 @@ public class CreatureManager : MonoBehaviour {
                 CreatureColorScripts[i].gameObject.SetActive(true);
                 continue;
             }
+
+            CreatureColorScripts[i].StopBehaviour();
             CreatureColorScripts[i].gameObject.SetActive(false);
         }
+
         gameObject.GetComponent<Renderer>().material.color = ColorEnum.GetColor(newColor);
     }
 

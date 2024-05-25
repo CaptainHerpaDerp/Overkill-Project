@@ -266,7 +266,7 @@ GameObject:
   - component: {fileID: 8621512073013208375}
   - component: {fileID: 6283230879776703961}
   m_Layer: 12
-  m_Name: PaintCreature
+  m_Name: Paint Creature Old
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

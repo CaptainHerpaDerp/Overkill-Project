@@ -31,17 +31,31 @@ public class GreenCreatureBehaviour : Creature
 
     public override void Act()
     {
+        this.gameObject.SetActive(true);
+
         if (pulseCoroutine != null)
             return;
 
         else
         {
+            print("started coroutine");
             pulseCoroutine = StartCoroutine(DoPulse());
         }
     }
 
+    public override void StopBehaviour()
+    {
+        sphereObject.transform.localScale = Vector3.zero;
+        pulseCollider.radius = 0;
+
+        StopAllCoroutines();
+        pulseCoroutine = null;
+    }
+
     protected override void TriggerColorChange(ColorEnum.TEAMCOLOR newColor)
     {
+        print("changed color");
+
         StopAllCoroutines();
         pulseCoroutine = null;
 
@@ -105,8 +119,6 @@ public class GreenCreatureBehaviour : Creature
             {
                 TriggerPlantColorChange(plant, ColorEnum.TEAMCOLOR.GREEN);
             }
-
-            print("contact");
         }
     }
 }
