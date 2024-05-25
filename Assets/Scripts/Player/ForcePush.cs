@@ -32,6 +32,8 @@ public class ForcePush : MonoBehaviour
             Player = GetComponentInParent<Player>();
         }
 
+        surroundingPlant.teamColour = Player.TeamColor;
+
         StartCoroutine(PushOpponent());
         StartCoroutine(UpdateForceValue());
 

@@ -15,15 +15,24 @@ public class CreatureManager : MonoBehaviour {
     public List<Creature> CreatureColorScripts;
     private ColorEnum.TEAMCOLOR creatureColor = ColorEnum.TEAMCOLOR.DEFAULT;
 
+    // Conversion Variables
     private float conversionProgress;
+
     [SerializeField] float  conversionThreshold = 100f, baseConversionSpeed, conversionRevertSpeed;
 
-    [SerializeField] private MeshRenderer meshRenderer;
+    [Header("Assuming all of the surrounding plants are owned by the creature owner, conversion speed of this creature will be multiplied by this value")]
+    [SerializeField] float ratioPenalty = 0.5f;
 
+    [SerializeField] private MeshRenderer meshRenderer;
     [SerializeField] private GameObject conversionRing;
+
     [SerializeField] private float conversionRingMinY, conversionRingMaxY;
     [SerializeField] private float colorShiftMod;
+
     private bool isConverting;
+
+    // The script that determines the ratio of nearby influence
+    [SerializeField] private SurroundingPlant surroundingPlant;
 
     private Color targetColor;
     private Color initialColor;
@@ -47,6 +56,7 @@ public class CreatureManager : MonoBehaviour {
             creature.ONTargetChanged += SetNewTarget;
         }
 
+        surroundingPlant.teamColour = creatureColor;
         initialColor = ColorEnum.GetColor(ColorEnum.TEAMCOLOR.DEFAULT);
         meshRenderer.material.color = initialColor;
     }
@@ -97,13 +107,24 @@ public class CreatureManager : MonoBehaviour {
                 if (!conversionRing.activeInHierarchy)
                     conversionRing.SetActive(true);
 
-                conversionProgress += baseConversionSpeed;
+                /* 
+                 * This ratio determines the influence of the surrounding plants between it's current owner and the other owner.
+                 * If the ratio of the surrounding plants is 1, it means that all the surrounding plants are owned by the same player.
+                 * !Unplanted plants still make up this ratio, so by default the ratio will be 1, meaning the player should plant around the creature to capture it quicker!                    
+                */
+
+                float ratio = surroundingPlant.GetSurroundingPlantsClamped();
+
+                // If the ratio is 1, the hinderance should be ratioPenalty, meaning the conversion speed will be at its slowest
+                float hinderance = 1 - ratio * ratioPenalty;
+
+                conversionProgress += baseConversionSpeed * hinderance;
                 conversionProgress = Mathf.Clamp(conversionProgress, 0, conversionThreshold);
 
                 float t = conversionProgress / conversionThreshold;
                 meshRenderer.material.color = Color.Lerp(initialColor, targetColor, t);
 
-                print($"conversion: {conversionProgress} / {conversionThreshold}");
+                print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
             }
             else
             {
@@ -142,6 +163,10 @@ public class CreatureManager : MonoBehaviour {
             CreatureColorScripts[i].gameObject.SetActive(false);
         }
 
+        // Set the surrounding plant color to the new color
+        surroundingPlant.teamColour = creatureColor;
+
+        // Change the color of the creature
         gameObject.GetComponent<Renderer>().material.color = ColorEnum.GetColor(newColor);
     }
 

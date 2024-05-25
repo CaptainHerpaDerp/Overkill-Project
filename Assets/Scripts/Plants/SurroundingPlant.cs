@@ -1,5 +1,4 @@
 using GaiaElements;
-using Players;
 using TeamColors;
 using UnityEngine;
 
@@ -7,15 +6,7 @@ public class SurroundingPlant : MonoBehaviour
 {
     [SerializeField] private SphereCollider sphereCollider;
 
-    private ColorEnum.TEAMCOLOR playerNumber;
-
-    private void Start()
-    {
-        Player parentPlayer = transform.parent.GetComponent<Player>();
-
-        playerNumber = parentPlayer.TeamColor;
-        parentPlayer.OnPlayerNumberChange += () => playerNumber = parentPlayer.TeamColor;
-    }
+    public ColorEnum.TEAMCOLOR teamColour;
 
     /// <summary>
     /// Return the amount of plants surrounding the player
@@ -38,7 +29,7 @@ public class SurroundingPlant : MonoBehaviour
             totalPlants++;
 
             // Check if the plant is owned by the player
-            if (plant.TeamColor == playerNumber)
+            if (plant.TeamColor == teamColour)
             {
                 playerPlants++;
             }
@@ -54,5 +45,10 @@ public class SurroundingPlant : MonoBehaviour
         }
 
         return (float)playerPlants / (float)totalPlants;
+    }
+
+    public float GetSurroundingPlantsClamped()
+    {
+        return Mathf.Clamp(GetSurroundingPlants(), 0.01f, 1);
     }
 }
