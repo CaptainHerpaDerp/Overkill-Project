@@ -101,9 +101,12 @@ public class ForcePush : MonoBehaviour
             if (Player.IsPushing)
                 foreach (var item in rigidbodies)
                 {
-                    if (item.GetComponent<CreatureManager>())
+                    // If "pushing" a creature, do the conversion process
+                    if (item.TryGetComponent(out CreatureManager creature))
                     {
-                        print("pushing creature");
+
+                        creature.Convert(Player.TeamColor);
+                        continue;
                     }
 
                     Vector3 diff = (item.transform.position - transform.position).normalized;
