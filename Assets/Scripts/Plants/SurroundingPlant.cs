@@ -1,12 +1,49 @@
 using GaiaElements;
+using System.Collections.Generic;
 using TeamColors;
 using UnityEngine;
 
+[RequireComponent(typeof(SphereCollider))]
 public class SurroundingPlant : MonoBehaviour
 {
     [SerializeField] private SphereCollider sphereCollider;
 
     public ColorEnum.TEAMCOLOR teamColour;
+
+    private void Start()
+    {
+        sphereCollider = GetComponent<SphereCollider>();
+
+        sphereCollider.isTrigger = true;
+    }
+
+    public void SetColliderRadius(float radius)
+    {
+        sphereCollider.radius = radius;
+    }
+
+    public List<Plant> GetSurroundingOpponentPlantsList()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius);
+
+        List<Plant> opponentPlants = new();
+
+        foreach (var hitCollider in hitColliders)
+        {
+            hitCollider.TryGetComponent(out Plant plant);
+
+            if (plant == null)
+                continue;
+          
+            // Check if the plant is owned by the player
+            if (plant.TeamColor != teamColour)
+            {
+                opponentPlants.Add(plant);
+            }
+        }
+
+        return opponentPlants;
+    }
 
     /// <summary>
     /// Return the amount of plants surrounding the player

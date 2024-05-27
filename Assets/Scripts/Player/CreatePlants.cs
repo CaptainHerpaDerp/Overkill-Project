@@ -98,6 +98,8 @@ public class CreatePlants : MonoBehaviour
             currentPlantsInRange.Add(plant);
 
             plant.Activate(teamColor);
+
+            plant.PlantSpreadCreep = parentPlayer.PlantSpreadCreep;
         }
     }
 

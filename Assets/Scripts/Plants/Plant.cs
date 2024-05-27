@@ -21,8 +21,21 @@ namespace GaiaElements
 
         public int PlantID { get; private set; }
 
-        //        Plant ID, New Team Color, Old Team Color
+        //Plant ID, New Team Color, Old Team Color
         public Action<int, TEAMCOLOR, TEAMCOLOR> OnPlantOwnershipChanged;
+        public Action OnPlantSettingsChanged;
+
+        private bool plantSpreadCreep;
+
+        public bool PlantSpreadCreep
+        {
+            get { return plantSpreadCreep; }
+            set
+            {
+                plantSpreadCreep = value;
+                OnPlantSettingsChanged?.Invoke();
+            }
+        }
 
         public ColorEnum.TEAMCOLOR TeamColor
         {
@@ -42,7 +55,7 @@ namespace GaiaElements
                 // ScoreManager.Instance.UpdatePlantOwnership(PlantID, value, teamColor);
 
                 OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
-
+     
                 teamColor = value;
             }
         }

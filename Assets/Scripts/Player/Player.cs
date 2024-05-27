@@ -26,17 +26,20 @@ namespace Players
         private Vector2 movementInput;
         private Vector2 lookInput;
 
-        private Vector3 playerVelocity;
-
         Vector2 lookDirection;
         Vector3 moveDirection;
 
         private float pushValue;
-        private float dpadValue;
 
         public bool UseMouseClick;
 
         [SerializeField] private TEAMCOLOR teamColor;
+
+        [Header("Player Behaviour Settings")]
+
+        // When enabled, plants will automatically spread their influence
+        [SerializeField] private bool plantSpreadCreep;
+        public bool PlantSpreadCreep { get => plantSpreadCreep; }
 
         public float PlantConversionRadius
         {
@@ -59,6 +62,8 @@ namespace Players
 
             set
             {
+
+
                 OnPlayerNumberChange?.Invoke();
                 teamColor = value;
             }
@@ -158,11 +163,13 @@ namespace Players
             HandleRotation();
         }
 
-        private void LateUpdate()
+        private void SetPlayerBehaviour(TEAMCOLOR playerColor)
         {
-            //HandleRotation();
-        }
+            switch (playerColor)
+            {
 
+            }
+        }
 
         public bool IsGrounded()
         {

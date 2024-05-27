@@ -8,9 +8,6 @@ namespace Creatures
     {
 
         [SerializeField]
-        private Transform plantsHierarchyParent;
-
-        [SerializeField]
         private float targetTurnDistance;
 
         public override void Act()

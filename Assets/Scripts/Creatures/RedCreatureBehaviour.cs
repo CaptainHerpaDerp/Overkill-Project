@@ -8,14 +8,11 @@ namespace Creatures
     public class RedCreatureBehaviour : Creature
     {
         [SerializeField]
-        private Transform plantsHierarchyParent;
-
-        [SerializeField]
         private float TargetTurnDistance;
 
         // Copies the ScoreManager array using observed values
         private int[] playerTeamScore = new int[5];
-
+         
         public override void Act()
         {
             CheckTarget();

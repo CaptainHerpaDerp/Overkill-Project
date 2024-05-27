@@ -230,6 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sphereCollider: {fileID: 4859271549984920191}
+  teamColour: 0
 --- !u!135 &4859271549984920191
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -483,6 +484,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3812621330318385266}
   UseMouseClick: 0
   teamColor: 0
+  plantSpreadCreep: 1
   LockMovement: 0
   UpdatePlayerValues: 0
   rb: {fileID: 3186476797080004935}

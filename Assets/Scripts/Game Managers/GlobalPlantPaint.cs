@@ -98,7 +98,6 @@ namespace GameManagement
         {
             List<Vector3> points = new List<Vector3>();
 
-
             foreach (Transform surface in plantSurfaces)
             {
                 Renderer renderer = surface.GetComponent<Renderer>();

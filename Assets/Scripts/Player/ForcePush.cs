@@ -106,7 +106,6 @@ public class ForcePush : MonoBehaviour
                     // If "pushing" a creature, do the conversion process
                     if (item.TryGetComponent(out CreatureManager creature))
                     {
-
                         creature.Convert(Player.TeamColor);
                         continue;
                     }
