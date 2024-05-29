@@ -89,6 +89,15 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Special"",
+                    ""type"": ""Button"",
+                    ""id"": ""5e7e418c-91b3-4860-baad-37f8603995a2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -256,6 +265,28 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""action"": ""DPadDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8dfd2062-e6b5-480a-85e6-128fc8a24c94"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Special"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bcb37ce7-28c5-446d-bb7d-abb4bf77db1f"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KBM"",
+                    ""action"": ""Special"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -299,6 +330,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         m_Controls_Jump = m_Controls.FindAction("Jump", throwIfNotFound: true);
         m_Controls_DPadUp = m_Controls.FindAction("DPadUp", throwIfNotFound: true);
         m_Controls_DPadDown = m_Controls.FindAction("DPadDown", throwIfNotFound: true);
+        m_Controls_Special = m_Controls.FindAction("Special", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -367,6 +399,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
     private readonly InputAction m_Controls_Jump;
     private readonly InputAction m_Controls_DPadUp;
     private readonly InputAction m_Controls_DPadDown;
+    private readonly InputAction m_Controls_Special;
     public struct ControlsActions
     {
         private @PlayerControlsGamepad m_Wrapper;
@@ -378,6 +411,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         public InputAction @Jump => m_Wrapper.m_Controls_Jump;
         public InputAction @DPadUp => m_Wrapper.m_Controls_DPadUp;
         public InputAction @DPadDown => m_Wrapper.m_Controls_DPadDown;
+        public InputAction @Special => m_Wrapper.m_Controls_Special;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -408,6 +442,9 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
             @DPadDown.started += instance.OnDPadDown;
             @DPadDown.performed += instance.OnDPadDown;
             @DPadDown.canceled += instance.OnDPadDown;
+            @Special.started += instance.OnSpecial;
+            @Special.performed += instance.OnSpecial;
+            @Special.canceled += instance.OnSpecial;
         }
 
         private void UnregisterCallbacks(IControlsActions instance)
@@ -433,6 +470,9 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
             @DPadDown.started -= instance.OnDPadDown;
             @DPadDown.performed -= instance.OnDPadDown;
             @DPadDown.canceled -= instance.OnDPadDown;
+            @Special.started -= instance.OnSpecial;
+            @Special.performed -= instance.OnSpecial;
+            @Special.canceled -= instance.OnSpecial;
         }
 
         public void RemoveCallbacks(IControlsActions instance)
@@ -477,5 +517,6 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
         void OnJump(InputAction.CallbackContext context);
         void OnDPadUp(InputAction.CallbackContext context);
         void OnDPadDown(InputAction.CallbackContext context);
+        void OnSpecial(InputAction.CallbackContext context);
     }
 }

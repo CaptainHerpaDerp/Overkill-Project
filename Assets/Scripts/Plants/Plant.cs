@@ -29,6 +29,9 @@ namespace GaiaElements
 
         public Transform PlayerParentTransform;
 
+        // Ensure that the plant is not being converted by multiple players
+        private Coroutine shiftColourRoutine;
+
         public bool PlantSpreadCreep
         {
             get { return plantSpreadCreep; }
@@ -46,6 +49,14 @@ namespace GaiaElements
             {
                 if (plantMeshes.Count >= (int)value )
                 plantMeshFilter.mesh = plantMeshes[(int)value];
+
+                //Stop any current animations
+                plantAnimator.StopPlayback();
+
+                if (teamColor == TEAMCOLOR.DEFAULT)
+                {
+                    plantRenderer.enabled = true;
+                }
 
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
                 if (value != teamColor)
@@ -92,6 +103,8 @@ namespace GaiaElements
         /// </summary>
         public void UnPlant()
         {
+            //TODO: There is a bug where the plant is not un-planted yet remains black. This probably happens when another player converts it before the animaton is complete
+
             // Do not unplant if the plant is already un-planted
             if (teamColor == TEAMCOLOR.DEFAULT)
             {

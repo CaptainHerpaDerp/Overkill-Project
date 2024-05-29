@@ -5,6 +5,15 @@ using static TeamColors.ColorEnum;
 
 namespace Players
 {
+    public enum SpecialAbility
+    {
+        None,
+        MassConversion,
+        Green,
+        SmokeScreen,
+        LightBeam
+    }
+
     [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour
     {
@@ -29,7 +38,8 @@ namespace Players
         Vector2 lookDirection;
         Vector3 moveDirection;
 
-        private float pushValue;
+        // left and right triggers
+        private float pushValue, specialValue;
 
         public bool UseMouseClick;
 
@@ -38,6 +48,8 @@ namespace Players
         [Header("Player Behaviour Settings")]
 
         #region Team-Specific Settings
+
+        [SerializeField] private SpecialAbility specialAbility;
 
         public CreatePlants createPlants;
 
@@ -116,12 +128,13 @@ namespace Players
         [SerializeField] private bool UpdatePlayerValues;
 
         public bool IsPushing => pushValue > 0;
+        public bool IsSpecial => specialValue > 0;
 
         // private PlayerControlsGamepad playerControls;
         private InputActionAsset inputAsset;
         private InputActionMap player;
 
-        private InputAction move, aim, push, jump, dPadUp, dPadDown;
+        private InputAction move, aim, push, special, jump, dPadUp, dPadDown;
 
         private bool doJump;
 
@@ -152,6 +165,7 @@ namespace Players
             move = player.FindAction("Movement");
             aim = player.FindAction("Aim");
             push = player.FindAction("Push");
+            special = player.FindAction("Special"); 
             jump = player.FindAction("Jump");
 
             dPadUp = player.FindAction("DPadUp");
@@ -199,20 +213,21 @@ namespace Players
 
                 doJump = false;
             }
+
+            if (special.triggered)
+            {
+                //Temp
+                // find child with name "RedBehaviour"
+                // call Activate on that child
+                GetComponentInChildren<RedSpecialBehaviour>().Activate();
+
+            }
         }
 
         private void FixedUpdate()
         {
             HandleMovement();
             HandleRotation();
-        }
-
-        private void SetPlayerBehaviour(TEAMCOLOR playerColor)
-        {
-            switch (playerColor)
-            {
-
-            }
         }
 
         public bool IsGrounded()
@@ -236,11 +251,14 @@ namespace Players
             if (UseMouseClick)
             {
                 pushValue = Input.GetMouseButton(0) ? 1 : 0;
+                specialValue = Input.GetMouseButton(1) ? 1 : 0;
             }
             else
             {
                 pushValue = push.ReadValue<float>();
+                specialValue = special.ReadValue<float>();
             }
+
 
             if (dPadDown.IsPressed())
             {
