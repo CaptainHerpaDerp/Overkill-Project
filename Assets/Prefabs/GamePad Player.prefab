@@ -184,6 +184,54 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2111497816963260412}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3039725270726853376
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7064956550285775650}
+  - component: {fileID: 8576329490957146037}
+  m_Layer: 0
+  m_Name: CreatureSelector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7064956550285775650
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039725270726853376}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2111497816963260412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8576329490957146037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039725270726853376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdcf285d192479447a1422c0545baf3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  selectionPoint: {fileID: 10808904636718559}
+  maximumRaycastDistance: 5
+  selectionRadius: 2
+  layerMask: 11
 --- !u!1 &3427759609695800776
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +312,7 @@ GameObject:
   - component: {fileID: 8596916798283485704}
   - component: {fileID: 7638214624509406412}
   m_Layer: 0
-  m_Name: Pushing
+  m_Name: Push / Convert
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -417,6 +465,37 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3815812537727318544}
   m_Enabled: 0
+--- !u!1 &5155701885450002724
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10808904636718559}
+  m_Layer: 0
+  m_Name: RaycastTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &10808904636718559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5155701885450002724}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.48627424, y: -0.11090708, z: -0.24461365}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2111497816963260412}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5795047847129252136
 GameObject:
   m_ObjectHideFlags: 0
@@ -457,6 +536,8 @@ Transform:
   - {fileID: 7642822857266558038}
   - {fileID: 1049079707045204088}
   - {fileID: 5537605247415736171}
+  - {fileID: 7064956550285775650}
+  - {fileID: 10808904636718559}
   - {fileID: 3376179046649004610}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -484,6 +565,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3812621330318385266}
   UseMouseClick: 0
   teamColor: 0
+  createPlants: {fileID: 0}
   PlantSpreadCreep: 0
   LockMovement: 0
   UpdatePlayerValues: 0
@@ -705,6 +787,8 @@ MonoBehaviour:
   AnimalProximityGrowth: 0
   MaxAnimalDistance: 0
   DistanceMultiplier: 0
+  MinAnimalProximityGrowthRate: 0
+  HasRemovalTrail: 0
   plantSpawnOffset: {x: 0, y: 0, z: 0}
   layerMask: 0
   raycastDistance: 2

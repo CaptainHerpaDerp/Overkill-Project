@@ -47,6 +47,9 @@ namespace Creatures
 
         public bool isRedConversion;
 
+        public bool IsHighlighted;
+        [SerializeField] private Outline outlineEffect;
+
         private void Start()
         {
             Init();
@@ -135,7 +138,17 @@ namespace Creatures
         private void Update()
         {
             CreatureColorScripts[(int)creatureColor].Act();
+
+            if (IsHighlighted)
+            {
+                outlineEffect.enabled = true;
+            }
+            else
+            {
+                outlineEffect.enabled = false;
+            }
         }
+
 
         private IEnumerator DoConversion()
         {

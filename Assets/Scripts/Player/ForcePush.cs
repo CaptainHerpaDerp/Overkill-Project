@@ -25,6 +25,8 @@ public class ForcePush : MonoBehaviour
 
     [SerializeField] private SurroundingPlant surroundingPlant;
 
+    private CreatureManager selectedCreature;
+
     private void Start()
     {
         if (Player == null)
@@ -97,6 +99,8 @@ public class ForcePush : MonoBehaviour
 
     private IEnumerator PushOpponent()
     {
+
+
         while (true)
         {
             // Only apply force if the player is pressing the push button

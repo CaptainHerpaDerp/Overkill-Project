@@ -44,7 +44,7 @@ namespace GaiaElements
             get => teamColor;
             set
             {
-                if (plantMeshes.Count >= (int)value)
+                if (plantMeshes.Count >= (int)value )
                 plantMeshFilter.mesh = plantMeshes[(int)value];
 
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
