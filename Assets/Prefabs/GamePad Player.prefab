@@ -446,7 +446,7 @@ Transform:
   m_GameObject: {fileID: 5795047847129252136}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -484,7 +484,7 @@ MonoBehaviour:
   playerCamera: {fileID: 3812621330318385266}
   UseMouseClick: 0
   teamColor: 0
-  plantSpreadCreep: 1
+  PlantSpreadCreep: 0
   LockMovement: 0
   UpdatePlayerValues: 0
   rb: {fileID: 3186476797080004935}
@@ -698,12 +698,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: feb5a9b13ac481245a0e0f1668d22067, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 2969399852961917321, guid: f412b7dce58cbf649bacb20b92e189d0, type: 3}
-  currentPlantsInRange: []
   sphereCollider: {fileID: 1726663599356196859}
-  spawnTime: 0.01
   playerRenderer: {fileID: 5815655177183868328}
   heightOffset: 1.4
+  GrowthRate: 0.1
+  AnimalProximityGrowth: 0
+  MaxAnimalDistance: 0
+  DistanceMultiplier: 0
   plantSpawnOffset: {x: 0, y: 0, z: 0}
   layerMask: 0
   raycastDistance: 2

@@ -111,6 +111,9 @@ public class GreenCreatureBehaviour : Creature
     {
         if (other.TryGetComponent(out Plant plant))
         {
+            //plant.PlantSpreadCreep = true;
+            //plant.PlayerParentTransform = PlayerLocator.Instance.GetTransformOfTeam(ColorEnum.TEAMCOLOR.GREEN);
+
             if (plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
             {
                 plant.Activate(ColorEnum.TEAMCOLOR.GREEN);

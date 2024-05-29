@@ -27,6 +27,8 @@ namespace GaiaElements
 
         private bool plantSpreadCreep;
 
+        public Transform PlayerParentTransform;
+
         public bool PlantSpreadCreep
         {
             get { return plantSpreadCreep; }
@@ -42,6 +44,7 @@ namespace GaiaElements
             get => teamColor;
             set
             {
+                if (plantMeshes.Count >= (int)value)
                 plantMeshFilter.mesh = plantMeshes[(int)value];
 
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
@@ -51,8 +54,7 @@ namespace GaiaElements
                     SetColor(ColorEnum.GetColor(value));
                 }
 
-                // Update the plant owner in the ScoreManager
-                // ScoreManager.Instance.UpdatePlantOwnership(PlantID, value, teamColor);
+                plantSpreadCreep = false;
 
                 OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
      
@@ -83,6 +85,29 @@ namespace GaiaElements
             plantRenderer.enabled = true;
             TeamColor = PlayerNumber;
             SetColor(ColorEnum.GetColor(teamColor));
+        }
+
+        /// <summary>
+        /// Returns the plant to its default state
+        /// </summary>
+        public void UnPlant()
+        {
+            // Do not unplant if the plant is already un-planted
+            if (teamColor == TEAMCOLOR.DEFAULT)
+            {
+                return;
+            }
+            
+            plantAnimator.SetTrigger("UnGrow");
+            TeamColor = TEAMCOLOR.DEFAULT;
+
+            StartCoroutine(HidePlant(1));
+        }
+
+        private IEnumerator HidePlant(float time)
+        {
+            yield return new WaitForSeconds(time);
+            plantRenderer.enabled = false;
         }
 
         public void SetColorInstant(Color color)

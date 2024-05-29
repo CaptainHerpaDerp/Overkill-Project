@@ -11,7 +11,6 @@ namespace Creatures
 
     public class CreatureManager : MonoBehaviour
     {
-
         [SerializeField]
         private NavMeshAgent agent;
 
@@ -46,6 +45,8 @@ namespace Creatures
         // The script that handles the particle system for the conversion
         [SerializeField] ConversionParticles conversionParticles;
 
+        public bool isRedConversion;
+
         private void Start()
         {
             Init();
@@ -55,6 +56,8 @@ namespace Creatures
 
         private void Init()
         {
+            AnimalLocator.Instance.RegisterAnimalOfTeam(transform, creatureColor);
+
             CreatureColorScripts.Add(transform.Find("RedLogic").GetComponent<Creature>());
             CreatureColorScripts.Add(transform.Find("GreenLogic").GetComponent<Creature>());
             CreatureColorScripts.Add(transform.Find("BlueLogic").GetComponent<Creature>());
@@ -77,6 +80,16 @@ namespace Creatures
 
         public void Convert(ColorEnum.TEAMCOLOR newColor)
         {
+            // If a red player is convering
+            if (newColor == ColorEnum.TEAMCOLOR.RED)
+            {
+                isRedConversion = true;
+            }
+            else
+            {
+                isRedConversion = false;
+            }
+
             isConverting = true;
             targetColor = ColorEnum.GetColor(newColor);
 
@@ -95,6 +108,13 @@ namespace Creatures
             {
                 print("Converted");
                 ChangeThisCreatureColor(newColor);
+
+                if (newColor == ColorEnum.TEAMCOLOR.GREEN)
+                {
+                    agent.velocity = Vector3.zero;
+                    agent.isStopped = true;
+                }
+
                 conversionProgress = 0;
                 initialColor = targetColor;
                 converters.Clear();
@@ -148,7 +168,12 @@ namespace Creatures
                     float ratio = surroundingPlant.GetSurroundingPlantsClamped();
 
                     // If the ratio is 1, the hinderance should be ratioPenalty, meaning the conversion speed will be at its slowest
-                    float hinderance = 1 - ratio * ratioPenalty;
+                    float hinderance = 1;
+
+                    if (!isRedConversion)
+                    {
+                        hinderance = 1 - ratio * ratioPenalty;
+                    }
 
                     conversionProgress += baseConversionSpeed * hinderance;
                     conversionProgress = Mathf.Clamp(conversionProgress, 0, conversionThreshold);
@@ -156,7 +181,7 @@ namespace Creatures
                     float t = conversionProgress / conversionThreshold;
                     meshRenderer.material.color = Color.Lerp(initialColor, targetColor, t);
 
-                    print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
+                    //print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
                 }
                 else
                 {
@@ -180,6 +205,8 @@ namespace Creatures
         private void ChangeThisCreatureColor(ColorEnum.TEAMCOLOR newColor)
         {
             creatureColor = newColor;
+
+            AnimalLocator.Instance.ChangeTeamOfAnimal(transform, creatureColor);
 
             // Only play particle effects if the color is not the default color
             if (newColor != ColorEnum.TEAMCOLOR.DEFAULT)
@@ -208,6 +235,13 @@ namespace Creatures
 
         private void ChangePlantColor(Plant plant, ColorEnum.TEAMCOLOR newColor)
         {
+            //TEMP
+            if (creatureColor == ColorEnum.TEAMCOLOR.BLUE)
+            {
+                plant.PlantSpreadCreep = true;
+                plant.PlayerParentTransform = PlayerLocator.Instance.GetTransformOfTeam(ColorEnum.TEAMCOLOR.BLUE);
+            }
+
             if (plant.plantRenderer.enabled == false)
             {
                 plant.Activate(newColor);

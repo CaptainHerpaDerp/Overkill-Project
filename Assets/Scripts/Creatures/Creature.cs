@@ -13,12 +13,12 @@ namespace Creatures
 
         public Transform plantsHierarchyParent;
 
-        public Transform target { get; protected set; }
+        public Transform plantTarget { get; protected set; }
 
         public virtual void Start()
         {
             if (plantsHierarchyParent == null)
-            plantsHierarchyParent = GameObject.FindGameObjectWithTag("PlantsParent").transform;
+            plantsHierarchyParent = GameObject.Find("Plants").transform;
 
             if (plantsHierarchyParent == null)
             {

@@ -40,32 +40,32 @@ namespace Creatures
 
             if (targetPlant != null)
             {
-                target = targetPlant.transform;
-                TriggerTargetChange(target.position);
+                plantTarget = targetPlant.transform;
+                TriggerTargetChange(plantTarget.position);
             }
             else
             {
-                Debug.LogError("Blue target is null");
+                Debug.LogError("Blue plantTarget is null");
             }
 
         }
 
         private void CheckTarget()
         {
-            if (target == null)
+            if (plantTarget == null)
             {
                 ChooseDefaultPlant();
             }
 
-            if (target == null)
+            if (plantTarget == null)
             {
                 Debug.Log("There are no default plants for blue");
                 return;
             }
 
-            if (target.GetComponent<Plant>().TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
+            if (plantTarget.GetComponent<Plant>().TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
             {
-                target = null;
+                plantTarget = null;
                 return;
             }
 
@@ -74,10 +74,10 @@ namespace Creatures
 
         private void CheckDistanceToTarget()
         {
-            if (Vector3.Distance(transform.position, target.position) <= targetTurnDistance)
+            if (Vector3.Distance(transform.position, plantTarget.position) <= targetTurnDistance)
             {
-                TriggerPlantColorChange(target.gameObject.GetComponent<Plant>(), ColorEnum.TEAMCOLOR.BLUE);
-                target = null;
+                TriggerPlantColorChange(plantTarget.gameObject.GetComponent<Plant>(), ColorEnum.TEAMCOLOR.BLUE);
+                plantTarget = null;
             }
         }
 

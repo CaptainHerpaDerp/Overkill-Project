@@ -46,10 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67269fb1011f9e048a1e7fd6dd5542d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxRadius: 2
+  maxRadius: 2.5
   surroundingPlants: {fileID: 4870302917297095568}
-  maxStartTimeDelay: 2.5
-  spreadTimeInterval: 10
+  rollChance: 10
+  maxDistanceModifier: 150
+  distanceMultiplier: 0.1
 --- !u!114 &4870302917297095568
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +84,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.5
+  m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &6488628123260554814
 GameObject:
@@ -139,8 +140,10 @@ MonoBehaviour:
   - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
   - {fileID: -5495902117074765545, guid: d6b4522041b2b2a4a8deb35aa712c40b, type: 3}
   - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
+  - {fileID: -5495902117074765545, guid: d6b4522041b2b2a4a8deb35aa712c40b, type: 3}
   teamColor: 4
   plantAnimator: {fileID: 4903612896744174771}
+  PlayerParentTransform: {fileID: 0}
 --- !u!136 &5338406014094490111
 CapsuleCollider:
   m_ObjectHideFlags: 0

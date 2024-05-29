@@ -11873,6 +11873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856e7ec41f36a794ea134ea48dd7cb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantsHierarchyParent: {fileID: 0}
   pulseCollider: {fileID: 4259270131905369178}
   sphereObject: {fileID: 8518435596604328055}
   sphereRenderer: {fileID: 5529055698060042695}
@@ -12044,12 +12045,11 @@ MonoBehaviour:
   conversionRevertSpeed: 0.005
   ratioPenalty: 0.5
   meshRenderer: {fileID: 4267251888245644292}
-  conversionRing: {fileID: 1506866535550574633}
-  conversionRingMinY: -0.727
-  conversionRingMaxY: 0.84
   colorShiftMod: 50
+  canMoveOnConvert: 1
   surroundingPlant: {fileID: 3126379702627154947}
   conversionParticles: {fileID: 7735298549804038844}
+  isRedConversion: 0
 --- !u!195 &1136143686800918118
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -12189,6 +12189,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8c6aa0c37b0854aa36a90f30aba80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantsHierarchyParent: {fileID: 0}
+  TargetTurnDistance: 1.3
+  maxDistanceFromPlayer: 15
+  playerStopDistance: 10
 --- !u!1 &7865040337853056967
 GameObject:
   m_ObjectHideFlags: 0
@@ -12280,6 +12284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b58d3db95f9a6048b7cfdc125f3e5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  plantsHierarchyParent: {fileID: 0}
   plantsAroundCollider: {fileID: 4598996709557905685}
   plantLayer:
     serializedVersion: 2

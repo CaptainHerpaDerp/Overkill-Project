@@ -37,9 +37,53 @@ namespace Players
 
         [Header("Player Behaviour Settings")]
 
+        #region Team-Specific Settings
+
+        public CreatePlants createPlants;
+
         // When enabled, plants will automatically spread their influence
-        [SerializeField] private bool plantSpreadCreep;
-        public bool PlantSpreadCreep { get => plantSpreadCreep; }
+        public bool PlantSpreadCreep;
+
+        // The rate at which plants grow per second
+        public float GrowthRate 
+        {       
+            get => createPlants.GrowthRate; 
+            set => createPlants.GrowthRate = value;
+        }
+
+        // When enabled, plant growth rate depends on the player's proximity to an owned animal
+        public bool AnimalProximityGrowth
+        {
+            get => createPlants.AnimalProximityGrowth;
+            set => createPlants.AnimalProximityGrowth = value;
+        }
+
+        // The maximum distance the player can be from an animal for the player's growth rate to be 0
+        public float MaxDistanceToAnimal
+        {
+            get => createPlants.MaxAnimalDistance;
+            set => createPlants.MaxAnimalDistance = value;
+        }
+
+        public float DistanceMultiplier
+        {
+            get => createPlants.DistanceMultiplier;
+            set => createPlants.DistanceMultiplier = value;
+        }
+
+        public float MinAnimalProximityGrowthRate
+        {
+            get => createPlants.MinAnimalProximityGrowthRate;
+            set => createPlants.MinAnimalProximityGrowthRate = value;
+        }
+
+        public bool HasRemovalTrail
+        {
+            get => createPlants.HasRemovalTrail;
+            set => createPlants.HasRemovalTrail = value;
+        }
+
+        #endregion
 
         public float PlantConversionRadius
         {
@@ -62,8 +106,6 @@ namespace Players
 
             set
             {
-
-
                 OnPlayerNumberChange?.Invoke();
                 teamColor = value;
             }
@@ -95,6 +137,8 @@ namespace Players
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+
+            createPlants = GetComponentInChildren<CreatePlants>();
             //playerControls = new PlayerControlsGamepad();
 
             inputAsset = GetComponent<PlayerInput>().actions;

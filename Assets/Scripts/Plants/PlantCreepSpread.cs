@@ -17,13 +17,15 @@ public class PlantCreepSpread : MonoBehaviour
     [SerializeField] private float maxRadius;
     [SerializeField] private SurroundingPlant surroundingPlants;
 
-    [Header("The delay before starting the spread coroutine, ensures spread isnt linear in time")]
-    [SerializeField] private float maxStartTimeDelay;
-
-    [Header("The delay before spreading to another plant")]
-    [SerializeField] private float spreadTimeInterval;
+    [Header("Every second, a roll is made from 1 to this number. If the roll is equal to 1, the plant will spread. This is the minimum roll chance, assuming the distance to the player is 0")]
+    [SerializeField] private int rollChance;
+    [SerializeField] private float maxDistanceModifier;
+    [SerializeField] private float distanceMultiplier;
 
     Plant parentPlant;
+
+    private Vector3 playerParentPosition => parentPlant.PlayerParentTransform.position;
+
     private ColorEnum.TEAMCOLOR teamColor => parentPlant.TeamColor;
 
     private void Start()
@@ -67,12 +69,16 @@ public class PlantCreepSpread : MonoBehaviour
 
     private IEnumerator SpreadToSurroundingPlants()
     {
-        float randTime = Random.Range(0, maxStartTimeDelay);
-
-        yield return new WaitForSeconds(spreadTimeInterval + randTime);
+        yield return new WaitForSeconds(1);
 
         while (true)
         {
+            if (Random.Range(1, Mathf.Clamp(rollChance * GetDistanceModifier(), rollChance, int.MaxValue)) != 1)
+            {
+                yield return new WaitForSeconds(1);
+                continue;
+            }
+
             List<Plant> availablePlants = surroundingPlants.GetSurroundingOpponentPlantsList();
 
             // If there are no plants, wait a long duration before checking again
@@ -84,10 +90,25 @@ public class PlantCreepSpread : MonoBehaviour
 
             print($"switching plant ownership to {(int)teamColor}");
 
+            availablePlants[0].PlayerParentTransform = parentPlant.PlayerParentTransform;
             availablePlants[0].Activate(teamColor);
             availablePlants[0].PlantSpreadCreep = true;
 
-            yield return new WaitForSeconds(spreadTimeInterval);    
+            yield return new WaitForSeconds(1);    
         }
+    }
+
+    private int GetDistanceModifier()
+    {
+        if (playerParentPosition == null)
+        {
+            Debug.LogError("Problem in PlantCreepSpread: Player parent position is null!");
+            return 1;
+        }
+
+        float distance = Vector3.Distance(playerParentPosition, transform.position);
+
+        // If the player distance is 0, return 1. If the player distance is the max radius, return 999;
+        return Mathf.RoundToInt(distanceMultiplier * (maxDistanceModifier * (distance / maxDistanceModifier)));
     }
 }

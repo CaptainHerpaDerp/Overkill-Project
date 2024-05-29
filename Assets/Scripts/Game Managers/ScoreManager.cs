@@ -6,7 +6,6 @@ using TeamColors;
 using static TeamColors.ColorEnum;
 using Players;
 using Core;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 
 namespace GameManagement
 {
@@ -74,6 +73,12 @@ namespace GameManagement
             {
                 foreach (Player player in PlayerList)
                 {
+                    // Skip red
+                    if (player.TeamColor == TEAMCOLOR.RED)
+                    {
+                        continue;
+                    }
+
                     float maximumScore = 0;
 
                     foreach (Player compPlayer in PlayerList)

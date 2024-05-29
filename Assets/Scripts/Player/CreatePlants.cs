@@ -1,22 +1,13 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static TeamColors.ColorEnum;
 using GaiaElements;
 using Players;
+using TeamColors;
 
 public class CreatePlants : MonoBehaviour
 {
-    [SerializeField] private Plant plantPrefab;
-
-    private const int maxPlantsInArea = 7;
-
-    [SerializeField] private List<Plant> currentPlantsInRange = new();
-
     [SerializeField] private SphereCollider sphereCollider;
-
-    [SerializeField] private float spawnTime;
-
     [SerializeField] private Renderer playerRenderer;
 
     private Player parentPlayer;
@@ -25,92 +16,116 @@ public class CreatePlants : MonoBehaviour
 
     private TEAMCOLOR teamColor;
 
+    private bool canSpawnPlant = true;
+    public float GrowthRate;
+
+    // Animal Growth Proximity (Green)
+    public bool AnimalProximityGrowth;
+    public float MaxAnimalDistance;
+    public float DistanceMultiplier;
+    public float MinAnimalProximityGrowthRate;
+
+    // Removal Trail (Red)
+    public bool HasRemovalTrail;
+
     [Header("Paint Properties")]
     [SerializeField] private Vector3 plantSpawnOffset;
     [SerializeField] private int layerMask;
     [SerializeField] private float raycastDistance;
 
+    private AnimalLocator animalLocator;
+
     private void Start()
     {
         parentPlayer = transform.parent.GetComponent<Player>();
+        animalLocator = AnimalLocator.Instance;
 
         teamColor = parentPlayer.TeamColor;
 
         parentPlayer.OnPlayerNumberChange += () => teamColor = parentPlayer.TeamColor;
 
-        parentPlayer.OnPlayerRespawn += () =>
-        {
-            StopAllCoroutines();
-            //StartCoroutine(SpawnPlantsInRange());
-        };
-
         playerRenderer.material.color = GetColor(teamColor);
 
-        StartCoroutine(ValidateExistingPlants());
+        // Red player has no reload
+        if (teamColor != TEAMCOLOR.RED)
+        StartCoroutine(ReloadPlantSpread());
     }
 
-    private IEnumerator ValidateExistingPlants()
+    private float GetGrowthRate()
+    {
+        if (!AnimalProximityGrowth)
+        {
+            return GrowthRate;
+        }
+
+        var closestAnimal = animalLocator.GetClosestTransformOfTeam(transform.position, teamColor);
+
+        if (closestAnimal == null)
+        {
+            return 0.45f;
+        }
+
+        var distance = Vector3.Distance(transform.position, closestAnimal.position);
+
+        if (DistanceMultiplier <= 0)
+        {
+            DistanceMultiplier = 0.01f;
+        }
+
+        var variable = Mathf.Clamp(DistanceMultiplier * (MaxAnimalDistance * (distance / MaxAnimalDistance)), GrowthRate, MinAnimalProximityGrowthRate);
+
+        print($"current var: {variable}");
+
+        return variable;
+    }
+
+    /// <summary>
+    /// Waits before the player can spawn a plant again
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ReloadPlantSpread()
     {
         while (true)
         {
-            ValidatePlants();
-            yield return new WaitForSeconds(1);
-        }
-    }
-
-    private void ValidatePlants()
-    {
-        List<Plant> plantsToRemove = new();
-
-        // Check to see if the plants in the list are still in the sphere collider
-        foreach (var plant in currentPlantsInRange)
-        {
-            if (plant == null)
+            if (!canSpawnPlant)
             {
-                plantsToRemove.Add(plant);
-                continue;
+                yield return new WaitForSeconds(GetGrowthRate());
+                canSpawnPlant = true;
             }
 
-            if (!sphereCollider.bounds.Contains(plant.transform.position))
-            {
-               // print("Plant removed" + plant); // This line should be plant.transform.position
-                plantsToRemove.Add(plant);
-            }
-        }
-
-        foreach (var plantToRemove in plantsToRemove)
-        {
-            if (currentPlantsInRange.Contains(plantToRemove))
-            currentPlantsInRange.Remove(plantToRemove);
+            yield return new WaitForFixedUpdate();
         }
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        // Only spread influence if the player has "reloaded"
+        if (!canSpawnPlant)
+        {
+            return;
+        }
+
         if (!other.TryGetComponent<Plant>(out var plant))
         {
             return;
         }
 
-        if (!currentPlantsInRange.Contains(plant))
+        // Red Behaviour - Un-plants plants
+        if (HasRemovalTrail)
         {
-           // print("added plant");
-            currentPlantsInRange.Add(plant);
-
+            // Do not unplant the player's own plants or unplanted plants
+            if (plant.TeamColor != TEAMCOLOR.RED)
+            {
+                plant.UnPlant();
+            }
+        }
+        else
+        {
+            plant.PlayerParentTransform = parentPlayer.transform;
             plant.Activate(teamColor);
-
             plant.PlantSpreadCreep = parentPlayer.PlantSpreadCreep;
+            canSpawnPlant = false;
         }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.TryGetComponent<Plant>(out var plant))
-        {
-            return;
-        }
-
-        currentPlantsInRange.Remove(plant);
     }
 
     private Vector3 GetRandomPosition()

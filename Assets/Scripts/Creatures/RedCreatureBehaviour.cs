@@ -15,6 +15,7 @@ namespace Creatures
          
         public override void Act()
         {
+            gameObject.SetActive(true); 
             CheckTarget();
         }
 
@@ -62,14 +63,13 @@ namespace Creatures
 
             if (targetPlant != null)
             {
-                target = targetPlant.transform;
-                TriggerTargetChange(target.position);
+                plantTarget = targetPlant.transform;
+                TriggerTargetChange(plantTarget.position);
             }
             else
             {
-                Debug.LogError("Red target is null");
+                Debug.LogWarning("No Red Targets Found");
             }
-
         }
 
         private ColorEnum.TEAMCOLOR FindHighestScoreNotRed()
@@ -85,20 +85,20 @@ namespace Creatures
 
         private void CheckTarget()
         {
-            if (target == null)
+            if (plantTarget == null)
             {
                 ChooseEnemyPlant();
             }
 
-            if (target == null)
+            if (plantTarget == null)
             {
                 Debug.Log("There are no enemies to conquer");
                 return;
             }
 
-            if (target.GetComponent<Plant>().TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
+            if (plantTarget.GetComponent<Plant>().TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
             {
-                target = null;
+                plantTarget = null;
                 return;
             }
 
@@ -108,12 +108,11 @@ namespace Creatures
 
         private void CheckDistanceToTarget()
         {
-            if (Vector3.Distance(transform.position, target.position) <= TargetTurnDistance)
+            if (Vector3.Distance(transform.position, plantTarget.position) <= TargetTurnDistance)
             {
-                TriggerPlantColorChange(target.gameObject.GetComponent<Plant>(), ColorEnum.TEAMCOLOR.RED);
-                target = null;
+                TriggerPlantColorChange(plantTarget.gameObject.GetComponent<Plant>(), ColorEnum.TEAMCOLOR.RED);
+                plantTarget = null;
             }
         }
-
     }
 }
