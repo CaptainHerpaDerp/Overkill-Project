@@ -48,7 +48,8 @@ namespace Creatures
         public bool isRedConversion;
 
         public bool IsHighlighted;
-        [SerializeField] private Outline outlineEffect;
+
+        [SerializeField] private Transform selectonCrystalParent;
 
         private void Start()
         {
@@ -141,11 +142,7 @@ namespace Creatures
 
             if (IsHighlighted)
             {
-                outlineEffect.enabled = true;
-            }
-            else
-            {
-                outlineEffect.enabled = false;
+                //print("highlighted");
             }
         }
 
@@ -194,7 +191,7 @@ namespace Creatures
                     float t = conversionProgress / conversionThreshold;
                     meshRenderer.material.color = Color.Lerp(initialColor, targetColor, t);
 
-                    //print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
+                    print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
                 }
                 else
                 {

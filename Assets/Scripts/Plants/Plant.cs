@@ -51,6 +51,8 @@ namespace GaiaElements
                 plantMeshFilter.mesh = plantMeshes[(int)value];
 
                 //Stop any current animations
+                plantAnimator.enabled = true;   
+
                 plantAnimator.StopPlayback();
 
                 if (teamColor == TEAMCOLOR.DEFAULT)
@@ -72,6 +74,7 @@ namespace GaiaElements
                 teamColor = value;
             }
         }
+
 
         private const float SHIFT_SPEED = 0.1f;
 

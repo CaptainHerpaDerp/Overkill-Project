@@ -8,6 +8,7 @@ TagManager:
   - PlayerCamera
   - FxTemporaire
   - PlantsParent
+  - SelectionCrystals
   layers:
   - Default
   - TransparentFX

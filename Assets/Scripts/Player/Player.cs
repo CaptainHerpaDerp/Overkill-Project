@@ -314,7 +314,13 @@ namespace Players
             // Rotate horizontally (around y-axis)
             transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX * Time.fixedDeltaTime));
             //playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY));
-            // orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
+           // orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
+            orientation.Rotate(Vector3.up * (-lookDirection.y * rotationSpeedY * Time.fixedDeltaTime));
+
+            // Set the orientation's X rotation to the look direction's Y rotation
+            //orientation.rotation = Quaternion.Euler(lookDirection.y, orientation.eulerAngles.y, orientation.eulerAngles.z);
+
+            //orientation.rotation = Quaternion.Euler(0, orientation.eulerAngles.y, 0);
 
             // Handle the player camera rotation in the x-axis
 

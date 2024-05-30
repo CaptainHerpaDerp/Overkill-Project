@@ -20,6 +20,11 @@ namespace Creatures
             float distToPlant = 1000f;
             Plant targetPlant = null;
 
+            if (plantsHierarchyParent == null)
+            {
+                plantsHierarchyParent = GameObject.Find("Plants").transform;
+            }
+
             foreach (Transform plant in plantsHierarchyParent)
             {
                 Plant plantScript = plant.GetComponent<Plant>();

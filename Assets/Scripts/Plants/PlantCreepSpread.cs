@@ -57,6 +57,8 @@ public class PlantCreepSpread : MonoBehaviour
 
                 StopCoroutine(spreadCoroutine);
                 spreadCoroutine = null;
+
+                gameObject.SetActive(false);
             }
         }
         else
@@ -64,6 +66,8 @@ public class PlantCreepSpread : MonoBehaviour
             print("starting spread");
             surroundingPlants.teamColour = teamColor;
             spreadCoroutine ??= StartCoroutine(SpreadToSurroundingPlants());
+
+            gameObject.SetActive(true);
         }
     }
 

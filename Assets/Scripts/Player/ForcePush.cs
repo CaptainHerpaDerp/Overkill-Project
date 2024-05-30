@@ -25,13 +25,18 @@ public class ForcePush : MonoBehaviour
 
     [SerializeField] private SurroundingPlant surroundingPlant;
 
-    private CreatureManager selectedCreature;
+    [SerializeField] private CreatureSelector creatureSelector;
 
     private void Start()
     {
         if (Player == null)
         {
             Player = GetComponentInParent<Player>();
+        }
+
+        if (creatureSelector == null)
+        {
+            creatureSelector = transform.parent.GetComponentInChildren<CreatureSelector>();
         }
 
         surroundingPlant.teamColour = Player.TeamColor;
@@ -41,6 +46,7 @@ public class ForcePush : MonoBehaviour
 
         // Set the sphere collider radius to the push distance
         sphereCollider.radius = pushDistance;
+
     }
 
     private void OnTriggerEnter(Collider other)
@@ -99,20 +105,32 @@ public class ForcePush : MonoBehaviour
 
     private IEnumerator PushOpponent()
     {
-
-
         while (true)
         {
             // Only apply force if the player is pressing the push button
             if (Player.IsPushing)
+            {
+
+                if (creatureSelector.selectedCreature != null)
+                creatureSelector.selectedCreature.Convert(Player.TeamColor);
+
                 foreach (var item in rigidbodies)
                 {
-                    // If "pushing" a creature, do the conversion process
-                    if (item.TryGetComponent(out CreatureManager creature))
-                    {
-                        creature.Convert(Player.TeamColor);
+                    //if (item.TryGetComponent(out CreatureManager creatureManager))
+                    //{
+                    //    if (creatureSelector == null)
+                    //    {
+                    //        print("Creature selector is null");
+                    //        yield return new WaitForFixedUpdate();
+                    //        continue;
+                    //    }
+
+                    //    if (creatureManager == creatureSelector.selectedCreature)
+                    //        creatureManager.Convert(Player.TeamColor);
+                    //}
+
+                    if (!item.TryGetComponent<Player>(out _))
                         continue;
-                    }
 
                     Vector3 diff = (item.transform.position - transform.position).normalized;
 
@@ -127,6 +145,7 @@ public class ForcePush : MonoBehaviour
                         item.AddForce(diff * (totalForce / Vector3.Distance(transform.position, item.transform.position)), forceMode);
                     }
                 }
+            }
 
             yield return new WaitForFixedUpdate();
         }

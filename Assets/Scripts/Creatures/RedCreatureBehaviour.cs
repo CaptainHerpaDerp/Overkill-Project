@@ -41,6 +41,11 @@ namespace Creatures
 
             ColorEnum.TEAMCOLOR highestOtherPlayerScore = FindHighestScoreNotRed();
 
+            if (plantsHierarchyParent == null)
+            {
+                plantsHierarchyParent = GameObject.Find("Plants").transform;
+            }
+
             foreach (Transform plant in plantsHierarchyParent)
             {
                 Plant plantScript = plant.GetComponent<Plant>();

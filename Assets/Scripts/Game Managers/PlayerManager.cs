@@ -19,9 +19,12 @@ namespace GameManagement
 
         [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
 
-        [SerializeField] private List<LayerMask> playerLayers;
+        [SerializeField] private List<int> playerLayers;
 
         private PlayerInputManager playerInputManager;
+
+        // The parent of the creature selection crystals visible to each player
+        [SerializeField] private Transform selectionCrystalTransform;
 
         // DEBUG
         public int firstPlayerIndex = 0;
@@ -90,6 +93,28 @@ namespace GameManagement
             playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[players.Count + firstPlayerIndex - 1];
 
             PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
+
+            // Include the respective player's layer in the camera culling mask
+            parentPlayer.playerCamera.cullingMask |= 1 << playerLayers[players.Count + firstPlayerIndex - 1];
+
+            // Create a new selection crystal for the player
+            if (selectionCrystalTransform != null)
+            {
+                GameObject selectionCrystal = Instantiate(selectionCrystalTransform.GetChild(0).gameObject, selectionCrystalTransform);
+                selectionCrystal.SetActive(false);
+
+                foreach (Transform child in selectionCrystal.transform.GetChild(0))
+                {
+                   // Set each child's mesh renderer color to the player's team color
+                   child.GetComponent<MeshRenderer>().material.color = ColorEnum.GetColor(parentPlayer.TeamColor);
+                   child.gameObject.layer = playerLayers[players.Count + firstPlayerIndex - 1];
+                }
+
+                parentPlayer.GetComponentInChildren<CreatureSelector>().SelectionCrystal = selectionCrystal;
+            }
+
+
+
         }
     }
 }
