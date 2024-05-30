@@ -50,7 +50,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6774897421031168616, guid: b069c0ec44fd89f43bad1ff8e09aa5ff, type: 3}
       propertyPath: m_Name
-      value: PaintCreature New
+      value: Bird Creature
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

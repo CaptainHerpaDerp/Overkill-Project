@@ -50,8 +50,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
-  renderers:
-  - {fileID: 4267251888245644292}
 --- !u!1 &1091822483030393047
 GameObject:
   m_ObjectHideFlags: 0
@@ -102,8 +100,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
-  renderers:
-  - {fileID: 4267251888245644292}
 --- !u!1 &1181200502598208360
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,8 +150,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
-  renderers:
-  - {fileID: 4267251888245644292}
 --- !u!1 &1438011977556265371
 GameObject:
   m_ObjectHideFlags: 0
@@ -12033,8 +12027,6 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
-  renderers:
-  - {fileID: 4267251888245644292}
 --- !u!1 &5800534148786149068
 GameObject:
   m_ObjectHideFlags: 0
@@ -12174,7 +12166,7 @@ GameObject:
   - component: {fileID: 1136143686800918118}
   - component: {fileID: 1680882377051995052}
   - component: {fileID: 5129618580530103640}
-  - component: {fileID: 7557399803354350638}
+  - component: {fileID: 5901114435567127344}
   m_Layer: 0
   m_Name: PaintCreature New
   m_TagString: Untagged
@@ -12228,7 +12220,7 @@ MonoBehaviour:
   conversionThreshold: 1
   baseConversionSpeed: 0.01
   conversionRevertSpeed: 0.005
-  ratioPenalty: 0.5
+  ratioPenalty: 0
   meshRenderer: {fileID: 4267251888245644292}
   colorShiftMod: 50
   canMoveOnConvert: 1
@@ -12236,7 +12228,7 @@ MonoBehaviour:
   conversionParticles: {fileID: 7735298549804038844}
   isRedConversion: 0
   IsHighlighted: 0
-  outlineEffect: {fileID: 7557399803354350638}
+  outlineEffect: {fileID: 5901114435567127344}
 --- !u!33 &8927580789259313379
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -12265,7 +12257,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 35e38b9d544e1c149a7e2ddb80af72f6, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -12359,25 +12351,24 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &7557399803354350638
+--- !u!114 &5901114435567127344
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6774897421031168616}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5fea29bb7c508c244a1f805a5fd3fc4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  outlineMode: 1
-  outlineColor: {r: 1, g: 1, b: 1, a: 1}
-  outlineWidth: 2
+  outlineMode: 0
+  outlineColor: {r: 1, g: 1, b: 0.2509804, a: 1}
+  outlineWidth: 6
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
-  renderers: []
 --- !u!1 &7021201337239116372
 GameObject:
   m_ObjectHideFlags: 0
