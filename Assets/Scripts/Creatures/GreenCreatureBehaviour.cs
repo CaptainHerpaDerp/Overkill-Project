@@ -1,7 +1,6 @@
 using Creatures;
 using GaiaElements;
 using System.Collections;
-using System.Collections.Generic;
 using TeamColors;
 using UnityEngine;
 
@@ -10,10 +9,14 @@ public class GreenCreatureBehaviour : Creature
     [SerializeField] private SphereCollider pulseCollider;
     [SerializeField] private GameObject sphereObject;
     [SerializeField] private MeshRenderer sphereRenderer;
+
     [SerializeField] private float alphaFadeSpeed;
     [SerializeField] private float maxPulseRadius;
     [SerializeField] private float pulseSpeed;
     [SerializeField] private float pulseCooldown;
+
+    // Particle System to be enabled on teleport
+    [SerializeField] private GameObject particleGameObject;
 
     private Coroutine pulseCoroutine;
    
@@ -27,6 +30,24 @@ public class GreenCreatureBehaviour : Creature
             Act();
             forceActive = false;
         }
+    }
+
+    public override void OnTeleported()
+    {
+        print("green creature teleported");
+
+        // Restart the behaviour
+        StopBehaviour();
+
+        Color newColor = sphereRenderer.material.color;
+        newColor.a = 1;
+        sphereRenderer.material.color = newColor;
+
+        // Activate the particle system
+        if (particleGameObject != null) 
+            particleGameObject.SetActive(true);
+
+        pulseCoroutine ??= StartCoroutine(DoPulse(2));
     }
 
     public override void Act()
@@ -62,8 +83,10 @@ public class GreenCreatureBehaviour : Creature
         base.TriggerColorChange(newColor);
     }
 
-    private IEnumerator DoPulse()
+    private IEnumerator DoPulse(int delay = 0)
     {
+        yield return new WaitForSeconds(delay);
+
         while (true)
         {
             if (pulseCollider.radius >= maxPulseRadius)
@@ -75,7 +98,7 @@ public class GreenCreatureBehaviour : Creature
                 yield return new WaitForSeconds(pulseCooldown);
 
                 Color newColor = sphereRenderer.material.color;
-                // Reset the alhpa
+                // Reset the alpha
                 newColor.a = 1;
                 sphereRenderer.material.color = newColor;
                 pulseCollider.radius = 0;
@@ -111,6 +134,9 @@ public class GreenCreatureBehaviour : Creature
     {
         if (other.TryGetComponent(out Plant plant))
         {
+            //plant.PlantSpreadCreep = true;
+            //plant.PlayerParentTransform = PlayerLocator.Instance.GetTransformOfTeam(ColorEnum.TEAMCOLOR.GREEN);
+
             if (plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
             {
                 plant.Activate(ColorEnum.TEAMCOLOR.GREEN);

@@ -5,6 +5,15 @@ using static TeamColors.ColorEnum;
 
 namespace Players
 {
+    public enum SpecialAbility
+    {
+        None,
+        MassConversion,
+        Green,
+        SmokeScreen,
+        LightBeam
+    }
+
     [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour
     {
@@ -26,17 +35,69 @@ namespace Players
         private Vector2 movementInput;
         private Vector2 lookInput;
 
-        private Vector3 playerVelocity;
-
         Vector2 lookDirection;
         Vector3 moveDirection;
 
-        private float pushValue;
-        private float dpadValue;
+        // left and right triggers
+        private float pushValue, specialValue;
 
         public bool UseMouseClick;
 
         [SerializeField] private TEAMCOLOR teamColor;
+
+        [Header("Player Behaviour Settings")]
+
+        #region Team-Specific Settings
+
+        [SerializeField] private SpecialAbility specialAbility;
+
+        [SerializeField] private float minOrientationClamp, maxOrientationClamp;
+
+        public CreatePlants createPlants;
+
+        // When enabled, plants will automatically spread their influence
+        public bool PlantSpreadCreep;
+
+        // The rate at which plants grow per second
+        public float GrowthRate
+        {
+            get => createPlants.GrowthRate;
+            set => createPlants.GrowthRate = value;
+        }
+
+        // When enabled, plant growth rate depends on the player's proximity to an owned animal
+        public bool AnimalProximityGrowth
+        {
+            get => createPlants.AnimalProximityGrowth;
+            set => createPlants.AnimalProximityGrowth = value;
+        }
+
+        // The maximum distance the player can be from an animal for the player's growth rate to be 0
+        public float MaxDistanceToAnimal
+        {
+            get => createPlants.MaxAnimalDistance;
+            set => createPlants.MaxAnimalDistance = value;
+        }
+
+        public float DistanceMultiplier
+        {
+            get => createPlants.DistanceMultiplier;
+            set => createPlants.DistanceMultiplier = value;
+        }
+
+        public float MinAnimalProximityGrowthRate
+        {
+            get => createPlants.MinAnimalProximityGrowthRate;
+            set => createPlants.MinAnimalProximityGrowthRate = value;
+        }
+
+        public bool HasRemovalTrail
+        {
+            get => createPlants.HasRemovalTrail;
+            set => createPlants.HasRemovalTrail = value;
+        }
+
+        #endregion
 
         public float PlantConversionRadius
         {
@@ -59,6 +120,15 @@ namespace Players
 
             set
             {
+                specialAbility = (int)value switch
+                {
+                    0 => SpecialAbility.MassConversion,
+                    1 => SpecialAbility.Green,
+                    2 => SpecialAbility.SmokeScreen,
+                    4 => SpecialAbility.LightBeam,
+                    _ => SpecialAbility.None
+                };
+
                 OnPlayerNumberChange?.Invoke();
                 teamColor = value;
             }
@@ -69,12 +139,13 @@ namespace Players
         [SerializeField] private bool UpdatePlayerValues;
 
         public bool IsPushing => pushValue > 0;
+        public bool IsSpecial => specialValue > 0;
 
         // private PlayerControlsGamepad playerControls;
         private InputActionAsset inputAsset;
         private InputActionMap player;
 
-        private InputAction move, aim, push, jump, dPadUp, dPadDown;
+        private InputAction move, aim, push, special, jump, dPadUp, dPadDown;
 
         private bool doJump;
 
@@ -90,6 +161,8 @@ namespace Players
         private void Awake()
         {
             rb = GetComponent<Rigidbody>();
+
+            createPlants = GetComponentInChildren<CreatePlants>();
             //playerControls = new PlayerControlsGamepad();
 
             inputAsset = GetComponent<PlayerInput>().actions;
@@ -103,6 +176,7 @@ namespace Players
             move = player.FindAction("Movement");
             aim = player.FindAction("Aim");
             push = player.FindAction("Push");
+            special = player.FindAction("Special");
             jump = player.FindAction("Jump");
 
             dPadUp = player.FindAction("DPadUp");
@@ -150,6 +224,28 @@ namespace Players
 
                 doJump = false;
             }
+
+            if (special.triggered)
+            {
+                //Temp
+                // find child with name "RedBehaviour"
+                // call Activate on that child
+                switch(specialAbility)
+                {
+                    case SpecialAbility.MassConversion:
+                        GetComponentInChildren<RedSpecialBehaviour>().Activate();
+                        break;
+                    case SpecialAbility.Green:
+                        GetComponentInChildren<GreenSpecialBehaviour>().Activate();
+                        break;
+                    case SpecialAbility.SmokeScreen:
+                        break;
+                    case SpecialAbility.LightBeam:
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void FixedUpdate()
@@ -157,12 +253,6 @@ namespace Players
             HandleMovement();
             HandleRotation();
         }
-
-        private void LateUpdate()
-        {
-            //HandleRotation();
-        }
-
 
         public bool IsGrounded()
         {
@@ -185,11 +275,14 @@ namespace Players
             if (UseMouseClick)
             {
                 pushValue = Input.GetMouseButton(0) ? 1 : 0;
+                specialValue = Input.GetMouseButton(1) ? 1 : 0;
             }
             else
             {
                 pushValue = push.ReadValue<float>();
+                specialValue = special.ReadValue<float>();
             }
+
 
             if (dPadDown.IsPressed())
             {
@@ -240,12 +333,24 @@ namespace Players
             //rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
         }
 
+        float angle = 0f;
+
         private void HandleRotation()
         {
             // Rotate horizontally (around y-axis)
             transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX * Time.fixedDeltaTime));
-            //playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY));
-            // orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
+
+            // Clamp the orientation's y rotation to prevent the player from looking too far up or down
+            //orientation.Rotate(Vector3.up * (-lookDirection.y * rotationSpeedY * Time.fixedDeltaTime));
+
+            angle += lookDirection.y * rotationSpeedY * Time.deltaTime;
+            angle = Mathf.Clamp(angle, minOrientationClamp, maxOrientationClamp);
+            orientation.localRotation = Quaternion.Euler(0.0f, angle, 0.0f);
+
+            // Set the orientation's X rotation to the look direction's Y rotation
+            //orientation.rotation = Quaternion.Euler(lookDirection.y, orientation.eulerAngles.y, orientation.eulerAngles.z);
+
+            //orientation.rotation = Quaternion.Euler(0, orientation.eulerAngles.y, 0);
 
             // Handle the player camera rotation in the x-axis
 

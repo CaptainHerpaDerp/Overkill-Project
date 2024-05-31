@@ -11,14 +11,30 @@ namespace Creatures
         public event Action<Plant, ColorEnum.TEAMCOLOR> ONPlantColorChanged;
         public event Action<Vector3> ONTargetChanged;
 
-        public Transform target { get; protected set; }
+        public Transform plantsHierarchyParent;
+
+        public Transform plantTarget { get; protected set; }
+
+        public virtual void Start()
+        {
+            if (plantsHierarchyParent == null)
+            plantsHierarchyParent = GameObject.Find("Plants").transform;
+
+            if (plantsHierarchyParent == null)
+            {
+                Debug.LogError("Plants parent not found");
+            }
+        }
+
+        public virtual void OnTeleported()
+        {
+        }
 
         /// <summary>
         /// Triggered upon creature conversion, handles logic for terminating a specific colour's logic
         /// </summary>
         public virtual void StopBehaviour()
         {
-
         }
 
         protected virtual void TriggerColorChange(ColorEnum.TEAMCOLOR newColor)

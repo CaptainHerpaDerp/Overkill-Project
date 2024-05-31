@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using static TeamColors.ColorEnum;
 using Players;
+using TeamColors;
 
 namespace GameManagement
 {
@@ -11,15 +12,19 @@ namespace GameManagement
     {
         private List<PlayerInput> players = new();
 
-        [SerializeField] private List<Transform> spawnPoints = new();
+        [Header("Fill this list in order of colours!")]
+        [SerializeField] private List<PlayerPreferences> playerPrefs = new();
 
-        [SerializeField] private List<Color> playerColors = new();
+        [SerializeField] private List<Transform> spawnPoints = new();
 
         [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
 
-        [SerializeField] private List<LayerMask> playerLayers;
+        [SerializeField] private List<int> playerLayers;
 
         private PlayerInputManager playerInputManager;
+
+        // The parent of the creature selection crystals visible to each player
+        [SerializeField] private Transform selectionCrystalTransform;
 
         // DEBUG
         public int firstPlayerIndex = 0;
@@ -46,9 +51,6 @@ namespace GameManagement
             // Get the device that the player is using
             InputDevice device = player.devices[0];
 
-            // print(device.description.interfaceName);
-
-            //Transform playerParent = player.transform.parent;
             Transform playerParent = player.transform;
 
             Player parentPlayer = playerParent.GetComponent<Player>();
@@ -65,7 +67,24 @@ namespace GameManagement
                 Cursor.visible = false;
             }
 
-            //Player.TeamColor = playerColors[players.Count - 1];
+            if (parentPlayer.createPlants == null)
+            {
+                parentPlayer.createPlants = playerParent.GetComponentInChildren<CreatePlants>();
+            }
+
+            PlayerPreferences indexPrefs = playerPrefs[players.Count + firstPlayerIndex - 1];
+            if (indexPrefs != null)
+            {
+                parentPlayer.GrowthRate = indexPrefs.GrowthRate;
+                parentPlayer.PlantSpreadCreep = indexPrefs.PlantSpreadCreep;
+
+                parentPlayer.AnimalProximityGrowth = indexPrefs.AnimalProximityGrowth;
+                parentPlayer.MaxDistanceToAnimal = indexPrefs.MaxDistanceToAnimal;
+                parentPlayer.DistanceMultiplier = indexPrefs.DistanceMultiplier;
+                parentPlayer.MinAnimalProximityGrowthRate = indexPrefs.MinAnimalProximityGrowthRate;
+
+                parentPlayer.HasRemovalTrail = indexPrefs.HasRemovalTrail;
+            }
 
             parentPlayer.TeamColor = (TEAMCOLOR)players.Count + firstPlayerIndex - 1;
 
@@ -73,24 +92,26 @@ namespace GameManagement
 
             playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[players.Count + firstPlayerIndex - 1];
 
-            // What is mathf.log??
+            PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
 
-            // Answer: Mathf.Log is a method that returns the logarithm of a specified number in a specified base.
+            // Include the respective player's layer in the camera culling mask
+            parentPlayer.playerCamera.cullingMask |= 1 << playerLayers[players.Count + firstPlayerIndex - 1];
 
-            // Mathf.Log(8, 2) returns 3 because 2^3 = 8
-            // int layerToAdd = (int)Mathf.Log(playerLayers[players.Count - 1].value, 2); 
+            // Create a new selection crystal for the player
+            if (selectionCrystalTransform != null)
+            {
+                GameObject selectionCrystal = Instantiate(selectionCrystalTransform.GetChild(0).gameObject, selectionCrystalTransform);
+                selectionCrystal.SetActive(false);
 
-            //playerParent.GetComponentInChildren<CinemachineVirtualCamera>().gameObject.layer = layerToAdd;
+                foreach (Transform child in selectionCrystal.transform.GetChild(0))
+                {
+                   // Set each child's mesh renderer color to the player's team color
+                   child.GetComponent<MeshRenderer>().material.color = ColorEnum.GetColor(parentPlayer.TeamColor);
+                   child.gameObject.layer = playerLayers[players.Count + firstPlayerIndex - 1];
+                }
 
-            // What is |= in C#?
-
-            // Answer: |= is a bitwise OR assignment operator. It takes the current value of the variable on the left and the value on the right, performs a bitwise OR operation on them, and assigns the result to the variable on the left.
-
-            // Example: a |= b is equivalent to a = a | b
-
-            //   playerParent.GetComponentInChildren<Camera>().cullingMask |= 1 << layerToAdd;
-
-            //playerParent.GetComponentInChildren<InputHandler>.horizontal = player.actions.FindAction("Look");
+                parentPlayer.GetComponentInChildren<CreatureSelector>().SelectionCrystal = selectionCrystal;
+            }
         }
     }
 }

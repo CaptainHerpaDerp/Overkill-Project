@@ -21,31 +21,60 @@ namespace GaiaElements
 
         public int PlantID { get; private set; }
 
-        //        Plant ID, New Team Color, Old Team Color
+        //Plant ID, New Team Color, Old Team Color
         public Action<int, TEAMCOLOR, TEAMCOLOR> OnPlantOwnershipChanged;
+        public Action OnPlantSettingsChanged;
+
+        private bool plantSpreadCreep;
+
+        public Transform PlayerParentTransform;
+
+        // Ensure that the plant is not being converted by multiple players
+        private Coroutine shiftColourRoutine;
+
+        public bool PlantSpreadCreep
+        {
+            get { return plantSpreadCreep; }
+            set
+            {
+                print("enabled creep");
+                plantSpreadCreep = value;
+                OnPlantSettingsChanged?.Invoke();
+            }
+        }
 
         public ColorEnum.TEAMCOLOR TeamColor
         {
             get => teamColor;
             set
             {
+                if (plantMeshes.Count >= (int)value )
                 plantMeshFilter.mesh = plantMeshes[(int)value];
+
+                //Stop any current animations
+                plantAnimator.enabled = true;   
+
+                if (teamColor == TEAMCOLOR.DEFAULT)
+                {
+                    plantRenderer.enabled = true;
+                }
 
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
                 if (value != teamColor)
                 {
+                    if (value != TEAMCOLOR.DEFAULT)
                     plantAnimator.SetTrigger("Grow");
                     SetColor(ColorEnum.GetColor(value));
                 }
 
-                // Update the plant owner in the ScoreManager
-                // ScoreManager.Instance.UpdatePlantOwnership(PlantID, value, teamColor);
+                plantSpreadCreep = false;
 
                 OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
-
+     
                 teamColor = value;
             }
         }
+
 
         private const float SHIFT_SPEED = 0.1f;
 
@@ -70,6 +99,23 @@ namespace GaiaElements
             plantRenderer.enabled = true;
             TeamColor = PlayerNumber;
             SetColor(ColorEnum.GetColor(teamColor));
+        }
+
+        /// <summary>
+        /// Returns the plant to its default state
+        /// </summary>
+        public void UnPlant()
+        {
+            //TODO: There is a bug where the plant is not un-planted yet remains black. This probably happens when another player converts it before the animaton is complete
+
+            // Do not unplant if the plant is already un-planted
+            if (teamColor == TEAMCOLOR.DEFAULT)
+            {
+                return;
+            }
+            
+            plantAnimator.SetTrigger("UnGrow");
+            TeamColor = TEAMCOLOR.DEFAULT;
         }
 
         public void SetColorInstant(Color color)

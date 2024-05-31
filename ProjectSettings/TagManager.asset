@@ -6,6 +6,9 @@ TagManager:
   tags:
   - PlantSurface
   - PlayerCamera
+  - FxTemporaire
+  - PlantsParent
+  - SelectionCrystals
   layers:
   - Default
   - TransparentFX
@@ -18,7 +21,7 @@ TagManager:
   - Player2
   - Player3
   - Player4
-  - 
+  - Creature
   - 
   - 
   - 

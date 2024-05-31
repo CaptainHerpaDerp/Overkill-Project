@@ -15,7 +15,8 @@ public class DefaultCreatureBehaviour : Creature {
     //10 is a random number big enough
 
     public override void Act() {
-        CheckCreatureColor();
+        // Creature will not automatically convert based on surrounding plants
+        //CheckCreatureColor();
     }
     
     private void CheckCreatureColor(){
