@@ -112,9 +112,6 @@ namespace GameManagement
 
                 parentPlayer.GetComponentInChildren<CreatureSelector>().SelectionCrystal = selectionCrystal;
             }
-
-
-
         }
     }
 }

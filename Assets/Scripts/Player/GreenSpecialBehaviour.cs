@@ -1,3 +1,4 @@
+using Creatures;
 using Players;
 using System.Collections;
 using UnityEngine;
@@ -14,16 +15,23 @@ public class GreenSpecialBehaviour : SpecialBehaviour
 
     private float x;
 
-    private Coroutine OnActivate; 
+    private Coroutine OnActivate;
+
+    private CreatureManager selectedCreature;
 
     public override void Activate()
     {
+        if (onCooldown)
+        {
+            return;
+        }
+
         if (creatureSelector.selectedCreature != null)
         {
+            selectedCreature = creatureSelector.selectedCreature;
             OnActivate ??= StartCoroutine(DoTrajectory());
         }
     }
-
 
     private IEnumerator DoTrajectory()
     {
@@ -34,8 +42,36 @@ public class GreenSpecialBehaviour : SpecialBehaviour
 
             trajectoryDrawer.DrawTrajectory(x, transform);
 
+            // Check if the player has let got of the trigger
+            if (!parentPlayer.IsSpecial)
+            {
+                print("released");
+
+
+                // Move the selected creature to the landing point
+                selectedCreature.TeleportTo(trajectoryDrawer.GetLandingPosition());
+
+                trajectoryDrawer.HideTrajectory();
+
+                OnActivate = null;
+
+                DoCooldown();
+
+                yield break;
+            }
+
+            // Check to see if the selected creature is still owned by the player
+            if (selectedCreature.CreatureColor != parentPlayer.TeamColor)
+            {
+                print("lost ownership");
+
+                trajectoryDrawer.HideTrajectory();
+
+                OnActivate = null;
+                yield break;
+            }
+
             yield return new WaitForFixedUpdate();
         }
     }
-
 }

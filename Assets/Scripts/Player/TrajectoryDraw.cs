@@ -21,6 +21,16 @@ public class TrajectoryDrawer : MonoBehaviour
         DrawTrajectory(transform.position, initialVelocity);
     }
 
+    public void HideTrajectory()
+    {
+        lineRenderer.positionCount = 0;
+
+        if (landingMarker != null)
+        {
+            Destroy(landingMarker);
+        }
+    }
+
     Vector3 CalculateInitialVelocity(float xRotation, Transform yRotationTransform)
     {
         // Apply y rotation from the reference transform
@@ -77,4 +87,18 @@ public class TrajectoryDrawer : MonoBehaviour
             landingMarker.GetComponent<MeshRenderer>().material.color = collisionDetected ? CollisionColour : MissColour;
         }
     }
+    public Vector3 GetLandingPosition()
+    {
+        if (landingMarker != null)
+        {
+            return landingMarker.transform.position;
+        }
+
+        else
+        {
+            Debug.LogWarning("Landing marker not found");
+            return Vector3.zero;
+        }
+    }
+
 }

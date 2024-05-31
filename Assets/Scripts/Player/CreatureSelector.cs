@@ -19,7 +19,7 @@ namespace Players
 
         [SerializeField] private ColorEnum.TEAMCOLOR creatureColor;
 
-        private List<GameObject> selections = new List<GameObject>();
+        private List<GameObject> selections = new();
         public CreatureManager selectedCreature;    
 
         // This keeps track of a selection crystal respective to the creature's team color
@@ -76,6 +76,7 @@ namespace Players
                     SelectionCrystal.transform.localScale = Vector3.one;
                                              
                 }
+
                 else
                 {
                     // If the currently selected creature is not null and it is not in the selections list, deselect it
@@ -105,7 +106,6 @@ namespace Players
                 selectionPoint.position = hit.point;
             }
 
-
             Collider[] colliders = Physics.OverlapSphere(selectionPoint.position, selectionRadius);
 
             foreach (var collider in colliders)
@@ -122,7 +122,5 @@ namespace Players
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(selectionPoint.position, selectionRadius);
         }
-
     }
-
 }

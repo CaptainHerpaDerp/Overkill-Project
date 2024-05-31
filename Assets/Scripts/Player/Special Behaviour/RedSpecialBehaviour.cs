@@ -12,9 +12,6 @@ public class RedSpecialBehaviour : SpecialBehaviour
 
     [SerializeField] private GameObject particleGameObject;
 
-    private float cooldownTime = 10f;
-    private bool onCooldown = false;
-
     public override void Activate()
     {
         if (onCooldown)
@@ -41,22 +38,11 @@ public class RedSpecialBehaviour : SpecialBehaviour
                     plant.TeamColor = ColorEnum.TEAMCOLOR.RED;  
                 }
 
-                OnSpecialTriggered?.Invoke(cooldownTime);
-
                 particleGameObject.gameObject.SetActive(true);
 
                 onCooldown = true;
-
-                StartCoroutine(DoCooldown());
+                DoCooldown();
             }
         }
-    }
-
-    private IEnumerator DoCooldown()
-    {
-        yield return new WaitForSeconds(cooldownTime);
-
-        onCooldown = false;
-        OnSpecialAbilityRefreshed?.Invoke();
     }
 }

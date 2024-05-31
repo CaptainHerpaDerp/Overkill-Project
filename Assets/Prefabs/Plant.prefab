@@ -41,7 +41,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1524060901024592503}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 67269fb1011f9e048a1e7fd6dd5542d5, type: 3}
   m_Name: 
@@ -82,7 +82,7 @@ SphereCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_Radius: 2
   m_Center: {x: 0, y: 0, z: 0}
@@ -291,7 +291,7 @@ PrefabInstance:
       addedObject: {fileID: 4903612896744174771}
     - targetCorrespondingSourceObject: {fileID: 9096616654278580084, guid: d3a3dd8037d3b2245929845798322d69, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8552584415484097062}
+      addedObject: {fileID: 5219002740314455498}
   m_SourcePrefab: {fileID: 100100000, guid: d3a3dd8037d3b2245929845798322d69, type: 3}
 --- !u!4 &1862711609610885077 stripped
 Transform:
@@ -329,7 +329,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8552584415484097062
+--- !u!114 &5219002740314455498
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,6 +342,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 4903612896744174771}
+  meshRenderer: {fileID: 8511711106090656897}
 --- !u!23 &8511711106090656897 stripped
 MeshRenderer:
   m_CorrespondingSourceObject: {fileID: 6489956252228744724, guid: d3a3dd8037d3b2245929845798322d69, type: 3}

@@ -8,6 +8,7 @@ using UnityEngine.AI;
 namespace Creatures
 {
     using ParticleSystems;
+    using System;
 
     public class CreatureManager : MonoBehaviour
     {
@@ -16,6 +17,11 @@ namespace Creatures
 
         public List<Creature> CreatureColorScripts;
         private ColorEnum.TEAMCOLOR creatureColor = ColorEnum.TEAMCOLOR.DEFAULT;
+
+        public ColorEnum.TEAMCOLOR CreatureColor
+        {
+            get => creatureColor;
+        }
 
         // Conversion Variables
         private float conversionProgress;
@@ -51,11 +57,23 @@ namespace Creatures
 
         [SerializeField] private Transform selectonCrystalParent;
 
+        public Action OnTeleport;
+
         private void Start()
         {
             Init();
             ChangeThisCreatureColor(creatureColor);
             StartCoroutine(DoConversion());
+        }
+
+        /// <summary>
+        ///  Used for green's special ability, invokes an action
+        /// </summary>
+        /// <param name="position"></param>
+        public void TeleportTo(Vector3 position)
+        {
+            transform.position = position + new Vector3(0, 0.85f, 0);
+            OnTeleport?.Invoke();
         }
 
         private void Init()
@@ -70,6 +88,7 @@ namespace Creatures
 
             foreach (Creature creature in CreatureColorScripts)
             {
+                OnTeleport += creature.OnTeleported;
                 creature.ONOwnColorChanged += ChangeThisCreatureColor;
                 creature.ONPlantColorChanged += ChangePlantColor;
                 creature.ONTargetChanged += SetNewTarget;
@@ -97,6 +116,7 @@ namespace Creatures
             isConverting = true;
             targetColor = ColorEnum.GetColor(newColor);
 
+
             if (!converters.Contains(newColor))
             {
                 converters.Add(newColor);
@@ -114,9 +134,14 @@ namespace Creatures
                 ChangeThisCreatureColor(newColor);
 
                 if (newColor == ColorEnum.TEAMCOLOR.GREEN)
-                {
+                {                 
                     agent.velocity = Vector3.zero;
                     agent.isStopped = true;
+                    agent.enabled = false;
+                }
+                else
+                {
+                    agent.enabled = true;
                 }
 
                 conversionProgress = 0;

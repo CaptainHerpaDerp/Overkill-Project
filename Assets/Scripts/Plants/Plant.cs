@@ -37,6 +37,7 @@ namespace GaiaElements
             get { return plantSpreadCreep; }
             set
             {
+                print("enabled creep");
                 plantSpreadCreep = value;
                 OnPlantSettingsChanged?.Invoke();
             }
@@ -53,8 +54,6 @@ namespace GaiaElements
                 //Stop any current animations
                 plantAnimator.enabled = true;   
 
-                plantAnimator.StopPlayback();
-
                 if (teamColor == TEAMCOLOR.DEFAULT)
                 {
                     plantRenderer.enabled = true;
@@ -63,6 +62,7 @@ namespace GaiaElements
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
                 if (value != teamColor)
                 {
+                    if (value != TEAMCOLOR.DEFAULT)
                     plantAnimator.SetTrigger("Grow");
                     SetColor(ColorEnum.GetColor(value));
                 }
@@ -116,14 +116,6 @@ namespace GaiaElements
             
             plantAnimator.SetTrigger("UnGrow");
             TeamColor = TEAMCOLOR.DEFAULT;
-
-            StartCoroutine(HidePlant(1));
-        }
-
-        private IEnumerator HidePlant(float time)
-        {
-            yield return new WaitForSeconds(time);
-            plantRenderer.enabled = false;
         }
 
         public void SetColorInstant(Color color)

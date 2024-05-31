@@ -1342,6 +1342,7 @@ MonoBehaviour:
   trajectoryDrawer: {fileID: 3595214099820707869}
   orientation: {fileID: 1702798230530849574}
   creatureSelector: {fileID: 8576329490957146037}
+  parentPlayer: {fileID: 2149499087766023847}
 --- !u!1 &7148661425138504180
 GameObject:
   m_ObjectHideFlags: 0

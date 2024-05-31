@@ -26,6 +26,10 @@ namespace Creatures
             }
         }
 
+        public virtual void OnTeleported()
+        {
+        }
+
         /// <summary>
         /// Triggered upon creature conversion, handles logic for terminating a specific colour's logic
         /// </summary>
