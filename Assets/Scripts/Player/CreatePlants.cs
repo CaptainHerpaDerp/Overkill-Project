@@ -46,62 +46,7 @@ public class CreatePlants : MonoBehaviour
 
         playerRenderer.material.color = GetColor(teamColor);
 
-       // StartCoroutine(SpawnPlantsInRange());
         StartCoroutine(ValidateExistingPlants());
-    }
-
-    //private IEnumerator SpawnPlantsInRange()
-    //{
-    //    // Do not spawn plants immediately
-    //    yield return new WaitForSeconds(1);
-
-    //    while (true)
-    //    {
-    //        if (currentPlantsInRange.Count < maxPlantsInArea)
-    //        {
-    //            Vector3 worldPos = GetGroundPosition(transform.position);
-
-    //            // If worldpos returns as zero, it means that the player is not grounded
-    //            if (worldPos == Vector3.zero)
-    //            {
-    //                yield return new WaitForFixedUpdate();
-    //                continue;
-    //            }
-
-    //            float worldPosY = worldPos.y + heightOffset;
-
-    //            var plant = Instantiate(plantPrefab, GetRandomPosition(), Quaternion.identity);
-
-    //            // Register the plant in the ScoreManager
-    //            ScoreManager.Instance.RegisterPlant(plant.PlantID, teamColor);
-
-    //            plant.transform.position = new Vector3(plant.transform.position.x, worldPosY, plant.transform.position.z);
-
-    //            //TEMPORARY
-    //            plant.TeamColor = teamColor;      
-
-    //            currentPlantsInRange.Add(plant);
-    //        }
-
-    //        yield return new WaitForSeconds(spawnTime);
-    //    }
-    //}
-
-    private Vector3 GetGroundPosition(Vector3 position)
-    {
-        RaycastHit hit;
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hit, raycastDistance, layerMask: this.layerMask))
-        {
-            // Rather than get the ground position, get the hit point
-
-            return hit.point;
-        }
-        else
-        {
-            Debug.LogWarning("No ground found");
-            return Vector3.zero;
-        }       
     }
 
     private IEnumerator ValidateExistingPlants()
