@@ -51,15 +51,17 @@ namespace Players
 
         [SerializeField] private SpecialAbility specialAbility;
 
+        [SerializeField] private float minOrientationClamp, maxOrientationClamp;
+
         public CreatePlants createPlants;
 
         // When enabled, plants will automatically spread their influence
         public bool PlantSpreadCreep;
 
         // The rate at which plants grow per second
-        public float GrowthRate 
-        {       
-            get => createPlants.GrowthRate; 
+        public float GrowthRate
+        {
+            get => createPlants.GrowthRate;
             set => createPlants.GrowthRate = value;
         }
 
@@ -118,6 +120,15 @@ namespace Players
 
             set
             {
+                specialAbility = (int)value switch
+                {
+                    0 => SpecialAbility.MassConversion,
+                    1 => SpecialAbility.Green,
+                    2 => SpecialAbility.SmokeScreen,
+                    4 => SpecialAbility.LightBeam,
+                    _ => SpecialAbility.None
+                };
+
                 OnPlayerNumberChange?.Invoke();
                 teamColor = value;
             }
@@ -165,7 +176,7 @@ namespace Players
             move = player.FindAction("Movement");
             aim = player.FindAction("Aim");
             push = player.FindAction("Push");
-            special = player.FindAction("Special"); 
+            special = player.FindAction("Special");
             jump = player.FindAction("Jump");
 
             dPadUp = player.FindAction("DPadUp");
@@ -219,8 +230,21 @@ namespace Players
                 //Temp
                 // find child with name "RedBehaviour"
                 // call Activate on that child
-                GetComponentInChildren<RedSpecialBehaviour>().Activate();
-
+                switch(specialAbility)
+                {
+                    case SpecialAbility.MassConversion:
+                        GetComponentInChildren<RedSpecialBehaviour>().Activate();
+                        break;
+                    case SpecialAbility.Green:
+                        GetComponentInChildren<GreenSpecialBehaviour>().Activate();
+                        break;
+                    case SpecialAbility.SmokeScreen:
+                        break;
+                    case SpecialAbility.LightBeam:
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
@@ -309,13 +333,19 @@ namespace Players
             //rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
         }
 
+        float angle = 0f;
+
         private void HandleRotation()
         {
             // Rotate horizontally (around y-axis)
             transform.Rotate(Vector3.up * (lookDirection.x * rotationSpeedX * Time.fixedDeltaTime));
-            //playerCamera.transform.Rotate(Vector3.right * (-lookDirection.y * rotationSpeedY));
-           // orientation.rotation = Quaternion.Euler(orientation.rotation.eulerAngles.x, transform.rotation.y, orientation.rotation.eulerAngles.z);
-            orientation.Rotate(Vector3.up * (-lookDirection.y * rotationSpeedY * Time.fixedDeltaTime));
+
+            // Clamp the orientation's y rotation to prevent the player from looking too far up or down
+            //orientation.Rotate(Vector3.up * (-lookDirection.y * rotationSpeedY * Time.fixedDeltaTime));
+
+            angle += lookDirection.y * rotationSpeedY * Time.deltaTime;
+            angle = Mathf.Clamp(angle, minOrientationClamp, maxOrientationClamp);
+            orientation.localRotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
             // Set the orientation's X rotation to the look direction's Y rotation
             //orientation.rotation = Quaternion.Euler(lookDirection.y, orientation.eulerAngles.y, orientation.eulerAngles.z);

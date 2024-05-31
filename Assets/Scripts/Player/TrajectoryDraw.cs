@@ -12,6 +12,8 @@ public class TrajectoryDrawer : MonoBehaviour
 
     private GameObject landingMarker;
 
+    [SerializeField] private Color CollisionColour, MissColour;
+
     // Function to be called to draw trajectory
     public void DrawTrajectory(float xRotation, Transform yRotationTransform)
     {
@@ -67,6 +69,12 @@ public class TrajectoryDrawer : MonoBehaviour
         if (landingMarker != null)
         {
             landingMarker.transform.position = collisionDetected ? collisionPoint : position;
+        }
+
+        lineRenderer.material.color = collisionDetected ? CollisionColour : MissColour;
+        if (landingMarker != null)
+        {
+            landingMarker.GetComponent<MeshRenderer>().material.color = collisionDetected ? CollisionColour : MissColour;
         }
     }
 }
