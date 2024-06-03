@@ -16,6 +16,8 @@
 
 			sampler2D _MainTex;
             float4 _MainTex_ST;
+
+            sampler2D _PaintTexture;
             
             float3 _PainterPosition;
             float _Radius;
@@ -55,10 +57,11 @@
                     return float4(0, 0, 1, 1);
                 }         
 
-                float4 col = tex2D(_MainTex, i.uv);
+                float4 mainCol = tex2D(_MainTex, i.uv);
+                float4 paintCol = tex2D(_PaintTexture, (i.uv % 10) * 10);
                 float f = mask(i.worldPos, _PainterPosition, _Radius, _Hardness);
                 float edge = f * _Strength;
-                return lerp(col, _PainterColor, edge);
+                return lerp(mainCol, paintCol, edge);
             }
             ENDCG
         }

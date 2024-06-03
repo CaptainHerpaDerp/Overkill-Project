@@ -16,6 +16,7 @@ public class PaintManager : Singleton<PaintManager>{
     int textureID = Shader.PropertyToID("_MainTex");
     int uvOffsetID = Shader.PropertyToID("_OffsetUV");
     int uvIslandsID = Shader.PropertyToID("_UVIslands");
+    int paintTextureID = Shader.PropertyToID("_PaintTexture");
 
     Material paintMaterial;
     Material extendMaterial;
@@ -51,13 +52,17 @@ public class PaintManager : Singleton<PaintManager>{
     }
 
 
-    public void paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null){
+    public void paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, 
+        Texture2D paintTexture = null, Color? color = null){
+        
         RenderTexture mask = paintable.getMask();
         RenderTexture uvIslands = paintable.getUVIslands();
         RenderTexture extend = paintable.getExtend();
         RenderTexture support = paintable.getSupport();
         Renderer rend = paintable.getRenderer();
 
+        
+        paintMaterial.SetTexture(paintTextureID, paintTexture);
         paintMaterial.SetFloat(prepareUVID, 0);
         paintMaterial.SetVector(positionID, pos);
         paintMaterial.SetFloat(hardnessID, hardness);
