@@ -37,7 +37,9 @@ namespace GaiaElements
             get { return plantSpreadCreep; }
             set
             {
-                print("enabled creep");
+                if (value == true)
+                    print("enabled creep");
+
                 plantSpreadCreep = value;
                 OnPlantSettingsChanged?.Invoke();
             }

@@ -19,7 +19,9 @@ namespace GameManagement
 
         [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
 
-        [SerializeField] private List<int> playerLayers;
+        [SerializeField] private List<int> playerIncludeLayers;
+        [SerializeField] private List<int> playerExcludeLayers;
+
 
         private PlayerInputManager playerInputManager;
 
@@ -95,7 +97,11 @@ namespace GameManagement
             PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
 
             // Include the respective player's layer in the camera culling mask
-            parentPlayer.playerCamera.cullingMask |= 1 << playerLayers[players.Count + firstPlayerIndex - 1];
+            parentPlayer.playerCamera.cullingMask |= 1 << playerIncludeLayers[players.Count + firstPlayerIndex - 1];
+
+            // Remove the layer respective to the player from the camera culling mask from the player exclusion layers
+            parentPlayer.playerCamera.cullingMask &= ~(1 << playerExcludeLayers[players.Count + firstPlayerIndex - 1]);
+            
 
             // Create a new selection crystal for the player
             if (selectionCrystalTransform != null)
@@ -107,11 +113,12 @@ namespace GameManagement
                 {
                    // Set each child's mesh renderer color to the player's team color
                    child.GetComponent<MeshRenderer>().material.color = ColorEnum.GetColor(parentPlayer.TeamColor);
-                   child.gameObject.layer = playerLayers[players.Count + firstPlayerIndex - 1];
+                   child.gameObject.layer = playerIncludeLayers[players.Count + firstPlayerIndex - 1];
                 }
 
                 parentPlayer.GetComponentInChildren<CreatureSelector>().SelectionCrystal = selectionCrystal;
             }
+
         }
     }
 }

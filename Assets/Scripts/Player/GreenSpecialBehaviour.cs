@@ -47,15 +47,17 @@ public class GreenSpecialBehaviour : SpecialBehaviour
             {
                 print("released");
 
-
                 // Move the selected creature to the landing point
-                selectedCreature.TeleportTo(trajectoryDrawer.GetLandingPosition());
+                if (trajectoryDrawer.IsOnGround())
+                {
+                    selectedCreature.TeleportTo(trajectoryDrawer.GetLandingPosition());
 
-                trajectoryDrawer.HideTrajectory();
+                    DoCooldown();
+                }
 
                 OnActivate = null;
 
-                DoCooldown();
+                trajectoryDrawer.HideTrajectory();
 
                 yield break;
             }

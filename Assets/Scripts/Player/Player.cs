@@ -125,7 +125,7 @@ namespace Players
                     0 => SpecialAbility.MassConversion,
                     1 => SpecialAbility.Green,
                     2 => SpecialAbility.SmokeScreen,
-                    4 => SpecialAbility.LightBeam,
+                    3 => SpecialAbility.LightBeam,
                     _ => SpecialAbility.None
                 };
 
@@ -184,7 +184,7 @@ namespace Players
 
             player.Enable();
 
-            if (Gamepad.current != null)
+            if (Gamepad.current != null)    
             {
                 //print(Gamepad.current.name);
             }
@@ -239,10 +239,13 @@ namespace Players
                         GetComponentInChildren<GreenSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.SmokeScreen:
+                        GetComponentInChildren<BlueSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.LightBeam:
+                        GetComponentInChildren<PurpleSpecialBehaviour>().Activate();
                         break;
                     default:
+                        Debug.LogWarning("Player Special Behaviour Not Found!");
                         break;
                 }
             }
