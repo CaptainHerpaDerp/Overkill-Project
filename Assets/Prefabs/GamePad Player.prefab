@@ -1112,9 +1112,9 @@ MonoBehaviour:
   laserRange: 100
   collisionMask:
     serializedVersion: 2
-    m_Bits: 0
-  laserTime: 0.5
-  laserPushback: 35
+    m_Bits: 65536
+  laserTime: 0.1
+  laserPushback: 100
 --- !u!120 &7990888569138141163
 LineRenderer:
   serializedVersion: 2
@@ -1123,7 +1123,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3979987415104260522}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1323,7 +1323,7 @@ MonoBehaviour:
   orientation: {fileID: 1702798230530849574}
   playerCamera: {fileID: 3812621330318385266}
   UseMouseClick: 0
-  teamColor: 0
+  teamColor: 1
   specialAbility: 0
   minOrientationClamp: -25
   maxOrientationClamp: -5
@@ -1739,9 +1739,6 @@ MonoBehaviour:
   DistanceMultiplier: 0
   MinAnimalProximityGrowthRate: 0
   HasRemovalTrail: 0
-  plantSpawnOffset: {x: 0, y: 0, z: 0}
-  layerMask: 0
-  raycastDistance: 2
 --- !u!135 &1726663599356196859
 SphereCollider:
   m_ObjectHideFlags: 0
