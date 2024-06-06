@@ -126,6 +126,7 @@ public class CharacterSelection : MonoBehaviour
     {
         foreach (var playerInput in playerInputs)
         {
+            // If the player presses the "X" (selection) button on the gamepad or "Space" on the keyboard
             if (playerInput.FindAction("Jump").triggered)
             {
                 int playerIndex = playerInputs.IndexOf(playerInput);
@@ -153,6 +154,27 @@ public class CharacterSelection : MonoBehaviour
                     Color selectedColours = characterColours[selectedCharacter];
                     playerSelectionGameObjects[playerIndex].GetComponent<Image>().color = selectedColours;
 
+                    // Set the selection object's child hierarchy index to be the first (visually appealing)
+                    playerSelectionGameObjects[playerIndex].transform.SetAsFirstSibling();
+
+                    return;
+                }
+            }
+
+            if (playerInput.FindAction("Deselect").triggered)
+            {
+                int playerIndex = playerInputs.IndexOf(playerInput);
+
+                // If the player is already ready, unready them
+                if (playerReady[playerIndex])
+                {
+                    playerReady[playerIndex] = false;
+
+                    int selectedCharacter = playerSelectionIndexes[playerIndex];
+                    playerSelections[selectedCharacter] = false;
+
+                    playerSelectionGameObjects[playerIndex].GetComponent<Image>().color = Color.white;
+
                     return;
                 }
             }
@@ -165,6 +187,19 @@ public class CharacterSelection : MonoBehaviour
         {
             // If a player is moving their "movement" stick
             Vector2 playerMoveInput = playerInput.FindAction("Movement").ReadValue<Vector2>();
+
+            InputAction dPadLeft = playerInput.FindAction("DPadLeft");
+            if (dPadLeft.IsPressed())
+            {
+                playerMoveInput = new Vector2(-1, 0);
+            }
+
+            InputAction dPadRight = playerInput.FindAction("DPadRight");
+            if (dPadRight.IsPressed())
+            {
+                playerMoveInput = new Vector2(1, 0);
+            }
+
             if (playerMoveInput.x != 0)
             {
                 int playerIndex = playerInputs.IndexOf(playerInput);
