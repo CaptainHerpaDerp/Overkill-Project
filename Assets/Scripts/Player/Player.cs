@@ -109,7 +109,7 @@ namespace Players
 
             set
             {
-                GetComponentInChildren<CreatePlants>().GetComponent<SphereCollider>().radius = value;
+                GetComponentInChildren<CreatePlants>().GetComponent<SphereCollider>().radius = value;   
             }
         }
 
@@ -197,6 +197,15 @@ namespace Players
         {
             rb.useGravity = true;
             isLocked = false;
+        }
+
+        /// <summary>
+        /// To be called when the game starts so that all of the child scripts can be initialized with the assigned preferences
+        /// </summary>
+        public void Initialize()
+        {
+            SpawnPoint = transform.position;
+            OnPlayerStart?.Invoke();
         }
 
         private void OnEnable()
@@ -316,6 +325,8 @@ namespace Players
             {
                 pushValue = push.ReadValue<float>();
                 specialValue = special.ReadValue<float>();
+
+                print(pushValue > 0);
             }
 
 

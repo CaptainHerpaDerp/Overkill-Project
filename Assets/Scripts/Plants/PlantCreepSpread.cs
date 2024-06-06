@@ -43,7 +43,7 @@ public class PlantCreepSpread : MonoBehaviour
 
         // Initialize the surrounding plants script with the appropriate values
         surroundingPlants.SetColliderRadius(maxRadius);
-        surroundingPlants.teamColour = teamColor;
+        surroundingPlants.TeamColour = teamColor;
     }
 
     private void ValidatePlantGrowthSettings()
@@ -64,7 +64,7 @@ public class PlantCreepSpread : MonoBehaviour
         else
         {
             print("starting spread");
-            surroundingPlants.teamColour = teamColor;
+            surroundingPlants.TeamColour = teamColor;
             spreadCoroutine ??= StartCoroutine(SpreadToSurroundingPlants());
 
             gameObject.SetActive(true);

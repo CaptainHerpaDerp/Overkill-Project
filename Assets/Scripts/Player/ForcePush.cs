@@ -39,7 +39,7 @@ public class ForcePush : MonoBehaviour
             creatureSelector = transform.parent.GetComponentInChildren<CreatureSelector>();
         }
 
-        surroundingPlant.teamColour = Player.TeamColor;
+        Player.OnPlayerStart += Initialize;
 
         StartCoroutine(PushOpponent());
         StartCoroutine(UpdateForceValue());
@@ -47,6 +47,11 @@ public class ForcePush : MonoBehaviour
         // Set the sphere collider radius to the push distance
         sphereCollider.radius = pushDistance;
 
+    }
+
+    private void Initialize()
+    {
+        surroundingPlant.TeamColour = Player.TeamColor;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -140,7 +145,7 @@ public class ForcePush : MonoBehaviour
                     // Only apply force if the opponent is within the push angle
                     if (angle < pushAngle)
                     {
-                        //Debug.Log("Total force: " + totalForce);
+                        Debug.Log("Total force: " + totalForce);
 
                         item.AddForce(diff * (totalForce / Vector3.Distance(transform.position, item.transform.position)), forceMode);
                     }

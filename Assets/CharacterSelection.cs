@@ -288,6 +288,9 @@ public class CharacterSelection : MonoBehaviour
 
         playerManager.AssignPlayers(playerSelectionIndexes);
 
+        // Tell the game manager to exit the character selection state
+        GameManager.Instance.ExitCharacterSelectionState();
+
         parentUIObject.SetActive(false);
     }
 }

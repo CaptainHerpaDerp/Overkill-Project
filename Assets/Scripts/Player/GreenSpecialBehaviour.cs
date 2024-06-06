@@ -15,7 +15,7 @@ public class GreenSpecialBehaviour : SpecialBehaviour
 
     private float x;
 
-    private Coroutine OnActivate;
+    private Coroutine TrajectoryCoroutine;
 
     private CreatureManager selectedCreature;
 
@@ -29,7 +29,7 @@ public class GreenSpecialBehaviour : SpecialBehaviour
         if (creatureSelector.selectedCreature != null)
         {
             selectedCreature = creatureSelector.selectedCreature;
-            OnActivate ??= StartCoroutine(DoTrajectory());
+            TrajectoryCoroutine ??= StartCoroutine(DoTrajectory());
         }
     }
 
@@ -55,7 +55,7 @@ public class GreenSpecialBehaviour : SpecialBehaviour
                     DoCooldown();
                 }
 
-                OnActivate = null;
+                TrajectoryCoroutine = null;
 
                 trajectoryDrawer.HideTrajectory();
 
@@ -69,7 +69,7 @@ public class GreenSpecialBehaviour : SpecialBehaviour
 
                 trajectoryDrawer.HideTrajectory();
 
-                OnActivate = null;
+                TrajectoryCoroutine = null;
                 yield break;
             }
 

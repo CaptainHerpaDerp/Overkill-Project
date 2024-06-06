@@ -133,6 +133,7 @@ namespace GameManagement
                         if (child.CompareTag("CrownPosition"))
                         {
                             crownInstance.transform.SetParent(child);
+                            crownInstance.GetComponent<WinnerCrown>().SetCrownParentPlayer(topPlayer);
                         }
                     }
 

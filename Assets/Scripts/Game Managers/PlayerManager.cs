@@ -150,8 +150,7 @@ namespace GameManagement
                 }
 
                 parentPlayer.UnlockCharacter();
-                parentPlayer.SpawnPoint = parentPlayer.transform.position;
-                parentPlayer.OnPlayerStart?.Invoke();
+                parentPlayer.Initialize();
 
                 // If the player count is 3, change the last player's camera settings
                 if (players.Count == 3 && i == 2)

@@ -43,6 +43,7 @@ public class CreatePlants : MonoBehaviour
         teamColor = parentPlayer.TeamColor;
 
         parentPlayer.OnPlayerNumberChange += () => teamColor = parentPlayer.TeamColor;
+        HasRemovalTrail = parentPlayer.HasRemovalTrail;
 
         playerRenderer.material.color = GetColor(teamColor);
         StartCoroutine(ReloadPlantSpread());
@@ -98,12 +99,6 @@ public class CreatePlants : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {      
-        // Red player has no spread
-        if (teamColor == TEAMCOLOR.RED)
-        {
-            return;
-        }
-
         // Only spread influence if the player has "reloaded"
         if (!canSpawnPlant)
         {
