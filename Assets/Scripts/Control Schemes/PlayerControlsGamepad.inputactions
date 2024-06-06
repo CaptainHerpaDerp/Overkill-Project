@@ -69,9 +69,36 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "DpadLeft",
+                    "type": "Button",
+                    "id": "004f8d87-367b-41d6-9050-7a3b8de28c4a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "DpadRight",
+                    "type": "Button",
+                    "id": "bb1876e8-39e4-4b42-a1ca-f8e2ed7d367c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Special",
                     "type": "Button",
                     "id": "5e7e418c-91b3-4860-baad-37f8603995a2",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Deselect",
+                    "type": "Button",
+                    "id": "92cec1d3-11db-4ad2-b9ab-8223ead0906a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -263,6 +290,39 @@
                     "processors": "",
                     "groups": "KBM",
                     "action": "Special",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "29f556d0-5252-48e8-a087-72904a4c29e5",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Deselect",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "cc8fad12-7399-4e96-9b81-2f46b4ae7e13",
+                    "path": "<Gamepad>/dpad/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DpadLeft",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c34dac92-3f4e-4020-aaf9-f82a8714a54f",
+                    "path": "<Gamepad>/dpad/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "DpadRight",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

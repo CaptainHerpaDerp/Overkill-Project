@@ -101,4 +101,9 @@ public class TrajectoryDrawer : MonoBehaviour
         }
     }
 
+    public bool IsOnGround()
+    {
+        return Physics.Raycast(landingMarker.transform.position + new Vector3(0, 2, 0), Vector3.down, out RaycastHit hit, 3f, layerMask: collisionMask);
+    }
+
 }

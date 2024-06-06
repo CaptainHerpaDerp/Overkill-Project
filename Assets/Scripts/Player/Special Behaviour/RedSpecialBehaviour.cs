@@ -1,6 +1,4 @@
 using GaiaElements;
-using System.Collections;
-using System.Collections.Generic;
 using TeamColors;
 using UnityEngine;
 

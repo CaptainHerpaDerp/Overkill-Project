@@ -1,4 +1,5 @@
 using System;
+using TeamColors;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static TeamColors.ColorEnum;
@@ -125,16 +126,20 @@ namespace Players
                     0 => SpecialAbility.MassConversion,
                     1 => SpecialAbility.Green,
                     2 => SpecialAbility.SmokeScreen,
-                    4 => SpecialAbility.LightBeam,
+                    3 => SpecialAbility.LightBeam,
                     _ => SpecialAbility.None
                 };
 
                 OnPlayerNumberChange?.Invoke();
+
+                transform.GetComponentInChildren<MeshRenderer>().material.color = ColorEnum.GetColor(value);    
+
                 teamColor = value;
             }
         }
 
         public Action OnPlayerNumberChange;
+        public Action OnPlayerStart;
 
         [SerializeField] private bool UpdatePlayerValues;
 
@@ -152,11 +157,17 @@ namespace Players
         [SerializeField] private Rigidbody rb;
 
         // TEMP
-        private Vector3 spawnPoint;
+        public Vector3 SpawnPoint;
         public Action OnPlayerRespawn;
         [SerializeField] private float fovZoomFactor;
 
         private const float respawnY = -10f;
+        private bool isLocked;
+
+        public bool IsLocked
+        {
+            get => isLocked;
+        }
 
         private void Awake()
         {
@@ -169,6 +180,23 @@ namespace Players
             player = inputAsset.FindActionMap("Controls");
 
             Application.targetFrameRate = 120;
+        }
+
+        /// <summary>
+        /// Prevent the character from doing anything, keeps it in place completely (for pregame character selection)
+        /// </summary>
+        /// <returns></returns>
+        public void LockCharacter()
+        {
+            print("locked");
+            rb.useGravity = false;
+            isLocked = true;
+        }
+
+        public void UnlockCharacter()
+        {
+            rb.useGravity = true;
+            isLocked = false;
         }
 
         private void OnEnable()
@@ -184,12 +212,10 @@ namespace Players
 
             player.Enable();
 
-            if (Gamepad.current != null)
+            if (Gamepad.current != null)    
             {
                 //print(Gamepad.current.name);
             }
-
-            spawnPoint = transform.position;
         }
 
         private void OnDisable()
@@ -199,6 +225,9 @@ namespace Players
 
         void Update()
         {
+            if (isLocked)
+                return;
+
             GetInput();
 
             LimitSpeed();
@@ -212,7 +241,7 @@ namespace Players
             if (transform.position.y < respawnY)
             {
                 OnPlayerRespawn?.Invoke();
-                transform.position = spawnPoint;
+                transform.position = SpawnPoint;
             }
 
             if (doJump)
@@ -239,10 +268,13 @@ namespace Players
                         GetComponentInChildren<GreenSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.SmokeScreen:
+                        GetComponentInChildren<BlueSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.LightBeam:
+                        GetComponentInChildren<PurpleSpecialBehaviour>().Activate();
                         break;
                     default:
+                        Debug.LogWarning("Player Special Behaviour Not Found!");
                         break;
                 }
             }
@@ -250,6 +282,9 @@ namespace Players
 
         private void FixedUpdate()
         {
+            if (isLocked)
+                return;
+
             HandleMovement();
             HandleRotation();
         }

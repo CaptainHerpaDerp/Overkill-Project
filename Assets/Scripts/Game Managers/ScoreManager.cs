@@ -127,8 +127,15 @@ namespace GameManagement
                     topPlayer = winningPlayer;
                     crownInstance.SetActive(true);
 
-                    //set the crowns parent to the last child in the player
-                    crownInstance.transform.SetParent(topPlayer.transform.GetChild(topPlayer.transform.childCount - 1));
+                    //set the crowns parent to the child with the tag "CrownPosition"
+                    foreach (Transform child in topPlayer.transform)
+                    {
+                        if (child.CompareTag("CrownPosition"))
+                        {
+                            crownInstance.transform.SetParent(child);
+                        }
+                    }
+
 
                     crownInstance.transform.localPosition = new Vector3(0, 2, 0);
                 }

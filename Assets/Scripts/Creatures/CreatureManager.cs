@@ -216,7 +216,7 @@ namespace Creatures
                     float t = conversionProgress / conversionThreshold;
                     meshRenderer.material.color = Color.Lerp(initialColor, targetColor, t);
 
-                    print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
+                    //print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
                 }
                 else
                 {

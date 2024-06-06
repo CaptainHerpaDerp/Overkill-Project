@@ -10,6 +10,10 @@ namespace GameManagement
 {
     public class PlayerManager : MonoBehaviour
     {
+        public static PlayerManager Instance;
+
+        [SerializeField] private bool listenToPlayerJoin;
+
         private List<PlayerInput> players = new();
 
         [Header("Fill this list in order of colours!")]
@@ -19,7 +23,8 @@ namespace GameManagement
 
         [SerializeField] private List<DfaultsConfig> capsuleFaces = new();
 
-        [SerializeField] private List<int> playerLayers;
+        [SerializeField] private List<int> playerIncludeLayers;
+        [SerializeField] private List<int> playerExcludeLayers;
 
         private PlayerInputManager playerInputManager;
 
@@ -31,6 +36,16 @@ namespace GameManagement
 
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Debug.LogWarning("PlayerManager already exists in the scene. Deleting this instance.");
+                Destroy(this);
+            }
+
             playerInputManager = GetComponent<PlayerInputManager>();
         }
 
@@ -46,6 +61,8 @@ namespace GameManagement
 
         private void AddPlayer(PlayerInput player)
         {
+            print("player join");
+
             players.Add(player);
 
             // Get the device that the player is using
@@ -57,6 +74,8 @@ namespace GameManagement
 
             ScoreManager.Instance.PlayerList.Add(parentPlayer);
 
+            parentPlayer.LockCharacter();
+
             if (device.description.interfaceName == "RawInput")
             {
                 parentPlayer.rotationSpeedX = 10.0f;
@@ -66,51 +85,80 @@ namespace GameManagement
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
             }
+        }
 
-            if (parentPlayer.createPlants == null)
+        public void AssignPlayers(Dictionary<int, int> playerSelections)
+        {
+            for (int i = 0; i < playerSelections.Count; i++)
             {
-                parentPlayer.createPlants = playerParent.GetComponentInChildren<CreatePlants>();
-            }
+                // Retrieve the player gameobject corresponding to the player
+                PlayerInput matchedInputPlayer = players[i];
+                Transform playerParent = matchedInputPlayer.transform;
+                Player parentPlayer = playerParent.GetComponent<Player>();
 
-            PlayerPreferences indexPrefs = playerPrefs[players.Count + firstPlayerIndex - 1];
-            if (indexPrefs != null)
-            {
-                parentPlayer.GrowthRate = indexPrefs.GrowthRate;
-                parentPlayer.PlantSpreadCreep = indexPrefs.PlantSpreadCreep;
+                int selectedCharacter = playerSelections[i];
 
-                parentPlayer.AnimalProximityGrowth = indexPrefs.AnimalProximityGrowth;
-                parentPlayer.MaxDistanceToAnimal = indexPrefs.MaxDistanceToAnimal;
-                parentPlayer.DistanceMultiplier = indexPrefs.DistanceMultiplier;
-                parentPlayer.MinAnimalProximityGrowthRate = indexPrefs.MinAnimalProximityGrowthRate;
-
-                parentPlayer.HasRemovalTrail = indexPrefs.HasRemovalTrail;
-            }
-
-            parentPlayer.TeamColor = (TEAMCOLOR)players.Count + firstPlayerIndex - 1;
-
-            playerParent.transform.position = spawnPoints[players.Count + firstPlayerIndex - 1].position;
-
-            playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[players.Count + firstPlayerIndex - 1];
-
-            PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
-
-            // Include the respective player's layer in the camera culling mask
-            parentPlayer.playerCamera.cullingMask |= 1 << playerLayers[players.Count + firstPlayerIndex - 1];
-
-            // Create a new selection crystal for the player
-            if (selectionCrystalTransform != null)
-            {
-                GameObject selectionCrystal = Instantiate(selectionCrystalTransform.GetChild(0).gameObject, selectionCrystalTransform);
-                selectionCrystal.SetActive(false);
-
-                foreach (Transform child in selectionCrystal.transform.GetChild(0))
+                // Assign the player their values
+                if (parentPlayer.createPlants == null)
                 {
-                   // Set each child's mesh renderer color to the player's team color
-                   child.GetComponent<MeshRenderer>().material.color = ColorEnum.GetColor(parentPlayer.TeamColor);
-                   child.gameObject.layer = playerLayers[players.Count + firstPlayerIndex - 1];
+                    parentPlayer.createPlants = playerParent.GetComponentInChildren<CreatePlants>();
                 }
 
-                parentPlayer.GetComponentInChildren<CreatureSelector>().SelectionCrystal = selectionCrystal;
+                PlayerPreferences indexPrefs = playerPrefs[selectedCharacter];
+                if (indexPrefs != null)
+                {
+                    parentPlayer.GrowthRate = indexPrefs.GrowthRate;
+                    parentPlayer.PlantSpreadCreep = indexPrefs.PlantSpreadCreep;
+
+                    parentPlayer.AnimalProximityGrowth = indexPrefs.AnimalProximityGrowth;
+                    parentPlayer.MaxDistanceToAnimal = indexPrefs.MaxDistanceToAnimal;
+                    parentPlayer.DistanceMultiplier = indexPrefs.DistanceMultiplier;
+                    parentPlayer.MinAnimalProximityGrowthRate = indexPrefs.MinAnimalProximityGrowthRate;
+
+                    parentPlayer.HasRemovalTrail = indexPrefs.HasRemovalTrail;
+                }
+
+                parentPlayer.TeamColor = (TEAMCOLOR)selectedCharacter;
+
+                playerParent.transform.position = spawnPoints[selectedCharacter].position;
+
+                playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[selectedCharacter];
+
+                PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
+
+                // Include the respective player's layer in the camera culling mask
+                parentPlayer.playerCamera.cullingMask |= 1 << playerIncludeLayers[selectedCharacter];
+
+                // Remove the layer respective to the player from the camera culling mask from the player exclusion layers
+                parentPlayer.playerCamera.cullingMask &= ~(1 << playerExcludeLayers[selectedCharacter]);
+
+
+                // Create a new selection crystal for the player
+                if (selectionCrystalTransform != null)
+                {
+                    GameObject selectionCrystal = Instantiate(selectionCrystalTransform.GetChild(0).gameObject, selectionCrystalTransform);
+                    selectionCrystal.SetActive(false);
+
+                    foreach (Transform child in selectionCrystal.transform.GetChild(0))
+                    {
+                        // Set each child's mesh renderer color to the player's team color
+                        child.GetComponent<MeshRenderer>().material.color = ColorEnum.GetColor(parentPlayer.TeamColor);
+                        child.gameObject.layer = playerIncludeLayers[selectedCharacter];
+                    }
+
+                    parentPlayer.GetComponentInChildren<CreatureSelector>().SelectionCrystal = selectionCrystal;
+                }
+
+                parentPlayer.UnlockCharacter();
+                parentPlayer.SpawnPoint = parentPlayer.transform.position;
+                parentPlayer.OnPlayerStart?.Invoke();
+
+                // If the player count is 3, change the last player's camera settings
+                if (players.Count == 3 && i == 2)
+                {
+                    print("appied 3rd player cam");
+                    parentPlayer.playerCamera.rect = new Rect(0, 0, 1.0f, 0.5f);
+                }
             }
         }
     }

@@ -28,16 +28,16 @@ public class CreatePlants : MonoBehaviour
     // Removal Trail (Red)
     public bool HasRemovalTrail;
 
-    [Header("Paint Properties")]
-    [SerializeField] private Vector3 plantSpawnOffset;
-    [SerializeField] private int layerMask;
-    [SerializeField] private float raycastDistance;
-
     private AnimalLocator animalLocator;
 
     private void Start()
     {
         parentPlayer = transform.parent.GetComponent<Player>();
+        parentPlayer.OnPlayerStart += BeginPlant;       
+    }
+
+    private void BeginPlant()
+    {
         animalLocator = AnimalLocator.Instance;
 
         teamColor = parentPlayer.TeamColor;
@@ -45,10 +45,9 @@ public class CreatePlants : MonoBehaviour
         parentPlayer.OnPlayerNumberChange += () => teamColor = parentPlayer.TeamColor;
 
         playerRenderer.material.color = GetColor(teamColor);
-
-        // Red player has no reload
-        if (teamColor != TEAMCOLOR.RED)
         StartCoroutine(ReloadPlantSpread());
+
+        print("create plants");
     }
 
     private float GetGrowthRate()
@@ -98,10 +97,17 @@ public class CreatePlants : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {      
+        // Red player has no spread
+        if (teamColor == TEAMCOLOR.RED)
+        {
+            return;
+        }
+
         // Only spread influence if the player has "reloaded"
         if (!canSpawnPlant)
         {
+            Debug.LogWarning("plant cannot be spawned");
             return;
         }
 
@@ -121,20 +127,11 @@ public class CreatePlants : MonoBehaviour
         }
         else
         {
+            print("plant spread");
             plant.PlayerParentTransform = parentPlayer.transform;
             plant.Activate(teamColor);
             plant.PlantSpreadCreep = parentPlayer.PlantSpreadCreep;
             canSpawnPlant = false;
         }
-    }
-
-    private Vector3 GetRandomPosition()
-    {
-        float radius = sphereCollider.radius;
-
-        var randomX = Random.Range(-radius, radius);
-        var randomZ = Random.Range(-radius, radius);
-
-        return transform.position + new Vector3(randomX, 0, randomZ);
     }
 }

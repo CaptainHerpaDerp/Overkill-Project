@@ -12,7 +12,7 @@ public class SpecialBehaviour : MonoBehaviour
 
     protected bool onCooldown = false;
 
-    protected float cooldownTime;    
+    [SerializeField] protected float cooldownTime = 10;    
 
     public virtual void Activate()
     {

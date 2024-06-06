@@ -9,6 +9,7 @@ TagManager:
   - FxTemporaire
   - PlantsParent
   - SelectionCrystals
+  - CrownPosition
   layers:
   - Default
   - TransparentFX
@@ -17,16 +18,16 @@ TagManager:
   - Water
   - UI
   - Plant
-  - Player1
-  - Player2
-  - Player3
-  - Player4
+  - Player1 Include
+  - 'Player2 Include '
+  - Player3 Include
+  - Player4 Include
+  - Player1 Exclude
+  - Player2 Exclude
+  - Player3 Exclude
+  - Player4 Exclude
   - Creature
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Player
   - 
   - 
   - 
