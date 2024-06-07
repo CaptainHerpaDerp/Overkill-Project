@@ -11,14 +11,14 @@ public class PlayerScoreBar : MonoBehaviour
     [SerializeField] private Image pp1, pp2, pp3, pp4;
 
     [SerializeField] private float startWidth, maxWidth;
-
+        
     [SerializeField] private float updateInterval = 1f;
 
-    private ScoreManager scoreManager;
+    private GameManager GameManager;
 
     private void Start()
     {   
-        scoreManager = ScoreManager.Instance;
+        GameManager = GameManager.Instance;
 
         StartCoroutine(UpdateScores());
     }
@@ -32,10 +32,10 @@ public class PlayerScoreBar : MonoBehaviour
     {
         while (true)
         {
-            player1Score = scoreManager.GetScoreForPlayer(0);
-            player2Score = scoreManager.GetScoreForPlayer(1);
-            player3Score = scoreManager.GetScoreForPlayer(2);
-            player4Score = scoreManager.GetScoreForPlayer(3);
+            player1Score = GameManager.GetScoreForPlayer(0);
+            player2Score = GameManager.GetScoreForPlayer(1);
+            player3Score = GameManager.GetScoreForPlayer(2);
+            player4Score = GameManager.GetScoreForPlayer(3);
 
             RecalculateSizes();
 

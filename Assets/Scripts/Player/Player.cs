@@ -104,12 +104,22 @@ namespace Players
         {
             get
             {
-                return GetComponentInChildren<CreatePlants>().GetComponent<SphereCollider>().radius;
+                if (createPlants == null || isLocked)
+                {
+                    return 0.1f;
+                }
+
+                return createPlants.GetComponent<SphereCollider>().radius;
             }
 
             set
             {
-                GetComponentInChildren<CreatePlants>().GetComponent<SphereCollider>().radius = value;   
+                if (createPlants == null || isLocked)
+                {
+                    return;
+                }
+
+                createPlants.GetComponent<SphereCollider>().radius = value;   
             }
         }
 

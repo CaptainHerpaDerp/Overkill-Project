@@ -1942,7 +1942,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8051540226311544203}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdf6c59808004d04cbfc7d2de8755cb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ab878545373ac448970c44b2a689317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   triggerImage: {fileID: 2610622560487782413}

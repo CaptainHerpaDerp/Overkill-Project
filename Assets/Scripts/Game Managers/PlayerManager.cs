@@ -49,6 +49,11 @@ namespace GameManagement
             playerInputManager = GetComponent<PlayerInputManager>();
         }
 
+        private void Start()
+        {
+            GameManager.Instance.OnGameReload += ResetPlayers;
+        }
+
         private void OnEnable()
         {
             playerInputManager.onPlayerJoined += AddPlayer;
@@ -72,7 +77,7 @@ namespace GameManagement
 
             Player parentPlayer = playerParent.GetComponent<Player>();
 
-            ScoreManager.Instance.PlayerList.Add(parentPlayer);
+            GameManager.Instance.PlayerList.Add(parentPlayer);
 
             parentPlayer.LockCharacter();
 
@@ -87,12 +92,20 @@ namespace GameManagement
             }
         }
 
+        private void ResetPlayers()
+        {
+            print("Players reset");
+            players.Clear();
+            players = new List<PlayerInput>();
+        }
+
         public void AssignPlayers(Dictionary<int, int> playerSelections)
         {
             for (int i = 0; i < playerSelections.Count; i++)
             {
                 // Retrieve the player gameobject corresponding to the player
                 PlayerInput matchedInputPlayer = players[i];
+
                 Transform playerParent = matchedInputPlayer.transform;
                 Player parentPlayer = playerParent.GetComponent<Player>();
 

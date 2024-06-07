@@ -1,76 +1,77 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using Players;
-
-public class CooldownUI : MonoBehaviour
+namespace UIElements
 {
-    [SerializeField] private Image triggerImage;
-    [SerializeField] private float triggerTime = 1f;
-    [SerializeField] private Sprite defaultTrigger, pressedTrigger;
-
-    [SerializeField] private TMPro.TextMeshProUGUI cooldownText;
-
-    [SerializeField] private Transform specialAbilityParent;
-
-    private void OnEnable()
+    public class CooldownUI : MonoBehaviour
     {
-        foreach (Transform child in specialAbilityParent)
+        [SerializeField] private Image triggerImage;
+        [SerializeField] private float triggerTime = 1f;
+        [SerializeField] private Sprite defaultTrigger, pressedTrigger;
+
+        [SerializeField] private TMPro.TextMeshProUGUI cooldownText;
+
+        [SerializeField] private Transform specialAbilityParent;
+
+        private void OnEnable()
         {
-            if (child.TryGetComponent(out SpecialBehaviour specialBehaviour))
+            foreach (Transform child in specialAbilityParent)
             {
-                specialBehaviour.OnSpecialAbilityRefreshed += () => TriggerLoop();
-                specialBehaviour.OnSpecialTriggered += (time) => CooldownLoop(time);
+                if (child.TryGetComponent(out SpecialBehaviour specialBehaviour))
+                {
+                    specialBehaviour.OnSpecialAbilityRefreshed += () => TriggerLoop();
+                    specialBehaviour.OnSpecialTriggered += (time) => CooldownLoop(time);
+                }
             }
         }
-    }
 
-    private void Start()
-    {
-        TriggerLoop();
-    }
-
-    private void TriggerLoop()
-    {
-        StopAllCoroutines();
-
-        cooldownText.enabled = false;
-        triggerImage.enabled = true;
-
-        StartCoroutine(DoTriggerLoop());
-    }
-
-    private void CooldownLoop(float time)
-    {
-        print("cooldown loop");     
-
-        StopAllCoroutines();
-
-        cooldownText.enabled = true;
-        triggerImage.enabled = false;
-
-        cooldownText.text = time.ToString("F0");
-
-        StartCoroutine(DoCooldownLoop());
-    }
-
-    private IEnumerator DoTriggerLoop()
-    {
-        while (true)
+        private void Start()
         {
-            yield return new WaitForSeconds(triggerTime);
-            triggerImage.sprite = pressedTrigger;
-            yield return new WaitForSeconds(triggerTime);
-            triggerImage.sprite = defaultTrigger;
+            TriggerLoop();
         }
-    }
 
-    private IEnumerator DoCooldownLoop()
-    {
-        while (true)
+        private void TriggerLoop()
         {
-            yield return new WaitForSeconds(1f);
-            cooldownText.text = (int.Parse(cooldownText.text) - 1).ToString();
+            StopAllCoroutines();
+
+            cooldownText.enabled = false;
+            triggerImage.enabled = true;
+
+            StartCoroutine(DoTriggerLoop());
+        }
+
+        private void CooldownLoop(float time)
+        {
+            print("cooldown loop");
+
+            StopAllCoroutines();
+
+            cooldownText.enabled = true;
+            triggerImage.enabled = false;
+
+            cooldownText.text = time.ToString("F0");
+
+            StartCoroutine(DoCooldownLoop());
+        }
+
+        private IEnumerator DoTriggerLoop()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(triggerTime);
+                triggerImage.sprite = pressedTrigger;
+                yield return new WaitForSeconds(triggerTime);
+                triggerImage.sprite = defaultTrigger;
+            }
+        }
+
+        private IEnumerator DoCooldownLoop()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(1f);
+                cooldownText.text = (int.Parse(cooldownText.text) - 1).ToString();
+            }
         }
     }
 }
