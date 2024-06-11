@@ -411,7 +411,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownTime: 10
-  influenceRadius: 5
+  influenceRadius: 10
   layerMask: 7
   particleGameObject: {fileID: 2697705691447532532}
 --- !u!1 &1762540249833305021
@@ -459,12 +459,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownTime: 10
-  smokeObjectPrefab: {fileID: 407241523510737248, guid: f3f124d04ad257242b61b38ad5108944, type: 3}
+  smokeObjectPrefab: {fileID: 2978363708290580132, guid: 59e4981ddf0532b49a1b6ccff64980dd, type: 3}
   smokeOffset: {x: 0, y: 0, z: 0}
   influenceRadius: 10
   layerMask: 7
   scaleModMin: 2
   scaleModMax: 5
+  spawnChance: 30
 --- !u!1 &2702898992917212260
 GameObject:
   m_ObjectHideFlags: 0
@@ -490,7 +491,7 @@ Transform:
   m_GameObject: {fileID: 2702898992917212260}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -744,7 +745,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sphereCollider: {fileID: 4859271549984920191}
-  teamColour: 0
+  TeamColour: 0
+  excludeNeutralPlants: 0
 --- !u!135 &4859271549984920191
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -852,6 +854,7 @@ GameObject:
   - component: {fileID: 3812621330318385266}
   - component: {fileID: 2856541878261603633}
   - component: {fileID: 2310184124925886953}
+  - component: {fileID: 8927784537586577924}
   m_Layer: 0
   m_Name: Camera
   m_TagString: PlayerCamera
@@ -1062,6 +1065,23 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!114 &8927784537586577924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3815812537727318544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: f4e62f4c9630a714590534e0b3f30f67, type: 2}
 --- !u!1 &3979987415104260522
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,7 +1112,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6591122192255512052}
   m_Father: {fileID: 7836722394481455300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3182644430818121937
@@ -1113,8 +1134,10 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 65536
+  laserCapsule: {fileID: 7161439196154565497}
   laserTime: 0.1
-  laserPushback: 100
+  laserPushback: 1500
+  parentPlayer: {fileID: 2149499087766023847}
 --- !u!120 &7990888569138141163
 LineRenderer:
   serializedVersion: 2
@@ -1332,6 +1355,7 @@ MonoBehaviour:
   LockMovement: 0
   UpdatePlayerValues: 0
   rb: {fileID: 3186476797080004935}
+  SpawnPoint: {x: 0, y: 0, z: 0}
   fovZoomFactor: 0.01
 --- !u!114 &3617859758033536753
 MonoBehaviour:
@@ -1402,6 +1426,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 5e7e418c-91b3-4860-baad-37f8603995a2
     m_ActionName: Controls/Special[/DualShock4GamepadHID/leftTrigger,/Keyboard/r]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 004f8d87-367b-41d6-9050-7a3b8de28c4a
+    m_ActionName: Controls/DpadLeft[/DualShock4GamepadHID/dpad/left,/DualShock4GamepadHID1/dpad/left]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bb1876e8-39e4-4b42-a1ca-f8e2ed7d367c
+    m_ActionName: Controls/DpadRight[/DualShock4GamepadHID/dpad/right,/DualShock4GamepadHID1/dpad/right]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 92cec1d3-11db-4ad2-b9ab-8223ead0906a
+    m_ActionName: Controls/Deselect[/DualShock4GamepadHID/buttonEast,/DualShock4GamepadHID1/buttonEast]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Controls
@@ -1685,6 +1721,75 @@ MonoBehaviour:
   orientation: {fileID: 1702798230530849574}
   creatureSelector: {fileID: 8576329490957146037}
   parentPlayer: {fileID: 2149499087766023847}
+--- !u!1 &6960444065118596321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6591122192255512052}
+  - component: {fileID: 6217867711156432127}
+  - component: {fileID: 7161439196154565497}
+  m_Layer: 0
+  m_Name: Laser Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6591122192255512052
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960444065118596321}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.5, y: 0.5, z: 0.5, w: 0.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6276699347058916536}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+--- !u!136 &6217867711156432127
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960444065118596321}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 40.048862
+  m_Direction: 1
+  m_Center: {x: 0, y: 19.524431, z: 0}
+--- !u!114 &7161439196154565497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6960444065118596321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a59bf469d6e22647bbd2ee97294d356, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  capsuleCollider: {fileID: 6217867711156432127}
 --- !u!1 &7148661425138504180
 GameObject:
   m_ObjectHideFlags: 0
@@ -1856,7 +1961,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8051540226311544203}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdf6c59808004d04cbfc7d2de8755cb8, type: 3}
+  m_Script: {fileID: 11500000, guid: 1ab878545373ac448970c44b2a689317, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   triggerImage: {fileID: 2610622560487782413}

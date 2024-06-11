@@ -40,5 +40,10 @@ namespace TeamColors
             print("Registered player of team " + teamColor);
             playerTransformPairs.Add(teamColor, playerTransform);
         }
+
+        public void ResetPlayerRegistration() 
+        { 
+            playerTransformPairs.Clear();
+        }
     }
 }

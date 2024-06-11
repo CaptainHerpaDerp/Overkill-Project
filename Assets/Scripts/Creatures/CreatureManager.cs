@@ -94,7 +94,7 @@ namespace Creatures
                 creature.ONTargetChanged += SetNewTarget;
             }
 
-            surroundingPlant.teamColour = creatureColor;
+            surroundingPlant.TeamColour = creatureColor;
             initialColor = ColorEnum.GetColor(ColorEnum.TEAMCOLOR.DEFAULT);
             meshRenderer.material.color = initialColor;
             conversionParticles.gameObject.SetActive(false);
@@ -262,7 +262,7 @@ namespace Creatures
             }
 
             // Set the surrounding plant color to the new color
-            surroundingPlant.teamColour = creatureColor;
+            surroundingPlant.TeamColour = creatureColor;
 
             // Change the color of the creature
             gameObject.GetComponent<Renderer>().material.color = ColorEnum.GetColor(newColor);

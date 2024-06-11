@@ -1,3 +1,34 @@
+
+
+    //private IEnumerator FireLaserCoroutine()
+    //{
+    //    lineRenderer.enabled = true;
+
+    //    while (true)
+    //    {
+    //        lineRenderer.SetPosition(0, laserOrigin.position);
+
+    //        if (!parentPlayer.IsSpecial)
+    //        {
+    //            print("released");
+
+    //            print(laserCapsule.GetAllPlayersInCollider().Count);
+
+    //            TrajectoryCoroutine = null;
+
+    //            lineRenderer.enabled = false;
+
+    //            DoCooldown();
+
+    //            yield break;
+    //        }
+
+    //        yield return new WaitForFixedUpdate();
+    //    }
+    //}
+
+
+
 using Players;
 using System.Collections;
 using UnityEngine;
@@ -10,9 +41,14 @@ public class PurpleSpecialBehaviour : SpecialBehaviour
     public LayerMask collisionMask; // Layer mask for detecting collisions
 
     private LineRenderer lineRenderer;
+    [SerializeField] private LaserCollider laserCapsule;
 
     [SerializeField] private float laserTime;
     [SerializeField] private float laserPushback;
+
+    [SerializeField] private Player parentPlayer;
+
+    private Coroutine TrajectoryCoroutine;
 
     public override void Activate()
     {
@@ -28,18 +64,19 @@ public class PurpleSpecialBehaviour : SpecialBehaviour
             lineRenderer = GetComponent<LineRenderer>();
         }
 
-        StartCoroutine(FireLaserCoroutine());
+        laserCapsule.capsuleCollider.height = laserRange;
+        laserCapsule.capsuleCollider.center = new Vector3(0, laserRange / 2, 0);
 
-        DoCooldown();
+        TrajectoryCoroutine ??= StartCoroutine(FireLaserCoroutine());
+
+        // DoCooldown();
     }
 
     private IEnumerator FireLaserCoroutine()
     {
         lineRenderer.enabled = true;
-
-        float timer = 0;
          
-        while (timer < laserTime)
+        while (true)
         {
             // Set the start point of the laser to the laser origin
             lineRenderer.SetPosition(0, laserOrigin.position);
@@ -54,9 +91,6 @@ public class PurpleSpecialBehaviour : SpecialBehaviour
             {
                 // Set the end point of the laser to the point where the ray hit
                 lineRenderer.SetPosition(1, hit.point);
-
-                //Get the player component of the object hit, and add a force to it
-                hit.collider.GetComponent<Player>().GetComponent<Rigidbody>().AddForce(ray.direction * laserPushback);
             }
             else
             {
@@ -64,14 +98,29 @@ public class PurpleSpecialBehaviour : SpecialBehaviour
                 lineRenderer.SetPosition(1, ray.GetPoint(laserRange));
             }
 
-            timer += Time.deltaTime;
+            if (!parentPlayer.IsSpecial)
+            {
+                print("released");
+
+                print(laserCapsule.PlayersInCollider);
+
+                foreach (var player in laserCapsule.PlayersInCollider)
+                {
+                    player.GetComponent<Rigidbody>().AddForce(ray.direction * laserPushback);
+                }
+
+                TrajectoryCoroutine = null;
+
+                lineRenderer.enabled = false;
+
+                DoCooldown();
+
+                yield break;
+            }
+
+            yield return new WaitForFixedUpdate();
         }
-
-        yield return new WaitForSeconds(laserTime);
-
-        // Remove the line renderer
-        lineRenderer.enabled = false;
-
-        yield return null;
     }
 }
+
+

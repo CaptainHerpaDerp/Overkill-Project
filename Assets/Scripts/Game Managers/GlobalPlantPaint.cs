@@ -24,11 +24,14 @@ namespace GameManagement
 
         [SerializeField] Transform plantParent;
 
-        ScoreManager scoreManager;
+        GameManager gameManager;
 
         private void Start()
         {
-            scoreManager = ScoreManager.Instance;
+            gameManager = GameManager.Instance;
+            gameManager.OnGameReload += ResetAllPlants;
+
+
             PlacePlants();
             VerifyPlantPositions();
         }
@@ -59,7 +62,7 @@ namespace GameManagement
                     Plant newPlant = Instantiate(plantPrefab, hit.point + offset + randomOffset, Quaternion.identity, parent: plantParent).GetComponent<Plant>();
 
                     // Make the score manager listen for plant ownership changes
-                    newPlant.OnPlantOwnershipChanged += scoreManager.UpdatePlantOwnership;
+                    newPlant.OnPlantOwnershipChanged += gameManager.UpdatePlantOwnership;
 
                     if (doRandomRotation)
                     {
@@ -67,13 +70,19 @@ namespace GameManagement
                     }
 
                     // Set the plant's default team to "None"
-                    if (scoreManager != null)
-                        scoreManager.RegisterPlant(newPlant.PlantID, ColorEnum.TEAMCOLOR.DEFAULT);
+                    if (gameManager != null)
+                        gameManager.RegisterPlant(newPlant.PlantID, ColorEnum.TEAMCOLOR.DEFAULT);
 
                     // Randomize the position
 
                 }
             }
+        }
+
+        public void ResetAllPlants()
+        {
+            ClearPlants();
+            PlacePlants();
         }
 
         public void ClearPlants()

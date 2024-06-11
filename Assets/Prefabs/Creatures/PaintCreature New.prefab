@@ -11836,7 +11836,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sphereCollider: {fileID: 2991355269379234091}
-  teamColour: 0
+  TeamColour: 0
+  excludeNeutralPlants: 0
 --- !u!135 &2991355269379234091
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12004,7 +12005,7 @@ MonoBehaviour:
   conversionThreshold: 1
   baseConversionSpeed: 0.01
   conversionRevertSpeed: 0.005
-  ratioPenalty: 0.15
+  ratioPenalty: 0.5
   meshRenderer: {fileID: 4267251888245644292}
   colorShiftMod: 50
   canMoveOnConvert: 1

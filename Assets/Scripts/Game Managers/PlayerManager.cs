@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using static TeamColors.ColorEnum;
 using Players;
 using TeamColors;
+using UnityEngine.Rendering;
 
 namespace GameManagement
 {
@@ -25,6 +26,8 @@ namespace GameManagement
 
         [SerializeField] private List<int> playerIncludeLayers;
         [SerializeField] private List<int> playerExcludeLayers;
+
+        [SerializeField] private List<VolumeProfile> playerVolumeProfiles;
 
         private PlayerInputManager playerInputManager;
 
@@ -47,6 +50,11 @@ namespace GameManagement
             }
 
             playerInputManager = GetComponent<PlayerInputManager>();
+        }
+
+        private void Start()
+        {
+            GameManager.Instance.OnGameReload += ResetPlayers;
         }
 
         private void OnEnable()
@@ -72,7 +80,7 @@ namespace GameManagement
 
             Player parentPlayer = playerParent.GetComponent<Player>();
 
-            ScoreManager.Instance.PlayerList.Add(parentPlayer);
+            GameManager.Instance.PlayerList.Add(parentPlayer);
 
             parentPlayer.LockCharacter();
 
@@ -87,12 +95,24 @@ namespace GameManagement
             }
         }
 
+        private void ResetPlayers()
+        {
+            print("Players reset");
+            players.Clear();
+            players = new List<PlayerInput>();
+            playerInputManager.EnableJoining();
+        }
+
         public void AssignPlayers(Dictionary<int, int> playerSelections)
         {
+            playerInputManager.DisableJoining();
+
+
             for (int i = 0; i < playerSelections.Count; i++)
             {
                 // Retrieve the player gameobject corresponding to the player
                 PlayerInput matchedInputPlayer = players[i];
+
                 Transform playerParent = matchedInputPlayer.transform;
                 Player parentPlayer = playerParent.GetComponent<Player>();
 
@@ -132,6 +152,8 @@ namespace GameManagement
                 // Remove the layer respective to the player from the camera culling mask from the player exclusion layers
                 parentPlayer.playerCamera.cullingMask &= ~(1 << playerExcludeLayers[selectedCharacter]);
 
+                parentPlayer.playerCamera.GetComponent<Volume>().profile = playerVolumeProfiles[selectedCharacter];
+
 
                 // Create a new selection crystal for the player
                 if (selectionCrystalTransform != null)
@@ -150,8 +172,7 @@ namespace GameManagement
                 }
 
                 parentPlayer.UnlockCharacter();
-                parentPlayer.SpawnPoint = parentPlayer.transform.position;
-                parentPlayer.OnPlayerStart?.Invoke();
+                parentPlayer.Initialize();
 
                 // If the player count is 3, change the last player's camera settings
                 if (players.Count == 3 && i == 2)

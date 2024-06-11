@@ -8,7 +8,9 @@ public class SurroundingPlant : MonoBehaviour
 {
     [SerializeField] private SphereCollider sphereCollider;
 
-    public ColorEnum.TEAMCOLOR teamColour;
+    public ColorEnum.TEAMCOLOR TeamColour;
+
+    [SerializeField] private bool excludeNeutralPlants;
 
     private void Start()
     {
@@ -36,7 +38,7 @@ public class SurroundingPlant : MonoBehaviour
                 continue;
           
             // Check if the plant is owned by the player
-            if (plant.TeamColor != teamColour)
+            if (plant.TeamColor != TeamColour)
             {
                 opponentPlants.Add(plant);
             }
@@ -63,10 +65,13 @@ public class SurroundingPlant : MonoBehaviour
             if (plant == null)
                 continue;
 
+            if (excludeNeutralPlants && plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
+                continue;
+
             totalPlants++;
 
             // Check if the plant is owned by the player
-            if (plant.TeamColor == teamColour)
+            if (plant.TeamColor == TeamColour)
             {
                 playerPlants++;
             }
