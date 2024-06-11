@@ -6,6 +6,7 @@ using UnityEngine;
 public class BlueSpecialBehaviour : SpecialBehaviour
 {
     [SerializeField] private GameObject smokeObjectPrefab;
+    [SerializeField] private FogPoint fogPointPrefab;
 
     [SerializeField] private Vector3 smokeOffset;
 
@@ -14,6 +15,9 @@ public class BlueSpecialBehaviour : SpecialBehaviour
     [SerializeField] private int layerMask;
 
     [SerializeField] private float scaleModMin, scaleModMax;
+
+    [SerializeField] private int spawnChance;
+
     public override void Activate()
     {
         if (onCooldown)
@@ -34,11 +38,14 @@ public class BlueSpecialBehaviour : SpecialBehaviour
                 if (plant.TeamColor != ColorEnum.TEAMCOLOR.BLUE)
                     continue;
 
+                if (Random.Range(0, spawnChance) != 0)
+                    continue;
+
                 // Create a smoke screen box at the plant's position
                 GameObject smokeScreenBox = Instantiate(smokeObjectPrefab, plant.transform.position + smokeOffset, Quaternion.identity);
 
                 // Set the smoke screen box's scale to a random value between scaleModMin and scaleModMax
-                smokeScreenBox.transform.localScale = Vector3.one * Random.Range(scaleModMin, scaleModMax);
+               // smokeScreenBox.transform.localScale = Vector3.one * Random.Range(scaleModMin, scaleModMax);
             }
         }
 

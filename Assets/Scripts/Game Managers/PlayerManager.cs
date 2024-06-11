@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 using static TeamColors.ColorEnum;
 using Players;
 using TeamColors;
+using UnityEngine.Rendering;
 
 namespace GameManagement
 {
@@ -25,6 +26,8 @@ namespace GameManagement
 
         [SerializeField] private List<int> playerIncludeLayers;
         [SerializeField] private List<int> playerExcludeLayers;
+
+        [SerializeField] private List<VolumeProfile> playerVolumeProfiles;
 
         private PlayerInputManager playerInputManager;
 
@@ -97,10 +100,14 @@ namespace GameManagement
             print("Players reset");
             players.Clear();
             players = new List<PlayerInput>();
+            playerInputManager.EnableJoining();
         }
 
         public void AssignPlayers(Dictionary<int, int> playerSelections)
         {
+            playerInputManager.DisableJoining();
+
+
             for (int i = 0; i < playerSelections.Count; i++)
             {
                 // Retrieve the player gameobject corresponding to the player
@@ -144,6 +151,8 @@ namespace GameManagement
 
                 // Remove the layer respective to the player from the camera culling mask from the player exclusion layers
                 parentPlayer.playerCamera.cullingMask &= ~(1 << playerExcludeLayers[selectedCharacter]);
+
+                parentPlayer.playerCamera.GetComponent<Volume>().profile = playerVolumeProfiles[selectedCharacter];
 
 
                 // Create a new selection crystal for the player

@@ -327,7 +327,7 @@ namespace GameManagement
 
         private void Update()
         {
-            if (EndGameNow || Input.GetKeyDown(KeyCode.Escape))
+            if (EndGameNow || Input.GetKeyDown(KeyCode.LeftControl) && Input.GetKeyDown(KeyCode.Escape))
             {
                 ScreenDarkener.Instance.DarkenScreen();
                 ScreenDarkener.Instance.OnDarkened += EndGame;

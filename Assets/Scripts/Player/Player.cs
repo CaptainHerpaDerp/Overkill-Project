@@ -335,8 +335,6 @@ namespace Players
             {
                 pushValue = push.ReadValue<float>();
                 specialValue = special.ReadValue<float>();
-
-                print(pushValue > 0);
             }
 
 

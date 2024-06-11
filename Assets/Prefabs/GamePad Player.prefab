@@ -459,12 +459,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cooldownTime: 10
-  smokeObjectPrefab: {fileID: 407241523510737248, guid: f3f124d04ad257242b61b38ad5108944, type: 3}
+  smokeObjectPrefab: {fileID: 2978363708290580132, guid: 59e4981ddf0532b49a1b6ccff64980dd, type: 3}
   smokeOffset: {x: 0, y: 0, z: 0}
   influenceRadius: 10
   layerMask: 7
   scaleModMin: 2
   scaleModMax: 5
+  spawnChance: 30
 --- !u!1 &2702898992917212260
 GameObject:
   m_ObjectHideFlags: 0
@@ -853,6 +854,7 @@ GameObject:
   - component: {fileID: 3812621330318385266}
   - component: {fileID: 2856541878261603633}
   - component: {fileID: 2310184124925886953}
+  - component: {fileID: 8927784537586577924}
   m_Layer: 0
   m_Name: Camera
   m_TagString: PlayerCamera
@@ -1063,6 +1065,23 @@ MonoBehaviour:
       enableFptlForForwardOpaque: 0
       enableBigTilePrepass: 0
       isFptlEnabled: 0
+--- !u!114 &8927784537586577924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3815812537727318544}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: f4e62f4c9630a714590534e0b3f30f67, type: 2}
 --- !u!1 &3979987415104260522
 GameObject:
   m_ObjectHideFlags: 0
