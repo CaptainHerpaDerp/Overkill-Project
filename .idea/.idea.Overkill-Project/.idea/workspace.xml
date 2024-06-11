@@ -3,15 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="b311f9da-9e36-4972-8402-9d895e8b2408" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Overkill-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Overkill-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Materials/Stylize_Grass_MaskMap.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Materials/Stylize_Grass_MaskMap.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Stylize_Grass.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Stylize_Grass.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Paint/Paintable.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Paint/Paintable.mat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/PaintScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PaintScene.unity" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/CollisionPainter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/CollisionPainter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/MousePainter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/MousePainter.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/PaintManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/PaintManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scripts/UI/CooldownUI.cs.meta" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/UI/CooldownUI.cs.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Shaders/TexturePainter.shader" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/TexturePainter.shader" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/Paintable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/Paintable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Paintable.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Paintable.shadergraph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/TexturePaintable.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/TexturePaintable.shadergraph" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +80,9 @@
       <workItem from="1716366722688" duration="4473000" />
       <workItem from="1717067831176" duration="3925000" />
       <workItem from="1717079422549" duration="1297000" />
-      <workItem from="1717404048485" duration="4144000" />
+      <workItem from="1717404048485" duration="4737000" />
+      <workItem from="1717581665713" duration="4852000" />
+      <workItem from="1717663267123" duration="4100000" />
     </task>
     <servers />
   </component>

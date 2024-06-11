@@ -11,7 +11,8 @@ public class MousePainter : MonoBehaviour{
     public float strength = 1;
     public float hardness = 1;
     public Texture2D paintTexture;
-
+    public Texture2D normalPaintMap;
+    
     void Update(){
 
         bool click;
@@ -27,7 +28,7 @@ public class MousePainter : MonoBehaviour{
                 transform.position = hit.point;
                 Paintable p = hit.collider.GetComponent<Paintable>();
                 if(p != null){
-                    PaintManager.instance.paint(p, hit.point, radius, hardness, strength, paintTexture, paintColor);
+                    PaintManager.instance.paint(p, hit.point, radius, hardness, strength, paintTexture, normalPaintMap, paintColor);
                 }
             }
         }

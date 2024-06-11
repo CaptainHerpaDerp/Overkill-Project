@@ -8,6 +8,7 @@ public class CollisionPainter : MonoBehaviour{
     public float strength = 1;
     public float hardness = 1;
     public Texture2D paintTexture;
+    public Texture2D normalPaintMap;
 
     [Header("Paint Collider")] 
     public float paintColliderRadius;
@@ -21,7 +22,7 @@ public class CollisionPainter : MonoBehaviour{
             if (p == null) 
                 continue;
             Vector3 closestPoint = col.ClosestPoint(transform.position);
-            PaintManager.instance.paint(p, closestPoint, paintRadius, hardness, strength, paintTexture, paintColor);
+            PaintManager.instance.paint(p, closestPoint, paintRadius, hardness, strength, paintTexture, normalPaintMap, paintColor);
         }
     }
 
