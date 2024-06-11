@@ -5,6 +5,7 @@ public class PaintManager : Singleton<PaintManager>{
 
     public Shader texturePaint;
     public Shader extendIslands;
+    public Shader normalMaskPaint;
 
     int prepareUVID = Shader.PropertyToID("_PrepareUV");
     int positionID = Shader.PropertyToID("_PainterPosition");
@@ -16,9 +17,12 @@ public class PaintManager : Singleton<PaintManager>{
     int textureID = Shader.PropertyToID("_MainTex");
     int uvOffsetID = Shader.PropertyToID("_OffsetUV");
     int uvIslandsID = Shader.PropertyToID("_UVIslands");
+    int paintTextureID = Shader.PropertyToID("_PaintTexture");
+    int normalMaskID = Shader.PropertyToID("_PaintNormalMap");
 
     Material paintMaterial;
     Material extendMaterial;
+    Material normalMaterial;
 
     CommandBuffer command;
 
@@ -27,18 +31,21 @@ public class PaintManager : Singleton<PaintManager>{
         
         paintMaterial = new Material(texturePaint);
         extendMaterial = new Material(extendIslands);
+        normalMaterial = new Material(normalMaskPaint);
         command = new CommandBuffer();
         command.name = "CommmandBuffer - " + gameObject.name;
     }
 
     public void initTextures(Paintable paintable){
         RenderTexture mask = paintable.getMask();
+        RenderTexture normalMask = paintable.getNormalMask();
         RenderTexture uvIslands = paintable.getUVIslands();
         RenderTexture extend = paintable.getExtend();
         RenderTexture support = paintable.getSupport();
         Renderer rend = paintable.getRenderer();
 
         command.SetRenderTarget(mask);
+        command.SetRenderTarget(normalMask);
         command.SetRenderTarget(extend);
         command.SetRenderTarget(support);
 
@@ -51,13 +58,17 @@ public class PaintManager : Singleton<PaintManager>{
     }
 
 
-    public void paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, Color? color = null){
+    public void paint(Paintable paintable, Vector3 pos, float radius = 1f, float hardness = .5f, float strength = .5f, 
+        Texture2D paintTexture = null, Texture2D normalPaintMap = null, Color? color = null){
+        
         RenderTexture mask = paintable.getMask();
+        RenderTexture normalMask = paintable.getNormalMask();
         RenderTexture uvIslands = paintable.getUVIslands();
         RenderTexture extend = paintable.getExtend();
         RenderTexture support = paintable.getSupport();
         Renderer rend = paintable.getRenderer();
-
+        
+        paintMaterial.SetTexture(paintTextureID, paintTexture);
         paintMaterial.SetFloat(prepareUVID, 0);
         paintMaterial.SetVector(positionID, pos);
         paintMaterial.SetFloat(hardnessID, hardness);
@@ -65,12 +76,15 @@ public class PaintManager : Singleton<PaintManager>{
         paintMaterial.SetFloat(radiusID, radius);
         paintMaterial.SetTexture(textureID, support);
         paintMaterial.SetColor(colorID, color ?? Color.red);
+        
         extendMaterial.SetFloat(uvOffsetID, paintable.extendsIslandOffset);
         extendMaterial.SetTexture(uvIslandsID, uvIslands);
 
+        normalMaterial.SetTexture(normalMaskID, normalMask);
+
         command.SetRenderTarget(mask);
         command.DrawRenderer(rend, paintMaterial, 0);
-
+        
         command.SetRenderTarget(support);
         command.Blit(mask, support);
 
@@ -79,6 +93,19 @@ public class PaintManager : Singleton<PaintManager>{
 
         Graphics.ExecuteCommandBuffer(command);
         command.Clear();
+
+        //command.SetRenderTarget(normalMask);
+        //command.DrawRenderer(rend, normalMaterial, 0);
+
+        //command.SetRenderTarget(support);
+       // command.Blit(normalMask, support);
+
+        //command.SetRenderTarget(extend);
+        //command.Blit(normalMask, extend, extendMaterial);
+
+        //Graphics.ExecuteCommandBuffer(command);
+        //command.Clear();
     }
+
 
 }

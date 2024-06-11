@@ -3,55 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="b311f9da-9e36-4972-8402-9d895e8b2408" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Overkill-Project/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Overkill-Project/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/Fergicide/Dfaults/Materials/DfaultsMaterial.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/Fergicide/Dfaults/Materials/DfaultsMaterial.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Stylize_Grass.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Stylize_Grass.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Stylize_Grass_diffuse.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/LowlyPoly/Stylized Grass Texture/Materials/Stylize_Grass_diffuse.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/QuickOutline/Samples/Materials/Plane.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/QuickOutline/Samples/Materials/Plane.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/External/Stone/Materials/stone_D.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/External/Stone/Materials/stone_D.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/JMO Assets/Cartoon FX Remaster/Demo Assets/CFXR Demo Ground.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/JMO Assets/Cartoon FX Remaster/Demo Assets/CFXR Demo Ground.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/BlackHole.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/BlackHole.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Blue.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Blue.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Bronze.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Bronze.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_ambientocclusion.tga" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_ambientocclusion.tga.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_basecolor.tga" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_basecolor.tga" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_graph_0_material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_graph_0_material.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_height.tga" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_height.tga.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_metallic.tga" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_metallic.tga.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_normal.tga" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/Cobblestone_normal.tga.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/graph_0.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Cobblestone_graph_0/graph_0.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Crown.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Crown.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Gold.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Gold.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Green.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Green.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/GreenExpandSphere.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/GreenExpandSphere.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Mat_Stylized_Ground_graph_0/Mat_Stylized_Ground_graph_0_material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Mat_Stylized_Ground_graph_0/Mat_Stylized_Ground_graph_0_material.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Mushroom Purple.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Mushroom Purple.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/New Material 1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/New Material 1.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/New Material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/New Material.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Plane.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Plane.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Red Material.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Red Material.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Silver.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Silver.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/TestSelection.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/TestSelection.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Tower/TowerMat1.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Tower/TowerMat1.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Materials/Tower/TowerMat2.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Materials/Tower/TowerMat2.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Creatures/Bird Creature.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Creatures/Bird Creature.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Creatures/PaintCreature New.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Creatures/PaintCreature New.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/GamePad Player.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/GamePad Player.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Prefabs/Island.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Prefabs/Island.prefab" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Scenes/MiniGameMockup.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/MiniGameMockup.unity" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Texture/Materials/New Render Texture.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Texture/Materials/New Render Texture.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ultimate 10 Plus Shaders/Materials/Gray.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ultimate 10 Plus Shaders/Materials/Gray.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Ultimate 10 Plus Shaders/Materials/Wall.mat" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Ultimate 10 Plus Shaders/Materials/Wall.mat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/manifest.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/manifest.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Packages/packages-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Packages/packages-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/GraphicsSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/Packages/com.unity.probuilder/Settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/ProjectSettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/QualitySettings.asset" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectSettings/VFXManager.asset" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectSettings/VFXManager.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scenes/PaintScene.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/PaintScene.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/CollisionPainter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/CollisionPainter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/MousePainter.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/MousePainter.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/PaintManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/PaintManager.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Scripts/Paint/Paintable.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scripts/Paint/Paintable.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/Paintable.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/Paintable.shadergraph" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Shaders/TexturePaintable.shadergraph" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Shaders/TexturePaintable.shadergraph" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -122,6 +80,9 @@
       <workItem from="1716366722688" duration="4473000" />
       <workItem from="1717067831176" duration="3925000" />
       <workItem from="1717079422549" duration="1297000" />
+      <workItem from="1717404048485" duration="4737000" />
+      <workItem from="1717581665713" duration="4852000" />
+      <workItem from="1717663267123" duration="4100000" />
     </task>
     <servers />
   </component>
