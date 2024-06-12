@@ -410,7 +410,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aef081cabade944c87fcdefcf3d5760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 10
+  cooldownTime: 15
   influenceRadius: 10
   layerMask: 7
   particleGameObject: {fileID: 2697705691447532532}
@@ -458,7 +458,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9cced94d3632a488376faa2ee419b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 10
+  cooldownTime: 20
   smokeObjectPrefab: {fileID: 2978363708290580132, guid: 59e4981ddf0532b49a1b6ccff64980dd, type: 3}
   fogPointPrefab: {fileID: 0}
   smokeOffset: {x: 0, y: 0, z: 0}
@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3815812537727318544}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1152,7 +1152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648a67bb7eb4d194698816fec6a26d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 1
+  cooldownTime: 15
   laserOrigin: {fileID: 2111497816963260412}
   laserRange: 100
   collisionMask:
@@ -1742,7 +1742,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb6220ed1ab91e489cb85dd608740b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 1
+  cooldownTime: 20
   trajectoryDrawer: {fileID: 3595214099820707869}
   orientation: {fileID: 1702798230530849574}
   creatureSelector: {fileID: 8576329490957146037}
