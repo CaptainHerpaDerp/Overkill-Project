@@ -8,6 +8,7 @@ using Players;
 using Core;
 using System;
 using Crore;
+using UnityEngine.Playables;
 
 namespace GameManagement
 {
@@ -29,6 +30,8 @@ namespace GameManagement
 
         [SerializeField] private TextMeshProUGUI timerText;
 
+        [SerializeField] private GameObject CharacterSelectionUIObj;
+
         // The currently winning player
         Player topPlayer;
 
@@ -39,7 +42,7 @@ namespace GameManagement
 
         // TEMP
         [SerializeField] private GameObject victoryGroup;
-        [SerializeField] private Transform p3Pos, p2Pos, p1Pos;
+        [SerializeField] private Transform playerPositionParent;
         [SerializeField] Vector3 playerOffset;
 
         [Header("Player Sphere Adjustment")]
@@ -48,8 +51,9 @@ namespace GameManagement
         [SerializeField] private float placementSphereUpdateInterval;
         [SerializeField] private float sizeModifier;
 
-
         [SerializeField] private GameObject GameUI;
+
+        [SerializeField] PlayableDirector director;
 
         public Action OnGameReload;
 
@@ -63,6 +67,9 @@ namespace GameManagement
             {
                 Debug.LogError("There is more than one GameManager in the scene");
             }
+
+            // Enable the character selection UI
+            CharacterSelectionUIObj?.gameObject.SetActive(true);
         }
 
         public void Start()
@@ -218,7 +225,10 @@ namespace GameManagement
         }
 
         private void EndGame()
-        {          
+        {
+            // Play the dropdown camera animation
+            director.Play();
+
             victoryGroup.SetActive(true);
 
             // disable all of the player cameras and lock movement
@@ -228,8 +238,8 @@ namespace GameManagement
                 player.GetComponentInChildren<Camera>().enabled = false;
             }
 
-            Player firstPlace = null, secondPlace = null, thirdPlace = null;
-            int firstPlaceScore = 0, secondPlaceScore = 0, thirdPlaceScore = 0;
+            Player firstPlace = null, secondPlace = null, thirdPlace = null, fourthPlace = null;
+            int firstPlaceScore = 0, secondPlaceScore = 0, thirdPlaceScore = 0, fourthPlaceScore = 0;
 
             // Determine the top 3 players
             foreach (Player player in PlayerList)
@@ -238,6 +248,9 @@ namespace GameManagement
 
                 if (firstPlace == null || score > firstPlaceScore)
                 {
+                    fourthPlace = thirdPlace;
+                    fourthPlaceScore = thirdPlaceScore;
+
                     thirdPlace = secondPlace;
                     thirdPlaceScore = secondPlaceScore;
 
@@ -249,6 +262,9 @@ namespace GameManagement
                 }
                 else if (secondPlace == null || score > secondPlaceScore)
                 {
+                    fourthPlace = thirdPlace;
+                    fourthPlaceScore = thirdPlaceScore;
+
                     thirdPlace = secondPlace;
                     thirdPlaceScore = secondPlaceScore;
 
@@ -257,20 +273,31 @@ namespace GameManagement
                 }
                 else if (thirdPlace == null || score > thirdPlaceScore)
                 {
+                    fourthPlace = thirdPlace;
+                    fourthPlaceScore = thirdPlaceScore;
+
                     thirdPlace = player;
                     thirdPlaceScore = score;
+                }
+                else
+                {
+                    fourthPlace = player;
+                    fourthPlaceScore = score;               
                 }
             }
 
             // Place the players at the appropriate positions
             if (firstPlace != null)
-                firstPlace.transform.position = p1Pos.position + playerOffset;
+                firstPlace.transform.position = playerPositionParent.GetChild(0).position + playerOffset;
 
             if (secondPlace != null)
-                secondPlace.transform.position = p2Pos.position + playerOffset;
+                secondPlace.transform.position = playerPositionParent.GetChild(1).position + playerOffset;
 
             if (thirdPlace != null)
-                thirdPlace.transform.position = p3Pos.position + playerOffset;
+                thirdPlace.transform.position = playerPositionParent.GetChild(2).position + playerOffset;
+
+            if (fourthPlace != null)
+                fourthPlace.transform.position = playerPositionParent.GetChild(3).position + playerOffset;
 
             // Ensure the crown is placed on the first place player
             if (firstPlace != null)
@@ -322,7 +349,7 @@ namespace GameManagement
             GameUI.SetActive(true);
             StartCoroutine(DoTimerCountdown());
         }
-
+            
 #if UNITY_EDITOR
 
         private void Update()
