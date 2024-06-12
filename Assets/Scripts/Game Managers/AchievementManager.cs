@@ -62,6 +62,7 @@ namespace GameManagement {
         }
 
         private void AddPushKill(Player pusherPlayer) {
+            if (pusherPlayer == null) return;
             pushCount[pusherPlayer]++;
         }
 
