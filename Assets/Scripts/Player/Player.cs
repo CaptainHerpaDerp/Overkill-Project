@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using TeamColors;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -20,6 +21,8 @@ namespace Players
     {
         [Header("Movement Settings")]
         public float movementSpeed;
+        public float fallMultiplier;
+        public float jumpSpeedMultiplier;
 
         [Header("Ground Checking")]
         public float playerHeight;
@@ -41,6 +44,8 @@ namespace Players
 
         // left and right triggers
         private float pushValue, specialValue;
+        private Player lastPushedBy = null;
+        private Coroutine pushStatusCourutine = null;
 
         public bool UseMouseClick;
 
@@ -163,12 +168,13 @@ namespace Players
         private InputAction move, aim, push, special, jump, dPadUp, dPadDown;
 
         private bool doJump;
+        private bool fallIncreased = false;
 
         [SerializeField] private Rigidbody rb;
 
         // TEMP
         public Vector3 SpawnPoint;
-        public Action OnPlayerRespawn;
+        public Action<Player> OnPlayerRespawn;
         [SerializeField] private float fovZoomFactor;
 
         private const float respawnY = -10f;
@@ -249,7 +255,8 @@ namespace Players
 
             GetInput();
 
-            LimitSpeed();
+            
+            OffsetJumpSpeed();
 
             if (UpdatePlayerValues)
             {
@@ -259,7 +266,7 @@ namespace Players
 
             if (transform.position.y < respawnY)
             {
-                OnPlayerRespawn?.Invoke();
+                OnPlayerRespawn?.Invoke(lastPushedBy);
                 transform.position = SpawnPoint;
             }
 
@@ -311,7 +318,7 @@ namespace Players
         public bool IsGrounded()
         {
             RaycastHit hit;
-            if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight, groundMask))
+            if (Physics.Raycast(transform.position, Vector3.down, out hit, playerHeight/1.5f, groundMask))
             {
                 return true;
             }
@@ -365,6 +372,7 @@ namespace Players
             // dpadValue = dPadUp.triggered ? 1 : dPadDown.triggered ? -1 : 0;
 
             doJump = jump.triggered;
+            fallIncreased = false;
 
             // Get the direction the player should face based on the aim input
             lookDirection = new Vector2(lookInput.x, lookInput.y);
@@ -376,8 +384,8 @@ namespace Players
                 return;
 
             // Get the direction the player should move based on the movement input
-            Vector3 moveDirection = new(movementInput.x, 0f, movementInput.y);
-
+            moveDirection = new(movementInput.x, 0f, movementInput.y);
+            LimitSpeed();
             moveDirection = transform.TransformDirection(moveDirection);
 
             // Bad collisions - smooth movement
@@ -416,11 +424,41 @@ namespace Players
         private void LimitSpeed()
         {
             Vector3 flatVelocity = new Vector3(moveDirection.x, 0, moveDirection.z);
+            flatVelocity.Normalize();
+            if (!IsGrounded()) {
+                flatVelocity *= jumpSpeedMultiplier;
+            }
 
-            if (flatVelocity.magnitude > movementSpeed)
-            {
-                moveDirection = flatVelocity.normalized * movementSpeed;
+            
+            moveDirection = flatVelocity * movementSpeed;
+            
+        }
+
+        private void OffsetJumpSpeed() {
+
+            if (!fallIncreased && rb.velocity.y < 0) {
+                rb.velocity += Vector3.up * Physics.gravity.y * (fallMultiplier - 1) * Time.deltaTime;
+                
+                fallIncreased = true;
+                //rb.AddForce(Vector3.up * Physics.gravity.y * (fallMultiplier - 1), ForceMode.Force);
             }
         }
+
+        private IEnumerator UpdateLastPushedVariable(Player pushingPlayer, float statusSeconds) {
+            lastPushedBy = pushingPlayer;
+
+            yield return new WaitForSeconds(statusSeconds);
+
+            lastPushedBy = null;
+        }
+
+        public void PushCountStart(Player pushingPlayer, float statusSeconds) {
+            if (pushStatusCourutine != null) {
+                StopCoroutine(pushStatusCourutine);    
+            }
+
+            pushStatusCourutine =  StartCoroutine(UpdateLastPushedVariable(pushingPlayer, statusSeconds));
+        }
+
     }
 }

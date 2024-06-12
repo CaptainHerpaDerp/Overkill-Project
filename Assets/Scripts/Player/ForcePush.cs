@@ -9,10 +9,14 @@ public class ForcePush : MonoBehaviour
     [Header("Maximum possible force")]
     public float force = 10f;
 
+
     public ForceMode forceMode = ForceMode.Force;
 
     [SerializeField] private float pushAngle;
     [SerializeField] private float pushDistance;
+
+    [Header("LastPushedBy status timer")]
+    public float pushedStatusTimer = 5f;
 
     [SerializeField] SphereCollider sphereCollider;
 
@@ -146,6 +150,7 @@ public class ForcePush : MonoBehaviour
                     if (angle < pushAngle)
                     {
                         Debug.Log("Total force: " + totalForce);
+                        item.GetComponent<Player>().PushCountStart(Player, pushedStatusTimer);
 
                         item.AddForce(diff * (totalForce / Vector3.Distance(transform.position, item.transform.position)), forceMode);
                     }

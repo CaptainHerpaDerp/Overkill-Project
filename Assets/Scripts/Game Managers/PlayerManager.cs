@@ -6,6 +6,7 @@ using static TeamColors.ColorEnum;
 using Players;
 using TeamColors;
 using UnityEngine.Rendering;
+using System;
 
 namespace GameManagement
 {
@@ -30,7 +31,7 @@ namespace GameManagement
         [SerializeField] private List<VolumeProfile> playerVolumeProfiles;
 
         private PlayerInputManager playerInputManager;
-
+        public Action OnPlayersSelected;
         // The parent of the creature selection crystals visible to each player
         [SerializeField] private Transform selectionCrystalTransform;
 
@@ -181,6 +182,8 @@ namespace GameManagement
                     parentPlayer.playerCamera.rect = new Rect(0, 0, 1.0f, 0.5f);
                 }
             }
+            OnPlayersSelected?.Invoke();
+
         }
     }
 }

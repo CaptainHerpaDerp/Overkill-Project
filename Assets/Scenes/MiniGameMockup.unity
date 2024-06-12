@@ -1120,6 +1120,7 @@ Transform:
   - {fileID: 2056596943}
   - {fileID: 1328323534}
   - {fileID: 1036617106}
+  - {fileID: 563056111}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &150625428
@@ -10077,6 +10078,50 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7472509313861953747, guid: c36407e699bcf6148ba58360277bd1ee, type: 3}
   m_PrefabInstance: {fileID: 1097739475}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &563056110
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 563056111}
+  - component: {fileID: 563056112}
+  m_Layer: 0
+  m_Name: AchievementManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &563056111
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563056110}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 147051004}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &563056112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 563056110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f69da55e9c6c8104c9f13f3fb66abcf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &568141093
 GameObject:
   m_ObjectHideFlags: 0
@@ -41499,6 +41544,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2149499087766023847, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
+      propertyPath: movementSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149499087766023847, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
+      propertyPath: fallMultiplier
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2149499087766023847, guid: a89257df3d057e649a031c795af2b6fa, type: 3}
       propertyPath: groundMask.m_Bits
       value: 64
       objectReference: {fileID: 0}
@@ -44946,7 +44999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea73cb8e9da863045ace573568d18602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 6488628123260554814, guid: f412b7dce58cbf649bacb20b92e189d0, type: 3}
+  plantPrefab: {fileID: 6488628123260554814, guid: 1eb1d0bded77e5d459e3736756618e68, type: 3}
   radius: 2.5
   targetCount: 7
   plantSurfaces:
