@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,10 @@ namespace TeamColors
     public class AnimalLocator : MonoBehaviour
     {
         public static AnimalLocator Instance { get; private set; }
+
+        public Action<ColorEnum.TEAMCOLOR> OnCreatureColorChanged;
+
+        private Dictionary<Transform, ColorEnum.TEAMCOLOR> animalTransformPairs = new Dictionary<Transform, ColorEnum.TEAMCOLOR>();
 
         private void Awake()
         {
@@ -23,7 +28,7 @@ namespace TeamColors
             }
         }
 
-        private Dictionary<Transform, ColorEnum.TEAMCOLOR> animalTransformPairs = new Dictionary<Transform, ColorEnum.TEAMCOLOR>();
+       
 
         public Transform GetClosestTransformOfTeam(Vector3 fromPosition, ColorEnum.TEAMCOLOR teamColor)
         {
@@ -58,6 +63,7 @@ namespace TeamColors
             if (animalTransformPairs.ContainsKey(animalTransform))
             {
                 animalTransformPairs[animalTransform] = newTeamColor;
+                OnCreatureColorChanged?.Invoke(newTeamColor);
             }
         }
     }

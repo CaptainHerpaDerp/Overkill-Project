@@ -174,7 +174,7 @@ namespace Players
 
         // TEMP
         public Vector3 SpawnPoint;
-        public Action<Player> OnPlayerRespawn;
+        public Action<Player, Player> OnPlayerRespawn;
         [SerializeField] private float fovZoomFactor;
 
         private const float respawnY = -10f;
@@ -266,7 +266,7 @@ namespace Players
 
             if (transform.position.y < respawnY)
             {
-                OnPlayerRespawn?.Invoke(lastPushedBy);
+                OnPlayerRespawn?.Invoke(lastPushedBy, this);
                 transform.position = SpawnPoint;
             }
 

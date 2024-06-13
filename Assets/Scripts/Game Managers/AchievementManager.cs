@@ -10,8 +10,8 @@ namespace GameManagement {
 
     public class AchievementManager : MonoBehaviour
     {
-        private Dictionary<Player, int> pushCount = new Dictionary<Player, int>(); 
-
+        public Dictionary<Player, int> pushCount = new Dictionary<Player, int>(); 
+        public Dictionary<Player, int> respawnCount = new Dictionary<Player, int>();
 
         private void Awake()
         {
@@ -45,23 +45,26 @@ namespace GameManagement {
         }
 
         private void ResetAchievements() {
-            foreach (Player player in GameManager.Instance.PlayerList)
-            {
-                
-            }
             pushCount.Clear();
             pushCount = new Dictionary<Player, int>();
+
+            respawnCount.Clear();
+            respawnCount = new Dictionary<Player, int>();
         }
 
         private void StartAchievements() { 
             foreach(Player player in GameManager.Instance.PlayerList) {
                 pushCount[player] = 0;
+                respawnCount[player] = 0;
 
-                player.OnPlayerRespawn += AddPushKill;
+                player.OnPlayerRespawn += ProcessRespawn;
             }   
+
+
         }
 
-        private void AddPushKill(Player pusherPlayer) {
+        private void ProcessRespawn(Player pusherPlayer, Player respawnedPlayer) {
+            pushCount[respawnedPlayer]++;
             pushCount[pusherPlayer]++;
         }
 
