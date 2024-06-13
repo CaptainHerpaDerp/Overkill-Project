@@ -18,17 +18,22 @@ public class SmokeScreenBox : MonoBehaviour
     // Reduce the alpha of the smoke screen over time, destroy it when it reaches 0
     private IEnumerator ShiftAlpha()
     {
-        // Lerp the alpha over a period of time
+        // Reduce the alpha of the smoke screen over time by the visualDuration
 
         Color color = meshRenderer.material.color;
+        float startAlpha = color.a;
 
-        while (color.a > 0)
+        float time = 0;
+
+        while (time < visualDuration)
         {
-            // Lerp the alpha over a period of time
-            Mathf.Lerp(color.a, 0, visualDuration);
+            time += Time.deltaTime;
+
+            color.a = Mathf.Lerp(startAlpha, 0, time / visualDuration);
+
             meshRenderer.material.color = color;
 
-            yield return new WaitForFixedUpdate();
+            yield return null;
         }
 
         if (color.a <= 0)
