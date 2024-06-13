@@ -130,7 +130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 1641609139625985955}
-  lerpTime: 0.1
+  visualDuration: 5
 --- !u!1 &5056783939659121454
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,4 +228,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meshRenderer: {fileID: 715497018334760028}
-  lerpTime: 0.1
+  visualDuration: 5

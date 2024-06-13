@@ -40,12 +40,12 @@ public class BlueSpecialBehaviour : SpecialBehaviour
 
                 if (Random.Range(0, spawnChance) != 0)
                     continue;
-
+                    
                 // Create a smoke screen box at the plant's position
                 GameObject smokeScreenBox = Instantiate(smokeObjectPrefab, plant.transform.position + smokeOffset, Quaternion.identity);
 
                 // Set the smoke screen box's scale to a random value between scaleModMin and scaleModMax
-               // smokeScreenBox.transform.localScale = Vector3.one * Random.Range(scaleModMin, scaleModMax);
+                smokeScreenBox.transform.localScale = Vector3.one * Random.Range(scaleModMin, scaleModMax);
             }
         }
 

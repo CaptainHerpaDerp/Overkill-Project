@@ -458,15 +458,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9cced94d3632a488376faa2ee419b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 20
-  smokeObjectPrefab: {fileID: 2978363708290580132, guid: 59e4981ddf0532b49a1b6ccff64980dd, type: 3}
+  cooldownTime: 1
+  smokeObjectPrefab: {fileID: 407241523510737248, guid: f3f124d04ad257242b61b38ad5108944, type: 3}
   fogPointPrefab: {fileID: 0}
   smokeOffset: {x: 0, y: 0, z: 0}
   influenceRadius: 10
   layerMask: 7
   scaleModMin: 2
   scaleModMax: 5
-  spawnChance: 30
+  spawnChance: 1
 --- !u!1 &2702898992917212260
 GameObject:
   m_ObjectHideFlags: 0

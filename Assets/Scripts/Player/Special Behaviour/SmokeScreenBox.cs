@@ -4,7 +4,8 @@ using UnityEngine;
 public class SmokeScreenBox : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
-    [SerializeField] private float fadeSpeed;
+    //[SerializeField] private float fadeSpeed;
+    [SerializeField] private float visualDuration;
 
     private void Start()
     {
@@ -23,9 +24,10 @@ public class SmokeScreenBox : MonoBehaviour
 
         while (color.a > 0)
         {
-            color.a -= fadeSpeed;
+            // Lerp the alpha over a period of time
+            Mathf.Lerp(color.a, 0, visualDuration);
             meshRenderer.material.color = color;
-  
+
             yield return new WaitForFixedUpdate();
         }
 
