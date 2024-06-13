@@ -458,8 +458,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9cced94d3632a488376faa2ee419b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 15
-  smokeObjectPrefab: {fileID: 407241523510737248, guid: f3f124d04ad257242b61b38ad5108944, type: 3}
+  cooldownTime: 10
+  smokeObjectPrefab: {fileID: 2978363708290580132, guid: 59e4981ddf0532b49a1b6ccff64980dd, type: 3}
   fogPointPrefab: {fileID: 0}
   smokeOffset: {x: 0, y: 0, z: 0}
   influenceRadius: 10
@@ -1075,7 +1075,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3815812537727318544}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1359,7 +1359,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06e2d9a936a0f684e8f171cc6879ba9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 3.5
+  movementSpeed: 4
   fallMultiplier: 2
   jumpSpeedMultiplier: 0.7
   playerHeight: 2
