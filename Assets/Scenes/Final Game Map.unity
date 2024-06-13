@@ -46955,7 +46955,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea73cb8e9da863045ace573568d18602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 6488628123260554814, guid: f412b7dce58cbf649bacb20b92e189d0, type: 3}
+  plantPrefab: {fileID: 6488628123260554814, guid: 1eb1d0bded77e5d459e3736756618e68, type: 3}
   radius: 2.5
   targetCount: 7
   plantSurfaces:

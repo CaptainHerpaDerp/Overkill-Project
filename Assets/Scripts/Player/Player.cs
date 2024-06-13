@@ -381,10 +381,10 @@ namespace Players
             moveDirection = transform.TransformDirection(moveDirection);
 
             // Bad collisions - smooth movement
-            transform.position += moveDirection * movementSpeed * Time.deltaTime;
+           // transform.position += moveDirection * movementSpeed * Time.deltaTime;
 
             // Proper collisions - jerky movement
-            //rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
         }
 
         float angle = 0f;
