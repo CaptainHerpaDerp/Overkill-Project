@@ -49,7 +49,6 @@ public class BadgeAssignerEditor : Editor
 
 
             EditorGUILayout.EndHorizontal();
-
         }
 
         // Button to add a new item
