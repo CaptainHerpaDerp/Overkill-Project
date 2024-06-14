@@ -49,6 +49,8 @@ namespace Players
 
         public bool UseMouseClick;
 
+        public float timeMoving = 0;
+
         [SerializeField] private TEAMCOLOR teamColor;
 
         [Header("Player Behaviour Settings")]
@@ -194,6 +196,7 @@ namespace Players
 
             inputAsset = GetComponent<PlayerInput>().actions;
             player = inputAsset.FindActionMap("Controls");
+
 
             Application.targetFrameRate = 120;
         }
@@ -388,11 +391,18 @@ namespace Players
             LimitSpeed();
             moveDirection = transform.TransformDirection(moveDirection);
 
+            if (moveDirection.magnitude != 0) {
+                timeMoving += Time.fixedDeltaTime;
+            }
+
             // Bad collisions - smooth movement
-            transform.position += moveDirection * movementSpeed * Time.deltaTime;
+            //transform.position += moveDirection * movementSpeed * Time.deltaTime;
 
             // Proper collisions - jerky movement
-            //rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
+
+
+
         }
 
         float angle = 0f;

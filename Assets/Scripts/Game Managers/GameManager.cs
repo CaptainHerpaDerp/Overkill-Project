@@ -35,6 +35,8 @@ namespace GameManagement
         // The currently winning player
         Player topPlayer;
 
+        Dictionary<Player, int> winningTimeCount = new Dictionary<Player, int>();
+
         [SerializeField] private GameObject crownPrefab;
         private GameObject crownInstance;
 
@@ -146,6 +148,15 @@ namespace GameManagement
                 {
                     topPlayer = winningPlayer;
                     crownInstance.SetActive(true);
+
+                    if (winningTimeCount.ContainsKey(winningPlayer))
+                    {
+                        winningTimeCount[winningPlayer]++;
+                    }
+                    else {
+                        winningTimeCount[winningPlayer] = 1;
+                    }
+
 
                     //set the crowns parent to the child with the tag "CrownPosition"
                     foreach (Transform child in topPlayer.transform)
@@ -324,6 +335,9 @@ namespace GameManagement
             GameUI.SetActive(false);
             victoryGroup.SetActive(false);
             OnGameReload?.Invoke();
+
+            winningTimeCount.Clear();
+            winningTimeCount = new Dictionary<Player, int>();
 
             // Reset the player registration
             PlayerLocator.Instance.ResetPlayerRegistration();
