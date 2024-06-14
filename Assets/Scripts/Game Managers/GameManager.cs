@@ -55,6 +55,8 @@ namespace GameManagement
 
         [SerializeField] PlayableDirector director;
 
+        [SerializeField] private bool OpenCharacterSelectOnStart;
+
         public Action OnGameReload;
 
         public void Awake()
@@ -69,6 +71,7 @@ namespace GameManagement
             }
 
             // Enable the character selection UI
+            if (OpenCharacterSelectOnStart)
             CharacterSelectionUIObj?.gameObject.SetActive(true);
         }
 
