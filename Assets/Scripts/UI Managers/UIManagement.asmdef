@@ -1,0 +1,18 @@
+{
+    "name": "UIManagement",
+    "rootNamespace": "",
+    "references": [
+        "GUID:0bb520403002a1842b0252ea02c50665",
+        "GUID:2b127a0fb5a187444b4b8aac9a3a70cb",
+        "GUID:d58b625d43b77614894dc355e265ecfe"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

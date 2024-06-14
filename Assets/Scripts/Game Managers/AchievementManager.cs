@@ -12,7 +12,6 @@ namespace GameManagement {
     {
         public Dictionary<Player, Achievement> achievementList = new Dictionary<Player, Achievement>(); 
         
-
         private void Awake()
         {
             if (Instance == null)
