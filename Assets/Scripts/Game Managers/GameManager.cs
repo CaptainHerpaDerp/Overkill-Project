@@ -35,7 +35,7 @@ namespace GameManagement
         // The currently winning player
         Player topPlayer;
 
-        Dictionary<Player, int> winningTimeCount = new Dictionary<Player, int>();
+        Dictionary<Player, int> winningTimeCount = new();
 
         [SerializeField] private GameObject crownPrefab;
         private GameObject crownInstance;
@@ -56,6 +56,12 @@ namespace GameManagement
         [SerializeField] private GameObject GameUI;
 
         [SerializeField] PlayableDirector director;
+
+        // An Action to tell the badge assigner to show and start assigning badges
+        public Action<float> OnAssignBadges;
+
+        //[Header("The time after the game ends before the awards should start to be given in the badge assigner")]
+        private const float badgeAssignStartDelay = 5;
 
         [SerializeField] private bool OpenCharacterSelectOnStart;
 
@@ -242,6 +248,8 @@ namespace GameManagement
         {
             // Play the dropdown camera animation
             director.Play();
+
+            OnAssignBadges?.Invoke(badgeAssignStartDelay);   
 
             victoryGroup.SetActive(true);
 

@@ -400,9 +400,6 @@ namespace Players
 
             // Proper collisions - jerky movement
             rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
-
-
-
         }
 
         float angle = 0f;
