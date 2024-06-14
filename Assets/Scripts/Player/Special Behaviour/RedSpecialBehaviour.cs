@@ -8,7 +8,7 @@ public class RedSpecialBehaviour : SpecialBehaviour
 
     [SerializeField] private int layerMask;
 
-    [SerializeField] private GameObject particleGameObject;
+    [SerializeField] private ParticleSystem particleGameObject;
 
     public override void Activate()
     {
@@ -36,7 +36,7 @@ public class RedSpecialBehaviour : SpecialBehaviour
                     plant.TeamColor = ColorEnum.TEAMCOLOR.RED;  
                 }
 
-                particleGameObject.gameObject.SetActive(true);
+                particleGameObject.Play();
 
                 onCooldown = true;
                 DoCooldown();
