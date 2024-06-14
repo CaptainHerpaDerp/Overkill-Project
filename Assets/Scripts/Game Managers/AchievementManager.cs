@@ -10,8 +10,8 @@ namespace GameManagement {
 
     public class AchievementManager : MonoBehaviour
     {
-        public Dictionary<Player, int> pushCount = new Dictionary<Player, int>(); 
-        public Dictionary<Player, int> respawnCount = new Dictionary<Player, int>();
+        public Dictionary<Player, Achievement> achievementList = new Dictionary<Player, Achievement>(); 
+        
 
         private void Awake()
         {
@@ -38,35 +38,51 @@ namespace GameManagement {
         // Update is called once per frame
         void Update()
         {
-            foreach (KeyValuePair<Player, int> kvp in pushCount)
+            foreach (KeyValuePair<Player, Achievement> kvp in achievementList)
             {
-                Debug.Log($"Key: {kvp.Key.TeamColor}, Value: {kvp.Value}");
+                Debug.Log($"Key: {kvp.Key.TeamColor}, Value: {kvp.Value.pushCount}");
             }
         }
 
         private void ResetAchievements() {
-            pushCount.Clear();
-            pushCount = new Dictionary<Player, int>();
+            achievementList.Clear();
+            achievementList = new Dictionary<Player, Achievement>();
 
-            respawnCount.Clear();
-            respawnCount = new Dictionary<Player, int>();
+            foreach (Player player in GameManager.Instance.PlayerList) {
+                player.OnPlayerRespawn -= ProcessRespawn;
+            }
+
+            foreach (KeyValuePair<Transform, ColorEnum.TEAMCOLOR> kvp in AnimalLocator.Instance.animalTransformPairs)
+            {
+                AnimalLocator.Instance.OnCreatureColorChanged -= ProcessCreatureColorTurn;
+            }
         }
 
         private void StartAchievements() { 
             foreach(Player player in GameManager.Instance.PlayerList) {
-                pushCount[player] = 0;
-                respawnCount[player] = 0;
+                achievementList[player] = new Achievement();
 
                 player.OnPlayerRespawn += ProcessRespawn;
-            }   
+            }
 
+            foreach (KeyValuePair<Transform, ColorEnum.TEAMCOLOR> kvp in AnimalLocator.Instance.animalTransformPairs) {
+                AnimalLocator.Instance.OnCreatureColorChanged += ProcessCreatureColorTurn;
+            }
 
         }
 
         private void ProcessRespawn(Player pusherPlayer, Player respawnedPlayer) {
-            pushCount[respawnedPlayer]++;
-            pushCount[pusherPlayer]++;
+            achievementList[pusherPlayer].pushCount++;
+            achievementList[respawnedPlayer].respawnCount++;
         }
+
+        private void ProcessCreatureColorTurn(TEAMCOLOR newColor) {
+            foreach (Player player in achievementList.Keys) {
+                if (player.TeamColor == newColor)
+                    achievementList[player].creatureTurnCount++;
+            }
+        }
+
 
     }
 }

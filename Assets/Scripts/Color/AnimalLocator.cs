@@ -13,7 +13,7 @@ namespace TeamColors
 
         public Action<ColorEnum.TEAMCOLOR> OnCreatureColorChanged;
 
-        private Dictionary<Transform, ColorEnum.TEAMCOLOR> animalTransformPairs = new Dictionary<Transform, ColorEnum.TEAMCOLOR>();
+        public Dictionary<Transform, ColorEnum.TEAMCOLOR> animalTransformPairs = new Dictionary<Transform, ColorEnum.TEAMCOLOR>();
 
         private void Awake()
         {
