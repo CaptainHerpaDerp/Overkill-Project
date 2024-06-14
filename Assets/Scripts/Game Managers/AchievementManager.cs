@@ -38,10 +38,6 @@ namespace GameManagement {
         // Update is called once per frame
         void Update()
         {
-            foreach (KeyValuePair<Player, Achievement> kvp in achievementList)
-            {
-                Debug.Log($"Key: {kvp.Key.TeamColor}, Value: {kvp.Value.pushCount}");
-            }
         }
 
         private void ResetAchievements() {
