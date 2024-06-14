@@ -31,7 +31,6 @@ namespace GameManagement
             gameManager = GameManager.Instance;
             gameManager.OnGameReload += ResetAllPlants;
 
-
             PlacePlants();
             VerifyPlantPositions();
         }
@@ -53,7 +52,7 @@ namespace GameManagement
 
             foreach (Vector3 point in points)
             {
-                // Ensure each point is on the surface
+                // Ensure each point is on the surface using a raycast
                 Ray ray = new Ray(point + Vector3.up * 10, Vector3.down);
                 if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, LayerMask.GetMask(LayerName)))
                 {
@@ -72,9 +71,6 @@ namespace GameManagement
                     // Set the plant's default team to "None"
                     if (gameManager != null)
                         gameManager.RegisterPlant(newPlant.PlantID, ColorEnum.TEAMCOLOR.DEFAULT);
-
-                    // Randomize the position
-
                 }
             }
         }
@@ -102,7 +98,6 @@ namespace GameManagement
             return Mathf.Sqrt(1 / density);
         }
 
-
         private List<Vector3> GenerateGridPoints(float spacing)
         {
             List<Vector3> points = new List<Vector3>();
@@ -118,7 +113,7 @@ namespace GameManagement
                     {
                         for (float z = bounds.min.z + boundaryPadding; z < bounds.max.z - boundaryPadding; z += spacing)
                         {
-                            Vector3 point = new Vector3(x, bounds.center.y, z);
+                            Vector3 point = new Vector3(x, bounds.max.y, z);
                             points.Add(point);
                         }
                     }
@@ -143,6 +138,5 @@ namespace GameManagement
                 }
             }
         }
-
     }
 }
