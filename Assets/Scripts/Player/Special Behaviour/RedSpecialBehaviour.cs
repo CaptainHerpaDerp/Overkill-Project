@@ -1,4 +1,5 @@
 using GaiaElements;
+using System.Collections;
 using TeamColors;
 using UnityEngine;
 
@@ -8,7 +9,8 @@ public class RedSpecialBehaviour : SpecialBehaviour
 
     [SerializeField] private int layerMask;
 
-    [SerializeField] private GameObject particleGameObject;
+    [SerializeField] private ParticleSystem particleGameObject;
+    [SerializeField] private RedExpandingSphereCollider sphereCollider;
 
     public override void Activate()
     {
@@ -17,30 +19,20 @@ public class RedSpecialBehaviour : SpecialBehaviour
             return;
         }
 
-        // OverlapSphere is a physics function that returns all colliders within a sphere
+        ParticleSystem newSystem = Instantiate(particleGameObject.gameObject, transform.position, particleGameObject.transform.rotation).GetComponent<ParticleSystem>();
+        RedExpandingSphereCollider newSphereCollider = Instantiate(sphereCollider.gameObject, transform.position, sphereCollider.transform.rotation).GetComponent<RedExpandingSphereCollider>();
 
-        Collider[] colliders = Physics.OverlapSphere(transform.position, influenceRadius);
+        newSystem.Play();
+        StartCoroutine(DestroyParticlesOnFinish(newSystem));
 
-        print($"Red special activated: {colliders.Length}");
+        onCooldown = true;
+        DoCooldown();
+    }
 
-        foreach (Collider collider in colliders)
-        {
-            if (collider.TryGetComponent(out Plant plant))
-            {
-                if (plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
-                {
-                    plant.Activate(ColorEnum.TEAMCOLOR.RED);
-                }
-                else
-                {
-                    plant.TeamColor = ColorEnum.TEAMCOLOR.RED;  
-                }
-
-                particleGameObject.gameObject.SetActive(true);
-
-                onCooldown = true;
-                DoCooldown();
-            }
-        }
+    // Track a particle system and destroy it when it finishes
+    private IEnumerator DestroyParticlesOnFinish(ParticleSystem system)
+    {
+        yield return new WaitUntil(() => system.isStopped);
+        Destroy(system.gameObject);
     }
 }

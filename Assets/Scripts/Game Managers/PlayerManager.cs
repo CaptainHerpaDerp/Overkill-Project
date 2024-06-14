@@ -108,7 +108,6 @@ namespace GameManagement
         {
             playerInputManager.DisableJoining();
 
-
             for (int i = 0; i < playerSelections.Count; i++)
             {
                 // Retrieve the player gameobject corresponding to the player
