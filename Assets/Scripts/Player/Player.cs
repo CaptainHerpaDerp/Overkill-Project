@@ -49,7 +49,6 @@ namespace Players
 
         public bool UseMouseClick;
 
-        // Achievement Variables
         public float timeMoving = 0;
 
         [SerializeField] private TEAMCOLOR teamColor;
@@ -401,6 +400,9 @@ namespace Players
 
             // Proper collisions - jerky movement
             rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
+
+
+
         }
 
         float angle = 0f;

@@ -22,8 +22,6 @@ namespace GameManagement
         private Dictionary<int, TEAMCOLOR> registeredPlants = new Dictionary<int, ColorEnum.TEAMCOLOR>();
         private int[] playerTeamScore = new int[5];
 
-        private bool isGameRunning = false;
-
         [Header("Game Time in Seconds")]
         [SerializeField] private int gameTime;
 
@@ -37,9 +35,8 @@ namespace GameManagement
         // The currently winning player
         Player topPlayer;
 
-        public Dictionary<Player, int> winningTimeCount = new();
+        Dictionary<Player, int> winningTimeCount = new Dictionary<Player, int>();
 
-        // The crown prefab and instance that will be placed on the winning player during the game 
         [SerializeField] private GameObject crownPrefab;
         private GameObject crownInstance;
 
@@ -47,8 +44,6 @@ namespace GameManagement
 
         // TEMP
         [SerializeField] private GameObject victoryGroup;
-
-        [Header("The parent of the gameobject with the placement positions ordered from 1st to 4th")]
         [SerializeField] private Transform playerPositionParent;
         [SerializeField] Vector3 playerOffset;
 
@@ -58,21 +53,13 @@ namespace GameManagement
         [SerializeField] private float placementSphereUpdateInterval;
         [SerializeField] private float sizeModifier;
 
-        // The scorebar ui object
         [SerializeField] private GameObject GameUI;
 
-        // The director to play the end game animation
         [SerializeField] PlayableDirector director;
-
-        // An Action to tell the badge assigner to show and start assigning badges
-        public Action<float> OnAssignBadges;
-
-        //[Header("The time after the game ends before the awards should start to be given in the badge assigner")]
-        private const float badgeAssignStartDelay = 5;
 
         [SerializeField] private bool OpenCharacterSelectOnStart;
 
-        public Action OnGameReload, OnGameEnd;
+        public Action OnGameReload;
 
         public void Awake()
         {
@@ -97,23 +84,6 @@ namespace GameManagement
 
             StartCoroutine(GiveCrownToPlayer());
             StartCoroutine(AdjustPlayerPlacementSpheres());
-        }
-
-        public Player GetMostMovePlayerWinner()
-        {
-            Player mostMovePlayer = null;
-            float mostMove = 0;
-
-            foreach (Player player in PlayerList)
-            {
-                if (player.timeMoving > mostMove)
-                {
-                    mostMove = player.timeMoving;
-                    mostMovePlayer = player;
-                }
-            }
-
-            return mostMovePlayer;
         }
 
         /// <summary>
@@ -163,12 +133,6 @@ namespace GameManagement
         {
             while (true)
             {
-                if (!isGameRunning)
-                {
-                    yield return new WaitForSeconds(1);
-                    continue;
-                }
-
                 Player winningPlayer = null;
                 int winningScore = 0;
 
@@ -276,23 +240,9 @@ namespace GameManagement
 
         private void EndGame()
         {
-            // Mark as game not running
-            isGameRunning = false;
-
             // Play the dropdown camera animation
             director.Play();
 
-            // Hide the player crown
-            crownInstance.SetActive(false);
-
-            // Hide the score bar ui
-            GameUI.SetActive(false);
-
-            // Invoke endgame so the badge assigner can start assigning badges
-            OnGameEnd?.Invoke();
-            OnAssignBadges?.Invoke(badgeAssignStartDelay);   
-
-            // Show the victory area
             victoryGroup.SetActive(true);
 
             // disable all of the player cameras and lock movement
@@ -302,7 +252,6 @@ namespace GameManagement
                 player.GetComponentInChildren<Camera>().enabled = false;
             }
 
-            // Determine Player Score Placements
             Player firstPlace = null, secondPlace = null, thirdPlace = null, fourthPlace = null;
             int firstPlaceScore = 0, secondPlaceScore = 0, thirdPlaceScore = 0, fourthPlaceScore = 0;
 
@@ -371,7 +320,6 @@ namespace GameManagement
                 crownInstance.transform.localPosition = new Vector3(0, 2, 0);
             }
 
-            // Darken the screen to show the victory routine
             StartCoroutine(DarkenCRToExit());
         }
 
@@ -417,7 +365,6 @@ namespace GameManagement
             // Enable the game UI and start the timer
             GameUI.SetActive(true);
             StartCoroutine(DoTimerCountdown());
-            isGameRunning = true;
         }
             
 #if UNITY_EDITOR

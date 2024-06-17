@@ -37,7 +37,7 @@ namespace TeamColors
 
         public void RegisterPlayerOfTeam(ColorEnum.TEAMCOLOR teamColor, Transform playerTransform)
         {
-           // print("Registered player of team " + teamColor);
+            print("Registered player of team " + teamColor);
             playerTransformPairs.Add(teamColor, playerTransform);
         }
 
