@@ -15,15 +15,7 @@ public class CollisionPainter : MonoBehaviour{
 
 
     private void FixedUpdate() {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, paintColliderRadius);
-
-        foreach (Collider col in hitColliders) {
-            Paintable p = col.GetComponent<Paintable>();
-            if (p == null) 
-                continue;
-            Vector3 closestPoint = col.ClosestPoint(transform.position);
-            PaintManager.instance.paint(p, closestPoint, paintRadius, hardness, strength, paintTexture, normalPaintMap, paintColor);
-        }
+        Paint();
     }
 
     /*
@@ -36,4 +28,17 @@ public class CollisionPainter : MonoBehaviour{
         }
     }
     */
+
+    public void Paint() {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, paintColliderRadius);
+
+        foreach (Collider col in hitColliders)
+        {
+            Paintable p = col.GetComponent<Paintable>();
+            if (p == null)
+                continue;
+            Vector3 closestPoint = col.ClosestPoint(transform.position);
+            PaintManager.instance.paint(p, closestPoint, paintRadius, hardness, strength, paintTexture, normalPaintMap, paintColor);
+        }
+    }
 }

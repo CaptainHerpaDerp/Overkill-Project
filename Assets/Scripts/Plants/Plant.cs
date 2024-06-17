@@ -28,6 +28,7 @@ namespace GaiaElements
         private bool plantSpreadCreep;
 
         public Transform PlayerParentTransform;
+        public GameObject paintObject;
 
         // Ensure that the plant is not being converted by multiple players
         private Coroutine shiftColourRoutine;
@@ -83,6 +84,7 @@ namespace GaiaElements
         private void Awake()
         {
             PlantID = gameObject.GetInstanceID();
+            paintObject = transform.Find("PlantPainter").gameObject;
         }
 
         private void Start()
@@ -117,6 +119,7 @@ namespace GaiaElements
             }
             
             plantAnimator.SetTrigger("UnGrow");
+            paintObject.SetActive(false);
             TeamColor = TEAMCOLOR.DEFAULT;
         }
 
@@ -146,6 +149,7 @@ namespace GaiaElements
 
                 if (plantRenderer.material.color == newColor)
                 {
+                    paintObject.SetActive(true);
                     break;
                 }
             }
