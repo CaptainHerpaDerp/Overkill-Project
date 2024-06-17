@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DIEDE/Models/island.meta
 guid: e410f61168301ff4a90e84eafebcc207
 folderAsset: yes
+========
+guid: b18b93d4b5d00384ba417df18aeac5a3
+>>>>>>>> 1ae0e69 (Basic Endgame Finished):Assets/JMO Assets/Cartoon FX FREE (old legacy effects).unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

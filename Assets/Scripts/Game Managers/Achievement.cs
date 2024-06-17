@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class Achievement
 {
     public int respawnCount = 0;
@@ -12,7 +8,8 @@ public class Achievement
     public float timeStanding = 0f;
     public float timeMoving = 0f;
 
-    public Achievement() { 
-    }
+    public Achievement() 
+    { 
 
+    }
 }
