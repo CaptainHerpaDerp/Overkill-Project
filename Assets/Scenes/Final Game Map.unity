@@ -412,6 +412,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b7818076986af448d765446e04430d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player1Score: 0
+  player2Score: 0
+  player3Score: 0
+  player4Score: 0
+  pp1: {fileID: 0}
+  pp2: {fileID: 0}
+  pp3: {fileID: 0}
+  pp4: {fileID: 0}
+  startWidth: 0
+  maxWidth: 0
+  updateInterval: 1
 --- !u!114 &67007563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10982,7 +10993,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 0ef3dead838e45d48bb14357a19ac557, type: 2}
   m_BuildHeightMesh: 0
 --- !u!1001 &1655519250
 PrefabInstance:
