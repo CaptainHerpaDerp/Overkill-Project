@@ -15,7 +15,8 @@ namespace Creatures
         [SerializeField]
         private NavMeshAgent agent;
 
-        public List<Creature> CreatureColorScripts;
+        public List<Creature> creatureColorScripts;
+        public List<GameObject> creatureColorMasks;
         private ColorEnum.TEAMCOLOR creatureColor = ColorEnum.TEAMCOLOR.DEFAULT;
 
         public ColorEnum.TEAMCOLOR CreatureColor
@@ -80,13 +81,13 @@ namespace Creatures
         {
             AnimalLocator.Instance.RegisterAnimalOfTeam(transform, creatureColor);
 
-            CreatureColorScripts.Add(transform.Find("RedLogic").GetComponent<Creature>());
-            CreatureColorScripts.Add(transform.Find("GreenLogic").GetComponent<Creature>());
-            CreatureColorScripts.Add(transform.Find("BlueLogic").GetComponent<Creature>());
-            CreatureColorScripts.Add(transform.Find("PurpleLogic").GetComponent<Creature>());
-            CreatureColorScripts.Add(transform.Find("DefaultLogic").GetComponent<Creature>());
+            creatureColorScripts.Add(transform.Find("RedLogic").GetComponent<Creature>());
+            creatureColorScripts.Add(transform.Find("GreenLogic").GetComponent<Creature>());
+            creatureColorScripts.Add(transform.Find("BlueLogic").GetComponent<Creature>());
+            creatureColorScripts.Add(transform.Find("PurpleLogic").GetComponent<Creature>());
+            creatureColorScripts.Add(transform.Find("DefaultLogic").GetComponent<Creature>());
 
-            foreach (Creature creature in CreatureColorScripts)
+            foreach (Creature creature in creatureColorScripts)
             {
                 OnTeleport += creature.OnTeleported;
                 creature.ONOwnColorChanged += ChangeThisCreatureColor;
@@ -163,7 +164,7 @@ namespace Creatures
 
         private void Update()
         {
-            CreatureColorScripts[(int)creatureColor].Act();
+            creatureColorScripts[(int)creatureColor].Act();
 
             if (IsHighlighted)
             {
@@ -249,16 +250,16 @@ namespace Creatures
                 conversionParticles.ActivateWithColor(ColorEnum.GetColor(creatureColor));
             }
 
-            for (int i = 0; i < CreatureColorScripts.Count; i++)
+            for (int i = 0; i < creatureColorScripts.Count; i++)
             {
                 if ((int)newColor == i)
                 {
-                    CreatureColorScripts[i].gameObject.SetActive(true);
+                    creatureColorScripts[i].gameObject.SetActive(true);
                     continue;
                 }
 
-                CreatureColorScripts[i].StopBehaviour();
-                CreatureColorScripts[i].gameObject.SetActive(false);
+                creatureColorScripts[i].StopBehaviour();
+                creatureColorScripts[i].gameObject.SetActive(false);
             }
 
             // Set the surrounding plant color to the new color
@@ -266,6 +267,13 @@ namespace Creatures
 
             // Change the color of the creature
             gameObject.GetComponent<Renderer>().material.color = ColorEnum.GetColor(newColor);
+            for (int i = 0; i < creatureColorMasks.Count; i++) {
+                if (i == (int)creatureColor) {
+                    creatureColorMasks[i].gameObject.SetActive(true);
+                    continue;
+                }
+                creatureColorMasks[i].gameObject.SetActive(false);
+            }
         }
 
         private void ChangePlantColor(Plant plant, ColorEnum.TEAMCOLOR newColor)
