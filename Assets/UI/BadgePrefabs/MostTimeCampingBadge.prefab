@@ -10,11 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_text
-      value: On The Move
+      value: Camper
       objectReference: {fileID: 0}
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_fontSize
-      value: 55.25
+      value: 65.8
       objectReference: {fileID: 0}
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_enableWordWrapping
@@ -23,18 +23,20 @@ PrefabInstance:
     - target: {fileID: 4528174588011737847, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 83c10362112d24d4bb139dc06db6bafa, type: 3}
+      objectReference: {fileID: 21300000, guid: 5217f90ddd40a9c4584813e592d9e8ba, type: 3}
     - target: {fileID: 4528174588011737847, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_SortingLayer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6126303113274669510, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_Name
-      value: MostConversionsBadge
+      value: MostTimeCampingBadge
       objectReference: {fileID: 0}
     - target: {fileID: 6588345019215369579, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_text
-      value: Most Time Moving
+      value: 'Most Time Staying Still
+
+'
       objectReference: {fileID: 0}
     - target: {fileID: 6588345019215369579, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_fontSize
