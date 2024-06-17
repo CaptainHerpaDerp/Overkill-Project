@@ -7,7 +7,7 @@ namespace GameManagement
 {
     public class GlobalPlantPaint : MonoBehaviour
     {
-        public GameObject plantPrefab;
+        [SerializeField] private GameObject plantPrefab;
         public float radius = 5f;
         public int targetCount = 10;
 

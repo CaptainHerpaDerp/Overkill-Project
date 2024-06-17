@@ -12,8 +12,11 @@ namespace Creatures
 
     public class CreatureManager : MonoBehaviour
     {
-        [SerializeField]
-        private NavMeshAgent agent;
+
+        [SerializeField] private NavMeshAgent agent;
+
+        // The component that plays the conversion sound
+        [SerializeField] private CreatureConversionSound creatureConversionSound;
 
         public List<Creature> creatureColorScripts;
         public List<GameObject> creatureColorMasks;
@@ -135,7 +138,7 @@ namespace Creatures
                 ChangeThisCreatureColor(newColor);
 
                 if (newColor == ColorEnum.TEAMCOLOR.GREEN)
-                {                 
+                {
                     agent.velocity = Vector3.zero;
                     agent.isStopped = true;
                     agent.enabled = false;
@@ -172,7 +175,6 @@ namespace Creatures
             }
         }
 
-
         private IEnumerator DoConversion()
         {
             while (true)
@@ -192,6 +194,14 @@ namespace Creatures
                         // Clear the converters list
                         converters.Clear();
 
+                        continue;
+                    }
+
+                    if (targetColor == initialColor)
+                    {
+                        converters.Clear();
+                        creatureConversionSound.StopSound();    
+                        yield return new WaitForFixedUpdate();
                         continue;
                     }
 
@@ -217,6 +227,11 @@ namespace Creatures
                     float t = conversionProgress / conversionThreshold;
                     meshRenderer.material.color = Color.Lerp(initialColor, targetColor, t);
 
+                    // Only play the conversion sound if any difference is made
+
+                    creatureConversionSound.PlaySound(t);
+
+
                     //print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
                 }
                 else
@@ -228,13 +243,19 @@ namespace Creatures
 
                         float t = conversionProgress / conversionThreshold;
                         meshRenderer.material.color = Color.Lerp(initialColor, targetColor, t);
+                        creatureConversionSound.PlaySound(t);
                     }
+                    else
+                    {
+                        creatureConversionSound.StopSound();
+                    }
+
                 }
 
                 isConverting = false;
                 converters.Clear();
                 agent.isStopped = false;
-                yield return new WaitForEndOfFrame();
+                yield return new WaitForFixedUpdate();
             }
         }
 
