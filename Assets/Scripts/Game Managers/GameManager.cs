@@ -35,7 +35,7 @@ namespace GameManagement
         // The currently winning player
         Player topPlayer;
 
-        Dictionary<Player, int> winningTimeCount = new();
+        public Dictionary<Player, int> winningTimeCount = new();
 
         [SerializeField] private GameObject crownPrefab;
         private GameObject crownInstance;
@@ -44,6 +44,8 @@ namespace GameManagement
 
         // TEMP
         [SerializeField] private GameObject victoryGroup;
+
+        [Header("The parent of the gameobject with the placement positions ordered from 1st to 4th")]
         [SerializeField] private Transform playerPositionParent;
         [SerializeField] Vector3 playerOffset;
 
@@ -65,7 +67,7 @@ namespace GameManagement
 
         [SerializeField] private bool OpenCharacterSelectOnStart;
 
-        public Action OnGameReload;
+        public Action OnGameReload, OnGameEnd;
 
         public void Awake()
         {
@@ -90,6 +92,23 @@ namespace GameManagement
 
             StartCoroutine(GiveCrownToPlayer());
             StartCoroutine(AdjustPlayerPlacementSpheres());
+        }
+
+        public Player GetMostMovePlayerWinner()
+        {
+            Player mostMovePlayer = null;
+            float mostMove = 0;
+
+            foreach (Player player in PlayerList)
+            {
+                if (player.timeMoving > mostMove)
+                {
+                    mostMove = player.timeMoving;
+                    mostMovePlayer = player;
+                }
+            }
+
+            return mostMovePlayer;
         }
 
         /// <summary>
@@ -249,6 +268,7 @@ namespace GameManagement
             // Play the dropdown camera animation
             director.Play();
 
+            OnGameEnd?.Invoke();
             OnAssignBadges?.Invoke(badgeAssignStartDelay);   
 
             victoryGroup.SetActive(true);
