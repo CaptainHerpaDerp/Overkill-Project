@@ -261,7 +261,7 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _BaseColorMap_MipInfo: {r: 0, g: 0, b: 0, a: 0}
-    - _BottomColor: {r: 0.3019608, g: 0.3882353, b: 0, a: 0}
+    - _BottomColor: {r: 0.3773585, g: 0.3645882, b: 0.2017325, a: 0}
     - _Color: {r: 0.40815833, g: 0.7264151, b: 0.07309832, a: 1}
     - _DiffusionProfileAsset: {r: 0, g: 0, b: 0, a: 0}
     - _DoubleSidedConstants: {r: 1, g: 1, b: 1, a: 0}
@@ -275,7 +275,7 @@ Material:
     - _NearFarRange: {r: 2, g: 10, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
     - _ThicknessRemap: {r: 0, g: 1, b: 0, a: 0}
-    - _TopColor: {r: 0.69411767, g: 0.7019608, b: 0.08627451, a: 0}
+    - _TopColor: {r: 0.39823395, g: 0.6117647, b: 0.062745094, a: 0}
     - _TransmittanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVDetailsMappingMask: {r: 1, g: 0, b: 0, a: 0}
     - _UVMappingMask: {r: 1, g: 0, b: 0, a: 0}
