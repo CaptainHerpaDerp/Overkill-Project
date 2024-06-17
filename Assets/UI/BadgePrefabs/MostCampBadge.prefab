@@ -8,13 +8,37 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 15402078161184674, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontSize
+      value: 40.95
+      objectReference: {fileID: 0}
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_text
-      value: Camper
+      value: The Camper
       objectReference: {fileID: 0}
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_fontSize
-      value: 45
+      value: 50.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3755620146820976581, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 49.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5916491240322598162, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 182
       objectReference: {fileID: 0}
     - target: {fileID: 6126303113274669510, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_Name
@@ -27,6 +51,10 @@ PrefabInstance:
     - target: {fileID: 6588345019215369579, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_fontSize
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 6588345019215369579, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8155673500106436370, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_Sprite

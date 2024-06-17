@@ -174,6 +174,7 @@ namespace Players
         private bool fallIncreased = false;
 
         [SerializeField] private Rigidbody rb;
+        [SerializeField] private ParticleSystem pushParticleSystem;
 
         // TEMP
         public Vector3 SpawnPoint;
@@ -282,6 +283,19 @@ namespace Players
                 }
 
                 doJump = false;
+            }
+
+            if (IsPushing)
+            {
+                // Set the push particle emission rate to 5
+                var emission = pushParticleSystem.emission;
+                emission.rateOverTime = 5;
+            }
+            else
+            {
+                // Set the push particle emission rate to 0
+                var emission = pushParticleSystem.emission;
+                emission.rateOverTime = 0;
             }
 
             if (special.triggered)
