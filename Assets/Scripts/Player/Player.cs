@@ -49,6 +49,7 @@ namespace Players
 
         public bool UseMouseClick;
 
+        // Achievement Variables
         public float timeMoving = 0;
 
         [SerializeField] private TEAMCOLOR teamColor;
