@@ -89,7 +89,8 @@ namespace UIManagement
                 {
                     print("Assigning badge: " + (AchievementType.MostDeaths + i));
 
-                    int winnerIndex = achievementManager.GetIndexOfAhievementWinner(AchievementType.MostDeaths + i);
+                    int winnerIndex = achievementManager.GetIndexOfAchievementWinner(AchievementType.MostDeaths + i);
+
                     // Get the index of the enum value
                     int badgeIndex = (int)BadgeTypes[i];
 
@@ -100,6 +101,9 @@ namespace UIManagement
                         continue;
                     }
 
+                    // The value of the badge (eg. Kill Count)
+                    string badgeValue = achievementManager.GetAchievementValue((AchievementType.MostDeaths + i), winnerIndex);
+
                     if (ChildActivationIndex[winnerIndex] >= playerBadgePositionGroups[winnerIndex].transform.childCount)
                     {
                         Debug.LogError("The badge placement index is out of range. Please check the layout group child count.");
@@ -108,33 +112,14 @@ namespace UIManagement
                     AwardBadgeMovement badge = Instantiate(badgeTypeGameObjectPairs[(BadgeType)badgeIndex], Vector3.zero, Quaternion.identity, parent: this.transform).GetComponent<AwardBadgeMovement>();
                     badge.AnimateToPosition(playerBadgePositionGroups[winnerIndex].transform.GetChild(ChildActivationIndex[winnerIndex]).position);
                     badge.transform.localPosition = Vector3.zero;
+                    badge.SetBadgeText(badgeValue);
 
                     ChildActivationIndex[winnerIndex]++;
 
                     yield return new WaitForSeconds(newBadgeSpeed);
                 }
 
-                //for (int i = 0; i < 10; i++)
-                //{
-                //    int parentIndex = Random.Range(0, playerBadgePositionGroups.Count);
-
-                //    if (ChildActivationIndex[parentIndex] >= playerBadgePositionGroups[parentIndex].transform.childCount)
-                //    {
-                //        i--;
-                //        continue;
-                //    }
-
-                //    Transform randomParent = playerBadgePositionGroups[parentIndex].transform;
-
-                //    AwardBadgeMovement badge = Instantiate(BadgePrefabs[Random.Range(0, BadgePrefabs.Count)], Vector3.zero, Quaternion.identity, parent: this.transform).GetComponent<AwardBadgeMovement>();
-                //    badge.AnimateToPosition(randomParent.GetChild(ChildActivationIndex[parentIndex]).position);
-                //    badge.transform.localPosition = Vector3.zero;
-
-                //    ChildActivationIndex[parentIndex]++;
-
-                //    yield return new WaitForSeconds(newBadgeSpeed);
-                //}
-
+          
                 yield break;
             }
         }

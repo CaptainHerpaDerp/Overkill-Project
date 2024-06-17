@@ -392,9 +392,6 @@ MonoBehaviour:
   layerMask: 7
   particleGameObject: {fileID: 3433496592899143037, guid: 79f0adfca8d7fcf45b3a4430044d39dc, type: 3}
   sphereCollider: {fileID: 1655775852106677106, guid: cde57d3d7c74be54f8c27b30961a7569, type: 3}
-  pulseCollider: {fileID: 0}
-  maxPulseRadius: 8
-  pulseSpeed: 1
 --- !u!1 &1762540249833305021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,7 +1053,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3815812537727318544}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
   m_Name: 
@@ -1353,6 +1350,7 @@ MonoBehaviour:
   orientation: {fileID: 1702798230530849574}
   playerCamera: {fileID: 3812621330318385266}
   UseMouseClick: 0
+  timeMoving: 0
   teamColor: 1
   specialAbility: 0
   minOrientationClamp: -25
