@@ -92,12 +92,35 @@ namespace GameManagement
             }
         }
 
-        public int GetIndexOfAhievementWinner(AchievementType type)
+        public int GetIndexOfAchievementWinner(AchievementType type)
         {
             if (GetAchievementWinner(type) == null)
                 return -1;
 
             return GameManager.Instance.PlayerList.IndexOf(GetAchievementWinner(type));
+        }
+
+        public string GetAchievementValue(AchievementType type, int winnerIndex)
+        {
+            Player winner = GameManager.Instance.PlayerList[winnerIndex];
+
+            switch (type)
+            {
+                case AchievementType.MostDeaths:
+                    return AchievementList[winner].respawnCount.ToString();
+                case AchievementType.MostKills:
+                    return AchievementList[winner].pushCount.ToString();
+                case AchievementType.MostCreaturesTamed:
+                    return AchievementList[winner].creatureTurnCount.ToString();
+                case AchievementType.MostTimeWinning:
+                    return (int)AchievementList[winner].timeWinning + " Sec";
+                case AchievementType.MostCamper:
+                    return (int)AchievementList[winner].timeStanding + " Sec";
+                case AchievementType.MostMover:
+                    return (int)AchievementList[winner].timeMoving + " Sec";
+            }
+
+            return "none";
         }
 
         public Player GetAchievementWinner(AchievementType type)

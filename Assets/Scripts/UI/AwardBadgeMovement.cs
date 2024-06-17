@@ -10,9 +10,22 @@ namespace UI
 
         [SerializeField] private float holdTime = 1.5f;
 
+        [SerializeField] private TMPro.TextMeshProUGUI ValueText;
+
         public void AnimateToPosition(Vector3 pos)
         {
             StartCoroutine(MoveToTarget(pos));
+        }
+
+        public void SetBadgeText(string text)
+        {
+            if (ValueText == null)
+            {
+                Debug.LogWarning("ValueText is null. Cannot set badge text value.");
+                return;
+            }
+
+            ValueText.text = text;
         }
 
 
