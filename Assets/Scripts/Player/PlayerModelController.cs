@@ -52,6 +52,14 @@ namespace Players
             }
         }
 
+        public void SetPushing(bool isPushing)
+        {
+            if (currentModelAnimator != null)
+            {
+                currentModelAnimator.SetBool("Pushing", isPushing);
+            }
+        }
+
         public void PlayAnimation(AnimationState animation)
         {
             if (currentModelAnimator == null)
