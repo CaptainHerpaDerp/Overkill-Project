@@ -302,14 +302,19 @@ namespace Players
                 doJump = false;
             }
 
+            // If "Voice" is being used 
             if (IsPushing)
             {
+                playerModelController.SetPushing(true);
+
                 // Set the push particle emission rate to 5
                 var emission = pushParticleSystem.emission;
                 emission.rateOverTime = 5;
             }
             else
             {
+                playerModelController.SetPushing(false);
+
                 // Set the push particle emission rate to 0
                 var emission = pushParticleSystem.emission;
                 emission.rateOverTime = 0;
@@ -497,10 +502,8 @@ namespace Players
             if (!IsGrounded()) {
                 flatVelocity *= jumpSpeedMultiplier;
             }
-
-            
-            moveDirection = flatVelocity * movementSpeed;
-            
+           
+            moveDirection = flatVelocity * movementSpeed;           
         }
 
         private void OffsetJumpSpeed() {
