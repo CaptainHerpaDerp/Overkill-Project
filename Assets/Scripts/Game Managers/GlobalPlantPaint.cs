@@ -37,6 +37,12 @@ namespace GameManagement
 
         public void PlacePlants()
         {
+            if (plantPrefab == null)
+            {
+                Debug.LogError("Plant prefab not set in GlobalPlantPaint");
+                return;
+            }
+
             // Find all surfaces with the "plant" layer
             plantSurfaces = new List<Transform>();
             foreach (GameObject obj in GameObject.FindGameObjectsWithTag("PlantSurface"))

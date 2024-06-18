@@ -50,6 +50,8 @@ namespace GaiaElements
             get => teamColor;
             set
             {
+            
+
                 if (plantMeshes.Count >= (int)value )
                 plantMeshFilter.mesh = plantMeshes[(int)value];
 

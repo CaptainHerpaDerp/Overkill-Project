@@ -129,6 +129,7 @@ namespace Players
                     return;
                 }
 
+                if (value > 0)
                 createPlants.GetComponent<SphereCollider>().radius = value;   
             }
         }
@@ -203,7 +204,6 @@ namespace Players
             inputAsset = GetComponent<PlayerInput>().actions;
             player = inputAsset.FindActionMap("Controls");
 
-
             Application.targetFrameRate = 120;
         }
 
@@ -252,6 +252,19 @@ namespace Players
             }
         }
 
+        private void OnDestroy()
+        {
+            move = null;
+            aim = null;
+            push = null;
+            special = null;
+            jump = null;
+            dPadUp = null;
+            dPadDown = null;
+            player = null;
+            inputAsset = null;
+        }
+
         private void OnDisable()
         {
             player.Disable();
@@ -283,6 +296,7 @@ namespace Players
                 if (IsGrounded())
                 {
                     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                    playerModelController.PlayAnimation(AnimationState.Jump);
                 }
 
                 doJump = false;
@@ -306,24 +320,30 @@ namespace Players
                 //Temp
                 // find child with name "RedBehaviour"
                 // call Activate on that child
+                bool activation = false;
+
                 switch(specialAbility)
                 {
                     case SpecialAbility.MassConversion:
-                        GetComponentInChildren<RedSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<RedSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.Green:
-                        GetComponentInChildren<GreenSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<GreenSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.SmokeScreen:
-                        GetComponentInChildren<BlueSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<BlueSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.LightBeam:
-                        GetComponentInChildren<PurpleSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<PurpleSpecialBehaviour>().Activate();
                         break;
                     default:
                         Debug.LogWarning("Player Special Behaviour Not Found!");
                         break;
                 }
+
+                // Play the animation for the special ability
+                if (activation)
+                playerModelController.PlayAnimation(AnimationState.Special);
             }
         }
 
@@ -406,7 +426,7 @@ namespace Players
 
             // Get the direction the player should move based on the movement input
             moveDirection = new(movementInput.x, 0f, movementInput.y);
-            LimitSpeed();
+            //LimitSpeed();
             moveDirection = transform.TransformDirection(moveDirection);
 
             if (moveDirection.magnitude != 0) {
@@ -448,15 +468,26 @@ namespace Players
 
         private void HandleAnimations()
         {
-            // Set the animator state to walk if the player is moving
             if (movementInput.magnitude > 0)
             {
+                playerModelController.SetMagnitude(1);
+            }
+            else
+            {
+                playerModelController.SetMagnitude(-1);
+            }
+
+            // Set the animator state to walk if the player is moving
+            if (movementInput.magnitude > 0)
+            {               
                 playerModelController.PlayAnimation(AnimationState.Walk);
             }
             else
             {
                 playerModelController.PlayAnimation(AnimationState.Idle);
             }
+
+            playerModelController.SetGrounded(IsGrounded());
         }
 
         private void LimitSpeed()

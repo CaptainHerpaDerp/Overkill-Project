@@ -389,7 +389,11 @@ namespace GameManagement
             // Disable the Game UI
             GameUI.SetActive(false);
             victoryGroup.SetActive(false);
+
             OnGameReload?.Invoke();
+
+            // Clear the list of tracked players from the sound manager 
+            SoundManager.Instance.ClearPlayers();
 
             winningTimeCount.Clear();
             winningTimeCount = new Dictionary<Player, int>();

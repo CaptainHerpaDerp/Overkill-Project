@@ -18,11 +18,11 @@ public class BlueSpecialBehaviour : SpecialBehaviour
 
     [SerializeField] private int spawnChance;
 
-    public override void Activate()
+    public override bool Activate()
     {
         if (onCooldown)
         {
-            return;
+            return false;
         }
 
         // OverlapSphere is a physics function that returns all colliders within a sphere
@@ -51,5 +51,7 @@ public class BlueSpecialBehaviour : SpecialBehaviour
 
         onCooldown = true;
         DoCooldown();
+
+        return true;
     }
 }

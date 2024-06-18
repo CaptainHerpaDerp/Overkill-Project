@@ -14,9 +14,9 @@ public class SpecialBehaviour : MonoBehaviour
 
     [SerializeField] protected float cooldownTime = 10;    
 
-    public virtual void Activate()
+    public virtual bool Activate()
     {
-
+        return false;
     }
 
     public virtual void DoCooldown()

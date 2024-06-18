@@ -8,7 +8,8 @@ namespace Players
         Walk,
         Idle,
         Voice,
-        Special        
+        Special,
+        Jump
     }
 
     public class PlayerModelController : MonoBehaviour
@@ -18,7 +19,7 @@ namespace Players
         private Animator currentModelAnimator;
 
         // Animator State Names
-        private const string WALK = "Walk", IDLE = "Idle";
+        private const string WALK = "Walk", IDLE = "Idle", SPECIAL = "Special", JUMP = "Jump";
 
         /// <summary>
         /// Set the player model to the corresponding player index
@@ -35,6 +36,22 @@ namespace Players
             currentModelAnimator = modelInstance.GetComponent<Animator>();
         }
 
+        public void SetMagnitude(float value)
+        {
+            if (currentModelAnimator != null)
+            {
+                currentModelAnimator.SetFloat("Magnitude", value);
+            }
+        }
+
+        public void SetGrounded(bool isGrounded)
+        {
+            if (currentModelAnimator != null)
+            {
+                currentModelAnimator.SetBool("Grounded", isGrounded);
+            }
+        }
+
         public void PlayAnimation(AnimationState animation)
         {
             if (currentModelAnimator == null)
@@ -46,18 +63,20 @@ namespace Players
             switch (animation)
             {
                 case AnimationState.Walk:
-                    currentModelAnimator.Play(WALK);
+                    currentModelAnimator.SetTrigger(WALK);
                     break;
                 case AnimationState.Idle:
-                    currentModelAnimator.Play(IDLE);                  
+                    currentModelAnimator.SetTrigger(IDLE);
                     break;
                 case AnimationState.Voice:
                     break;
                 case AnimationState.Special:
+                    currentModelAnimator.SetTrigger(SPECIAL);
+                    break;
+                case AnimationState.Jump:
+                    currentModelAnimator.SetTrigger(JUMP);
                     break;
             }
         }
-
-
     }
 }
