@@ -1,4 +1,8 @@
+using GaiaElements;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using TeamColors;
 using UnityEngine;
 
 public class CollisionPainter : MonoBehaviour{
@@ -13,23 +17,18 @@ public class CollisionPainter : MonoBehaviour{
     [Header("Paint Collider")] 
     public float paintColliderRadius;
 
-
     private void FixedUpdate() {
+        //Paint();
+    }
+
+    private void OnEnable()
+    {
         Paint();
     }
+    private void Paint() {
 
-    /*
-    private void OnCollisionStay(Collision other) {
-        Paintable p = other.collider.GetComponent<Paintable>();
-        Debug.Log(p);
-        if(p != null){
-            Vector3 pos = other.contacts[0].point;
-            PaintManager.instance.paint(p, pos, paintRadius, hardness, strength, paintColor);
-        }
-    }
-    */
+        Debug.Log("hey");
 
-    public void Paint() {
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, paintColliderRadius);
 
         foreach (Collider col in hitColliders)

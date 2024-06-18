@@ -58,7 +58,7 @@
                 }         
 
                 float4 mainCol = tex2D(_MainTex, i.uv);
-                float4 paintCol = tex2D(_PaintTexture, (i.uv % 20) * 20);
+                float4 paintCol = tex2D(_PaintTexture, (i.uv % 10) * 10);
                 float f = mask(i.worldPos, _PainterPosition, _Radius, _Hardness);
                 float edge = f * _Strength;
                 return lerp(mainCol, paintCol, edge);
