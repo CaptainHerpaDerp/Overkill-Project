@@ -19,18 +19,22 @@ public class GreenSpecialBehaviour : SpecialBehaviour
 
     private CreatureManager selectedCreature;
 
-    public override void Activate()
+    public override bool Activate()
     {
         if (onCooldown)
         {
-            return;
+            return false;
         }
 
         if (creatureSelector.selectedCreature != null)
         {
             selectedCreature = creatureSelector.selectedCreature;
             TrajectoryCoroutine ??= StartCoroutine(DoTrajectory());
+
+            return true;
         }
+
+        return false;
     }
 
     private IEnumerator DoTrajectory()
