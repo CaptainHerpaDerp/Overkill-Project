@@ -25,6 +25,7 @@ public class CollisionPainter : MonoBehaviour{
     {
         Paint();
     }
+
     private void Paint() {
 
         Debug.Log("hey");

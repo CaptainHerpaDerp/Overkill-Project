@@ -132,7 +132,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paintColor: {r: 0, g: 0, b: 0, a: 0}
-  paintRadius: 1
+  initialPaintRadius: 1
   paintRadiusStep: 0.4
   maxPaintRadius: 3
   captureDelay: 0.2
@@ -144,9 +144,12 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 309a253f512d887488de6d20eb1a7578, type: 3}
   - {fileID: 2800000, guid: ae75995396bac4d48bed62742984e1b3, type: 3}
   - {fileID: 2800000, guid: 5a0ac24a4c41afd4d807ef79625268ce, type: 3}
-  - {fileID: 2800000, guid: 309a253f512d887488de6d20eb1a7578, type: 3}
+  - {fileID: 2800000, guid: e47bb848d6639e5449c818ca5c6d47a4, type: 3}
   normalPaintMap: {fileID: 2800000, guid: 9b60307a763edb74495160937aea3b3d, type: 3}
   paintColliderRadius: 1
+  paintLayerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!1 &6488628123260554814
 GameObject:
   m_ObjectHideFlags: 0

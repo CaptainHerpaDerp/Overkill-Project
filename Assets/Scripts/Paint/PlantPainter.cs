@@ -8,7 +8,8 @@ using UnityEngine;
 public class PlantPainter : MonoBehaviour{
     [Header("Plant paint spread properties")]
     public Color paintColor;
-    public float paintRadius = 1;
+    public float initialPaintRadius = 1f;
+   
     public float paintRadiusStep = .5f;
     public float maxPaintRadius = 3;
     public float captureDelay = .2f;
@@ -23,12 +24,16 @@ public class PlantPainter : MonoBehaviour{
 
     [Header("Paint Collider")] 
     public float paintColliderRadius;
+    public LayerMask paintLayerMask;
+
+    private float paintRadius;
 
 
     private void Awake()
     {
         transform.parent.GetComponent<Plant>().OnPlantOwnershipChanged += ChangePlantOwner;   
     }
+    
 
     private void FixedUpdate() {
         //Paint();
@@ -36,6 +41,7 @@ public class PlantPainter : MonoBehaviour{
 
 
     private void ChangePlantOwner(int iD, ColorEnum.TEAMCOLOR newColor, ColorEnum.TEAMCOLOR oldColor) {
+        paintRadius = initialPaintRadius;
         StartCoroutine(PaintCourutine(newColor));
     }
 
@@ -56,7 +62,7 @@ public class PlantPainter : MonoBehaviour{
     }
 
     private void Paint() {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, paintColliderRadius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, paintColliderRadius, paintLayerMask);
 
         foreach (Collider col in hitColliders)
         {
