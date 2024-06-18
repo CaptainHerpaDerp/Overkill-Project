@@ -36,6 +36,8 @@ namespace Players
         public Transform orientation;
         public Camera playerCamera;
 
+        [SerializeField] private PlayerModelController playerModelController;
+
         private Vector2 movementInput;
         private Vector2 lookInput;
 
@@ -150,7 +152,9 @@ namespace Players
 
                 OnPlayerNumberChange?.Invoke();
 
-                transform.GetComponentInChildren<MeshRenderer>().material.color = ColorEnum.GetColor(value);    
+                transform.GetComponentInChildren<MeshRenderer>().material.color = ColorEnum.GetColor(value);
+
+                playerModelController.SetPlayerModel((int)value);
 
                 teamColor = value;
             }
@@ -258,10 +262,9 @@ namespace Players
             if (isLocked)
                 return;
 
-            GetInput();
-
-            
+            GetInput();       
             OffsetJumpSpeed();
+            HandleAnimations();
 
             if (UpdatePlayerValues)
             {
@@ -441,6 +444,19 @@ namespace Players
             //// Rotate vertically (around x-axis)
             //float newRotationX = Mathf.Clamp(transform.eulerAngles.x - lookDirection.y, 0f, 90f); // Limit vertical rotation
             //transform.rotation = Quaternion.Euler(newRotationX, transform.eulerAngles.y, transform.eulerAngles.z);
+        }
+
+        private void HandleAnimations()
+        {
+            // Set the animator state to walk if the player is moving
+            if (movementInput.magnitude > 0)
+            {
+                playerModelController.PlayAnimation(AnimationState.Walk);
+            }
+            else
+            {
+                playerModelController.PlayAnimation(AnimationState.Idle);
+            }
         }
 
         private void LimitSpeed()

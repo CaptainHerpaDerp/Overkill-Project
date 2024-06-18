@@ -142,8 +142,6 @@ namespace GameManagement
 
                 playerParent.transform.position = spawnPoints[selectedCharacter].position;
 
-                playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[selectedCharacter];
-
                 PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
 
                 // Include the respective player's layer in the camera culling mask
