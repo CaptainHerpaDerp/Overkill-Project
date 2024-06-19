@@ -101,6 +101,10 @@ PrefabInstance:
       value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 809091727347643631, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key0.a
+      value: 0.6901961
+      objectReference: {fileID: 0}
+    - target: {fileID: 809091727347643631, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key0.b
       value: 0.5849056
       objectReference: {fileID: 0}
@@ -111,6 +115,10 @@ PrefabInstance:
     - target: {fileID: 809091727347643631, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key0.r
       value: 0.054936983
+      objectReference: {fileID: 0}
+    - target: {fileID: 809091727347643631, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
+      propertyPath: ColorModule.gradient.maxGradient.key1.a
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 809091727347643631, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
       propertyPath: ColorModule.gradient.maxGradient.key1.b
@@ -222,7 +230,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8880522627078308083, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
       propertyPath: m_Name
-      value: Particle System (1) Variant
+      value: BlueSmokeScreenParticlesePLAYER
+      objectReference: {fileID: 0}
+    - target: {fileID: 8880522627078308083, guid: 312604bf68dd1374292ecdd1e0874d56, type: 3}
+      propertyPath: m_Layer
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
