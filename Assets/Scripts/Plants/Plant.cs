@@ -25,7 +25,7 @@ namespace GaiaElements
         public Action<int, TEAMCOLOR, TEAMCOLOR> OnPlantOwnershipChanged;
         public Action OnPlantSettingsChanged;
 
-        [SerializeField] private bool plantSpreadCreep;
+        private bool plantSpreadCreep;
 
         public Transform PlayerParentTransform;
 
@@ -50,7 +50,8 @@ namespace GaiaElements
             get => teamColor;
             set
             {
-         
+            
+
                 if (plantMeshes.Count >= (int)value )
                 plantMeshFilter.mesh = plantMeshes[(int)value];
 
@@ -115,8 +116,7 @@ namespace GaiaElements
             {
                 return;
             }
-
-            PlantSpreadCreep = false;
+            
             plantAnimator.SetTrigger("UnGrow");
             TeamColor = TEAMCOLOR.DEFAULT;
         }

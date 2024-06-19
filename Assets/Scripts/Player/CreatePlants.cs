@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static TeamColors.ColorEnum;
 using GaiaElements;
@@ -12,10 +11,13 @@ public class CreatePlants : MonoBehaviour
     [SerializeField] private Renderer playerRenderer;
 
     private Player parentPlayer;
+
     [SerializeField] private float heightOffset;
+
     private TEAMCOLOR teamColor;
+
+    private bool canSpawnPlant = true;
     public float GrowthRate;
-    [SerializeField] private float plantRetrieveRate;
 
     // Animal Growth Proximity (Green)
     public bool AnimalProximityGrowth;
@@ -27,27 +29,25 @@ public class CreatePlants : MonoBehaviour
     public bool HasRemovalTrail;
 
     private AnimalLocator animalLocator;
-    [SerializeField] private LayerMask plantLayer;
-    private List<Plant> surroundingPlants = new List<Plant>();
-    private HashSet<Plant> plantSet = new HashSet<Plant>();
 
     private void Start()
     {
         parentPlayer = transform.parent.GetComponent<Player>();
-        parentPlayer.OnPlayerStart += BeginPlant;
-
-        StartCoroutine(UpdatePlants());
-        StartCoroutine(ConvertSurroundingPlants());
+        parentPlayer.OnPlayerStart += BeginPlant;       
     }
 
     private void BeginPlant()
     {
         animalLocator = AnimalLocator.Instance;
+
         teamColor = parentPlayer.TeamColor;
+
         parentPlayer.OnPlayerNumberChange += () => teamColor = parentPlayer.TeamColor;
         HasRemovalTrail = parentPlayer.HasRemovalTrail;
 
         playerRenderer.material.color = GetColor(teamColor);
+        StartCoroutine(ReloadPlantSpread());
+
         print("create plants");
     }
 
@@ -72,84 +72,61 @@ public class CreatePlants : MonoBehaviour
             DistanceMultiplier = 0.01f;
         }
 
-        float finalRate = Mathf.Clamp(DistanceMultiplier * (distance / MaxAnimalDistance), MinAnimalProximityGrowthRate, 1);
-        print("Final Rate: " + finalRate);
-        return finalRate;
+        var variable = Mathf.Clamp(DistanceMultiplier * (MaxAnimalDistance * (distance / MaxAnimalDistance)), GrowthRate, MinAnimalProximityGrowthRate);
+
+        print($"current var: {variable}");
+
+        return variable;
     }
 
-    private IEnumerator UpdatePlants()
+    /// <summary>
+    /// Waits before the player can spawn a plant again
+    /// </summary>
+    /// <returns></returns>
+    private IEnumerator ReloadPlantSpread()
     {
         while (true)
         {
-            UpdateSurroundingPlants();
-            yield return new WaitForSeconds(plantRetrieveRate);
-        }
-    }
-
-    private void UpdateSurroundingPlants()
-    {
-        var colliders = Physics.OverlapSphere(transform.position, sphereCollider.radius, plantLayer);
-        foreach (var collider in colliders)
-        {
-            if (!collider.TryGetComponent(out Plant plant)) continue;
-
-            if (!plantSet.Contains(plant))
+            if (!canSpawnPlant)
             {
-                plantSet.Add(plant);
-                surroundingPlants.Add(plant);
-            }
-        }
-    }
-
-    private IEnumerator ConvertSurroundingPlants()
-    {
-        while (true)
-        {
-            List<Plant> plantsToRemove = new List<Plant>();
-
-            for (int i = 0; i < surroundingPlants.Count; i++)
-            {
-                Plant plant = surroundingPlants[i];
-
-                if (HasRemovalTrail)
-                {
-                    if (plant.TeamColor != TEAMCOLOR.RED)
-                    {
-                        plant.UnPlant();
-                    }
-                }
-                else
-                {
-                    plant.PlayerParentTransform = parentPlayer.transform;
-                    plant.Activate(teamColor);
-                    plant.PlantSpreadCreep = parentPlayer.PlantSpreadCreep;
-                }
-
-                plantsToRemove.Add(plant);
-
                 yield return new WaitForSeconds(GetGrowthRate());
-            }
-
-            // Now remove the plants that were marked for removal
-            foreach (var plant in plantsToRemove)
-            {
-                surroundingPlants.Remove(plant);
-                // If you have another collection like plantSet, make sure to remove from that as well
-                plantSet.Remove(plant); // Uncomment if plantSet is used
+                canSpawnPlant = true;
             }
 
             yield return new WaitForFixedUpdate();
         }
     }
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (!other.TryGetComponent(out Plant plant)) return;
-
-        if (plantSet.Contains(plant))
+    private void OnTriggerEnter(Collider other)
+    {      
+        // Only spread influence if the player has "reloaded"
+        if (!canSpawnPlant)
         {
-            plantSet.Remove(plant);
-            surroundingPlants.Remove(plant);
+            Debug.LogWarning("plant cannot be spawned");
+            return;
+        }
+
+        if (!other.TryGetComponent<Plant>(out var plant))
+        {
+            return;
+        }
+
+        // Red Behaviour - Un-plants plants
+        if (HasRemovalTrail)
+        {
+            // Do not unplant the player's own plants or unplanted plants
+            if (plant.TeamColor != TEAMCOLOR.RED)
+            {
+                plant.UnPlant();
+            }
+        }
+        else
+        {
+            print("plant spread");
+            plant.PlayerParentTransform = parentPlayer.transform;
+            plant.Activate(teamColor);
+            plant.PlantSpreadCreep = parentPlayer.PlantSpreadCreep;
+            canSpawnPlant = false;
         }
     }
 }

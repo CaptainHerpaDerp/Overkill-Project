@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxRadius: 2.5
   surroundingPlants: {fileID: 4870302917297095568}
-  rollChance: 15
+  rollChance: 10
   maxDistanceModifier: 150
   distanceMultiplier: 0.1
 --- !u!114 &4870302917297095568

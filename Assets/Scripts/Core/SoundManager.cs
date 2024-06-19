@@ -23,9 +23,6 @@ namespace Core
         [SerializeField] private List<Transform> players = new();
         private Dictionary<AudioSource, float> audioSourceVolumePairs = new();
 
-        [SerializeField] private AudioClip redAbilitySound;
-        [SerializeField] private AudioClip purpleAbilitySound;
-
         private void Start()
         {
             AudioSource[] audioSources;
@@ -107,16 +104,6 @@ namespace Core
             // Adjust the spatial blend based on distance
             float spatialBlend = Mathf.Clamp01(distance / maxDistance);
             source.spatialBlend = spatialBlend;
-        }
-
-        public void PlayRedAbilityAtPoint(Vector3 position)
-        {
-            AudioSource.PlayClipAtPoint(redAbilitySound, position);
-        }
-
-        public void PlayPurpleAbilityAtPoint(Vector3 position)
-        {
-            AudioSource.PlayClipAtPoint(purpleAbilitySound, position);
         }
     }
 }

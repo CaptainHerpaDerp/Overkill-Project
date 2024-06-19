@@ -85,7 +85,7 @@ namespace GameManagement
 
             Player parentPlayer = playerParent.GetComponent<Player>();
 
-            GameManager.Instance.AddPlayer(parentPlayer);
+            GameManager.Instance.PlayerList.Add(parentPlayer);
 
             parentPlayer.LockCharacter();
 

@@ -40529,10 +40529,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: AudioManager
       objectReference: {fileID: 0}
-    - target: {fileID: 7359435624325668412, guid: 0f40abdcfbf042347bbfeab48002113a, type: 3}
-      propertyPath: redAbilitySound
-      value: 
-      objectReference: {fileID: 8300000, guid: 24d59f8f0cc90b740bcd7cd6353f1598, type: 3}
     - target: {fileID: 8287912967731442865, guid: 0f40abdcfbf042347bbfeab48002113a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -40792,7 +40788,7 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8909710872706371934, guid: 488bd7a672e980d46bf950439e25fead, type: 3}
   m_PrefabInstance: {fileID: 3754116236123075603}
   m_PrefabAsset: {fileID: 0}
---- !u!1001 &7177172939890044995
+--- !u!1001 &6553954698737661352
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -40800,55 +40796,55 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 24.3
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalPosition.y
       value: 5.54
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalPosition.z
       value: -39.3
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalRotation.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalRotation.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 2395256773465057058, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+    - target: {fileID: 3555399892210355644, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
       propertyPath: m_Name
-      value: Deer
+      value: PaintCreature
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 1d5daa30b03cdf241b5fc546309053c2, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -40862,7 +40858,7 @@ SceneRoots:
   - {fileID: 2000835548}
   - {fileID: 770662175}
   - {fileID: 340414988}
-  - {fileID: 7177172939890044995}
+  - {fileID: 6553954698737661352}
   - {fileID: 1239249170}
   - {fileID: 1779542974}
   - {fileID: 1528654137}

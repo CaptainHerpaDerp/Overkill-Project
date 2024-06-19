@@ -43,11 +43,7 @@ namespace GameManagement
         [SerializeField] private GameObject crownPrefab;
         private GameObject crownInstance;
 
-        [SerializeField] private List<Player> playerList = new();
-
-        // Create a public accessor for the player list that is not modifiable
-        public List<Player> PlayerList { get { return playerList; } }
- 
+        [SerializeField] public List<Player> PlayerList = new();
 
         // TEMP
         [SerializeField] private GameObject victoryGroup;
@@ -77,7 +73,6 @@ namespace GameManagement
         [SerializeField] private bool OpenCharacterSelectOnStart;
 
         public Action OnGameReload, OnGameEnd;
-        public Action<Player> OnPlayerAdded;
 
         public void Awake()
         {
@@ -104,18 +99,12 @@ namespace GameManagement
             StartCoroutine(AdjustPlayerPlacementSpheres());
         }
 
-        public void AddPlayer(Player player)
-        {
-            playerList.Add(player);
-            OnPlayerAdded?.Invoke(player);
-        }
-
         public Player GetMostMovePlayerWinner()
         {
             Player mostMovePlayer = null;
             float mostMove = 0;
 
-            foreach (Player player in playerList)
+            foreach (Player player in PlayerList)
             {
                 if (player.timeMoving > mostMove)
                 {
@@ -137,7 +126,7 @@ namespace GameManagement
 
             while (true)
             {
-                foreach (Player player in playerList)
+                foreach (Player player in PlayerList)
                 {
                     // Skip red
                     if (player.TeamColor == TEAMCOLOR.RED)
@@ -147,7 +136,7 @@ namespace GameManagement
 
                     float maximumScore = 0;
 
-                    foreach (Player compPlayer in playerList)
+                    foreach (Player compPlayer in PlayerList)
                     {
                         if (player == compPlayer)   
                         {
@@ -183,7 +172,7 @@ namespace GameManagement
                 Player winningPlayer = null;
                 int winningScore = 0;
 
-                foreach (Player player in playerList)
+                foreach (Player player in PlayerList)
                 {
                     int score = GetScoreForPlayer(player.TeamColor);
 
@@ -307,7 +296,7 @@ namespace GameManagement
             victoryGroup.SetActive(true);
 
             // disable all of the player cameras and lock movement
-            foreach (Player player in playerList)
+            foreach (Player player in PlayerList)
             {
                 player.LockMovement = true;
                 player.GetComponentInChildren<Camera>().enabled = false;
@@ -318,7 +307,7 @@ namespace GameManagement
             int firstPlaceScore = 0, secondPlaceScore = 0, thirdPlaceScore = 0, fourthPlaceScore = 0;
 
             // Determine the top 3 players
-            foreach (Player player in playerList)
+            foreach (Player player in PlayerList)
             {
                 int score = GetScoreForPlayer(player.TeamColor);
 
@@ -413,13 +402,13 @@ namespace GameManagement
             PlayerLocator.Instance.ResetPlayerRegistration();
 
             // Destroy all players
-            foreach (Player player in playerList)
+            foreach (Player player in PlayerList)
             {
                 Destroy(player.gameObject);
             }
 
-            playerList.Clear();
-            playerList = new();
+            PlayerList.Clear();
+            PlayerList = new();
 
             crownInstance.transform.SetParent(this.transform);
         }

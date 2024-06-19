@@ -196,6 +196,8 @@ namespace Creatures
         {
             while (true)
             {
+                print("tick");
+
                 if (isConverting)
                 {
                     if (!canMoveOnConvert)
@@ -270,6 +272,8 @@ namespace Creatures
                     {
                         creatureConversionSound.StopSound();
                     }
+
+                    print("unconvert");
                 }
 
                 isConverting = false;
@@ -349,12 +353,10 @@ namespace Creatures
 
             if (magnitude == 0)
             {
-                creatureAnimator.SetBool("Stationary", true);
                 magnitude = -1f;
             }
             else
             {
-                creatureAnimator.SetBool("Stationary", false);
                 magnitude = 1f;
             }
 
