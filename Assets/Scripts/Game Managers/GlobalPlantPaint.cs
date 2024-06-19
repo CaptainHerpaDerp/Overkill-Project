@@ -135,13 +135,23 @@ namespace GameManagement
         {
             Ray ray;
             RaycastHit hit;
+            //int count = plantParent.childCount;
             for (int i = 0; i < plantParent.childCount; i++)
             {
                 ray = new Ray(plantParent.GetChild(i).position + Vector3.up * 10, Vector3.down);
-                if (!Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask(LayerName)))
+                if (Physics.Raycast(ray, out hit, Mathf.Infinity, LayerMask.GetMask(LayerName)))
                 {
-                    DestroyImmediate(plantParent.GetChild(i).gameObject);
+                    if (!hit.transform.gameObject.CompareTag("PlantSurface"))
+                    {
+                        Debug.Log("destroying the thing without tag");
+                        Destroy(plantParent.GetChild(i).gameObject);
+                    }
+
                 }
+                else {
+                    Destroy(plantParent.GetChild(i).gameObject);
+                }
+
             }
         }
     }

@@ -1,0 +1,11 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DIEDE/Models/Plants/Blue/Medium/PF_Blue_Medium_01a.prefab.meta
+guid: 733bc57e37bc0f642b37ec1f785e0f63
+========
+guid: 61397bff8143ab14e94ca2586cd8d05d
+>>>>>>>> 592046d (Lighting):Assets/DIEDE/Lighting/Local Volumetric Fog.prefab.meta
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

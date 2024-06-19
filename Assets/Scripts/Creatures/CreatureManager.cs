@@ -255,7 +255,7 @@ namespace Creatures
                     creatureConversionSound.PlaySound(t);
 
 
-                    print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
+                    //print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
                 }
                 else
                 {
@@ -313,7 +313,7 @@ namespace Creatures
             // Change the color of the creature
             //meshRenderer.material.color = ColorEnum.GetColor(newColor);
             //for (int i = 0; i < creatureColorMasks.Count; i++) {
-            //    if (i == (int)creatureColor) {
+            //   if (i == (int)creatureColor) {
             //        creatureColorMasks[i].gameObject.SetActive(true);
             //        continue;
             //    }

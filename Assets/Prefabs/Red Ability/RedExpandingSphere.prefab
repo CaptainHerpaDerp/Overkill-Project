@@ -66,7 +66,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 276a9fac0221ac24ead266083454e11c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 10
   pulseCollider: {fileID: 4083784438933472124}
   maxPulseRadius: 8
-  pulseSpeed: 15
+  pulseSpeed: 5
