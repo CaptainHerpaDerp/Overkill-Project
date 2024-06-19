@@ -17,7 +17,7 @@ namespace TeamColors
             Color.green,
             Color.blue,
             Color.magenta,
-            Color.black
+            Color.gray
         };
 
         public static Color GetColor(TEAMCOLOR color) {

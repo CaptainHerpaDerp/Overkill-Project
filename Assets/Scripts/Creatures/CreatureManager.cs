@@ -35,13 +35,13 @@ namespace Creatures
         [Header("Assuming all of the surrounding plants are owned by the creature owner, conversion speed of this creature will be multiplied by this value")]
         [SerializeField] float ratioPenalty = 0.5f;
 
-        [SerializeField] private MeshRenderer meshRenderer;
+        [SerializeField] private SkinnedMeshRenderer meshRenderer;
         [SerializeField] private float colorShiftMod;
 
         // If false, the creature will stop moving when converting
         [SerializeField] private bool canMoveOnConvert = true;
 
-        private bool isConverting;
+        [SerializeField] private bool isConverting;
 
         // A list to track every player attempting to convert this creature
         private List<TeamColors.ColorEnum.TEAMCOLOR> converters = new();
@@ -59,12 +59,21 @@ namespace Creatures
 
         public bool IsHighlighted;
 
-        [SerializeField] private Transform selectonCrystalParent;
+        [SerializeField] private Transform selectionCrystalParent;
 
+        [SerializeField] private Animator creatureAnimator;
+
+        // Green-Specific Action
         public Action OnTeleport;
 
         private void Start()
         {
+            if (creatureAnimator == null)
+            {
+                Debug.LogError("Creature Animator is null! Please Assign!");
+                return;
+            }
+
             Init();
             ChangeThisCreatureColor(creatureColor);
             StartCoroutine(DoConversion());
@@ -117,20 +126,26 @@ namespace Creatures
                 isRedConversion = false;
             }
 
-            isConverting = true;
             targetColor = ColorEnum.GetColor(newColor);
-
 
             if (!converters.Contains(newColor))
             {
                 converters.Add(newColor);
             }
+            else
+            {
+                print("Already converting");
+            }
 
             if (newColor == creatureColor)
             {
+                print("Saved");
+
                 conversionProgress = 0;
                 return;
             }
+
+            isConverting = true;
 
             if (conversionProgress >= conversionThreshold - baseConversionSpeed)
             {
@@ -151,6 +166,8 @@ namespace Creatures
                 conversionProgress = 0;
                 initialColor = targetColor;
                 converters.Clear();
+
+                isConverting = false;
             }
         }
 
@@ -168,17 +185,19 @@ namespace Creatures
         private void Update()
         {
             creatureColorScripts[(int)creatureColor].Act();
+        }
 
-            if (IsHighlighted)
-            {
-                //print("highlighted");
-            }
+        private void FixedUpdate()
+        {
+            HandleAnimations();
         }
 
         private IEnumerator DoConversion()
         {
             while (true)
             {
+                print("tick");
+
                 if (isConverting)
                 {
                     if (!canMoveOnConvert)
@@ -194,11 +213,15 @@ namespace Creatures
                         // Clear the converters list
                         converters.Clear();
 
+                        Debug.Log("Multiple converters");
+
                         continue;
                     }
 
                     if (targetColor == initialColor)
                     {
+                        Debug.LogWarning("Target color is the same as the initial color");
+
                         converters.Clear();
                         creatureConversionSound.StopSound();    
                         yield return new WaitForFixedUpdate();
@@ -232,7 +255,7 @@ namespace Creatures
                     creatureConversionSound.PlaySound(t);
 
 
-                    //print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
+                    print($"conversion: {conversionProgress} / {conversionThreshold} | ratio: {surroundingPlant.GetSurroundingPlantsClamped()} || hinderance: {hinderance}");
                 }
                 else
                 {
@@ -250,6 +273,7 @@ namespace Creatures
                         creatureConversionSound.StopSound();
                     }
 
+                    print("unconvert");
                 }
 
                 isConverting = false;
@@ -287,14 +311,14 @@ namespace Creatures
             surroundingPlant.TeamColour = creatureColor;
 
             // Change the color of the creature
-            gameObject.GetComponent<Renderer>().material.color = ColorEnum.GetColor(newColor);
-            for (int i = 0; i < creatureColorMasks.Count; i++) {
-                if (i == (int)creatureColor) {
-                    creatureColorMasks[i].gameObject.SetActive(true);
-                    continue;
-                }
-                creatureColorMasks[i].gameObject.SetActive(false);
-            }
+            //meshRenderer.material.color = ColorEnum.GetColor(newColor);
+            //for (int i = 0; i < creatureColorMasks.Count; i++) {
+            //    if (i == (int)creatureColor) {
+            //        creatureColorMasks[i].gameObject.SetActive(true);
+            //        continue;
+            //    }
+            //    creatureColorMasks[i].gameObject.SetActive(false);
+            //}
         }
 
         private void ChangePlantColor(Plant plant, ColorEnum.TEAMCOLOR newColor)
@@ -318,6 +342,25 @@ namespace Creatures
         private void SetNewTarget(Vector3 newTarget)
         {
             agent.SetDestination(newTarget);
+        }
+
+        private void HandleAnimations()
+        {
+            creatureAnimator.SetBool("Taming", isConverting);
+            
+            // Organizes magnitude into either being 1 or -1 (for animator's greater or less statement)
+            float magnitude = agent.velocity.magnitude;
+
+            if (magnitude == 0)
+            {
+                magnitude = -1f;
+            }
+            else
+            {
+                magnitude = 1f;
+            }
+
+            creatureAnimator.SetFloat("Magnitude", magnitude);
         }
     }
 }
