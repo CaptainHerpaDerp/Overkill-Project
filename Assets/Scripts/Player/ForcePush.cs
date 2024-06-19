@@ -8,7 +8,7 @@ public class ForcePush : MonoBehaviour
 {
     [Header("Maximum possible force")]
     public float force = 10f;
-
+    public float minPushForce = 5f;
 
     public ForceMode forceMode = ForceMode.Force;
 
@@ -154,6 +154,8 @@ public class ForcePush : MonoBehaviour
                     {
                         Debug.Log("Total force: " + totalForce);
                         item.GetComponent<Player>().PushCountStart(Player, pushedStatusTimer);
+
+                        totalForce = Mathf.Max(minPushForce, totalForce);
 
                         item.AddForce(diff * (totalForce / Vector3.Distance(transform.position, item.transform.position)), forceMode);
                     }

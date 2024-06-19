@@ -190,6 +190,53 @@ MonoBehaviour:
   landingMarkerPrefab: {fileID: 5176655913128508261, guid: b622d2518afe18a4fb42a43e4ccf5171, type: 3}
   CollisionColour: {r: 0.07735002, g: 1, b: 0, a: 0.5019608}
   MissColour: {r: 1, g: 0, b: 0, a: 0.5019608}
+--- !u!1 &504147663907171416
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2582346511754232993}
+  - component: {fileID: 6285751509470494515}
+  m_Layer: 0
+  m_Name: PlayerTargetFinder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &2582346511754232993
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504147663907171416}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6276699347058916536}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6285751509470494515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 504147663907171416}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a31bc14095647d4a94a851c8834d1ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetPlayers: []
+  exclusionPlayer: {fileID: 2149499087766023847}
+  minAngle: 45
 --- !u!1 &523046320810173822
 GameObject:
   m_ObjectHideFlags: 0
@@ -391,12 +438,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aef081cabade944c87fcdefcf3d5760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 15
+  cooldownTime: 2
   influenceRadius: 10
   layerMask: 7
   particleGameObject: {fileID: 3433496592899143037, guid: 79f0adfca8d7fcf45b3a4430044d39dc, type: 3}
   sphereCollider: {fileID: 1655775852106677106, guid: cde57d3d7c74be54f8c27b30961a7569, type: 3}
-  activationDelay: 0
+  activationDelay: 0.7
 --- !u!1 &1762540249833305021
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,15 +488,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9cced94d3632a488376faa2ee419b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 10
-  smokeObjectPrefab: {fileID: 2978363708290580132, guid: 59e4981ddf0532b49a1b6ccff64980dd, type: 3}
-  fogPointPrefab: {fileID: 0}
-  smokeOffset: {x: 0, y: 0, z: 0}
-  influenceRadius: 10
-  layerMask: 7
-  scaleModMin: 2
-  scaleModMax: 5
-  spawnChance: 1
+  cooldownTime: 1
+  smokeGroupPrefab: {fileID: 8161962787033080713, guid: 326a25cc589e3d84194bd09fb9aa07d6, type: 3}
+  destroyTime: 20
 --- !u!1 &2702898992917212260
 GameObject:
   m_ObjectHideFlags: 0
@@ -797,7 +838,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9722a48834612fe478fd7c2dc4ce8ae6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  force: 200
+  force: 400
+  minPushForce: 50
   forceMode: 0
   pushAngle: 45
   pushDistance: 9
@@ -1121,6 +1163,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6591122192255512052}
+  - {fileID: 2582346511754232993}
   m_Father: {fileID: 7836722394481455300}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3182644430818121937
@@ -1135,22 +1178,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648a67bb7eb4d194698816fec6a26d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cooldownTime: 15
+  cooldownTime: 1
   laserOrigin: {fileID: 2111497816963260412}
   laserRange: 100
   collisionMask:
     serializedVersion: 2
     m_Bits: 65536
-  laserLineRenderer: {fileID: 0}
+  laserLineRenderer: {fileID: 7990888569138141163}
   laserEndEffect: {fileID: 0}
   laserCapsule: {fileID: 7161439196154565497}
-  laserTime: 0.1
+  laserTime: 0.5
   laserPushback: 1500
-  laserWidth: 0
+  laserWidth: 3
   parentPlayer: {fileID: 2149499087766023847}
-  aimMat: {fileID: 0}
-  fireMat: {fileID: 0}
-  audioSource: {fileID: 0}
+  aimMat: {fileID: 2100000, guid: f2c8d42f1e4c98945b8deed5b84f92b0, type: 2}
+  fireMat: {fileID: 2100000, guid: 3f64cb7be348aec4eb665c420604db53, type: 2}
+  targetFinder: {fileID: 6285751509470494515}
+  numSegments: 50
+  turnSharpness: 1
+  straightSegmentLength: 10
+  straightLaserAngle: 10
 --- !u!120 &7990888569138141163
 LineRenderer:
   serializedVersion: 2
@@ -1858,11 +1905,15 @@ MonoBehaviour:
   playerRenderer: {fileID: 5815655177183868328}
   heightOffset: 1.4
   GrowthRate: 0.1
+  plantRetrieveRate: 0.05
   AnimalProximityGrowth: 0
-  MaxAnimalDistance: 0
-  DistanceMultiplier: 0
-  MinAnimalProximityGrowthRate: 0
+  MaxAnimalDistance: 100
+  DistanceMultiplier: 1
+  MinAnimalProximityGrowthRate: 0.1
   HasRemovalTrail: 0
+  plantLayer:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!135 &1726663599356196859
 SphereCollider:
   m_ObjectHideFlags: 0
