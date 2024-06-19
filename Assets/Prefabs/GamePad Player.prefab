@@ -240,7 +240,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 523046320810173822}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -315,6 +315,7 @@ MonoBehaviour:
   - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
   - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
   - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
+  greenCharacterIndex: 0
 --- !u!1 &1089915308381386942
 GameObject:
   m_ObjectHideFlags: 0
@@ -395,6 +396,7 @@ MonoBehaviour:
   layerMask: 7
   particleGameObject: {fileID: 3433496592899143037, guid: 79f0adfca8d7fcf45b3a4430044d39dc, type: 3}
   sphereCollider: {fileID: 1655775852106677106, guid: cde57d3d7c74be54f8c27b30961a7569, type: 3}
+  activationDelay: 0
 --- !u!1 &1762540249833305021
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,10 +1141,16 @@ MonoBehaviour:
   collisionMask:
     serializedVersion: 2
     m_Bits: 65536
+  laserLineRenderer: {fileID: 0}
+  laserEndEffect: {fileID: 0}
   laserCapsule: {fileID: 7161439196154565497}
   laserTime: 0.1
   laserPushback: 1500
+  laserWidth: 0
   parentPlayer: {fileID: 2149499087766023847}
+  aimMat: {fileID: 0}
+  fireMat: {fileID: 0}
+  audioSource: {fileID: 0}
 --- !u!120 &7990888569138141163
 LineRenderer:
   serializedVersion: 2
@@ -1311,7 +1319,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3836576183730160893}
   - {fileID: 72130824484487376}
   - {fileID: 3900689663253044489}
   - {fileID: 7507194846567939741}
