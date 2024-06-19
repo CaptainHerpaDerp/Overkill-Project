@@ -38,7 +38,7 @@ public class RedExpandingSphereCollider : MonoBehaviour
             {
                 plant.Activate(ColorEnum.TEAMCOLOR.RED);
             }
-            else
+            else if(plant.TeamColor != ColorEnum.TEAMCOLOR.RED)
             {
                 plant.TeamColor = ColorEnum.TEAMCOLOR.RED;
             }
