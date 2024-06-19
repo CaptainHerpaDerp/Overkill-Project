@@ -121,7 +121,10 @@ public class ForcePush : MonoBehaviour
             {
 
                 if (creatureSelector.selectedCreature != null)
-                creatureSelector.selectedCreature.Convert(Player.TeamColor);
+                {
+                    print("creature selected");
+                    creatureSelector.selectedCreature.Convert(Player.TeamColor);
+                }
 
                 foreach (var item in rigidbodies)
                 {

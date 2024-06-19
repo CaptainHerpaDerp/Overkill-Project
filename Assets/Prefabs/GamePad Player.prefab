@@ -312,9 +312,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerModels:
   - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
-  - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
-  - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
-  - {fileID: 6685022107204248720, guid: 28b0d0c3040fce84baf3a0c81c414a8c, type: 3}
+  - {fileID: 3775114534598713369, guid: 2fe13ee6f6ef40a44ae0b44d7f79064b, type: 3}
+  - {fileID: 269726376531349475, guid: a8bb8ec56cdf11947832cfedbb137fd5, type: 3}
+  - {fileID: 8433246818787467277, guid: 600a11f605c724a4bb8c81fd87a2817e, type: 3}
+  greenCharacterIndex: 1
 --- !u!1 &1089915308381386942
 GameObject:
   m_ObjectHideFlags: 0
@@ -1342,7 +1343,7 @@ MonoBehaviour:
     m_Bits: 8
   rotationSpeedX: 150
   rotationSpeedY: 100
-  jumpForce: 8
+  jumpForce: 10
   orientation: {fileID: 1702798230530849574}
   playerCamera: {fileID: 3812621330318385266}
   playerModelController: {fileID: 804895536692614938}
@@ -7103,6 +7104,14 @@ PrefabInstance:
       propertyPath: EmissionModule.rateOverTime.scalar
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7787751100725853222, guid: 00e52b1d9f5b31847986a2a934d93eeb, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7787751100725853222, guid: 00e52b1d9f5b31847986a2a934d93eeb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 3f64cb7be348aec4eb665c420604db53, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
