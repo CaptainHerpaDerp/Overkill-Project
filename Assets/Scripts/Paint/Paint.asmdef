@@ -1,0 +1,17 @@
+{
+    "name": "Paint",
+    "rootNamespace": "",
+    "references": [
+        "GUID:f73932f155982234e84dd424d9c68b81",
+        "GUID:2b127a0fb5a187444b4b8aac9a3a70cb"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

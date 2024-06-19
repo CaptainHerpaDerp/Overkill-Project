@@ -67,11 +67,10 @@ namespace GaiaElements
                     if (value != TEAMCOLOR.DEFAULT)
                     plantAnimator.SetTrigger("Grow");
                     SetColor(ColorEnum.GetColor(value));
+                    OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
                 }
 
                 plantSpreadCreep = false;
-
-                OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
      
                 teamColor = value;
             }

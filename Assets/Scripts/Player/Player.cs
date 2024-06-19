@@ -399,8 +399,11 @@ namespace Players
             // Bad collisions - smooth movement
             //transform.position += moveDirection * movementSpeed * Time.deltaTime;
 
-            // Proper collisions - jerky movement
-            rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
+            // bad collisions - same movemement
+            //rb.MovePosition(rb.position + moveDirection * movementSpeed * Time.fixedDeltaTime);
+
+            //good collisions - speedy movement
+            rb.AddForce(3 * moveDirection * movementSpeed * Time.fixedDeltaTime, ForceMode.Impulse);
         }
 
         float angle = 0f;
