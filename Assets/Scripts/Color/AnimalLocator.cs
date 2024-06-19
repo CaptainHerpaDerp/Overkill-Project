@@ -28,28 +28,26 @@ namespace TeamColors
             }
         }
 
-       
-
         public Transform GetClosestTransformOfTeam(Vector3 fromPosition, ColorEnum.TEAMCOLOR teamColor)
         {
-               Transform closestTransform = null;
-                float closestDistance = float.MaxValue;
-    
-                foreach (var animalTransformPair in animalTransformPairs)
+            Transform closestTransform = null;
+            float closestDistance = float.MaxValue;
+
+            foreach (var animalTransformPair in animalTransformPairs)
             {
-                    if (animalTransformPair.Value == teamColor)
+                if (animalTransformPair.Value == teamColor)
                 {
-                        float distance = Vector3.Distance(fromPosition, animalTransformPair.Key.position);
-    
-                        if (distance < closestDistance)
+                    float distance = Vector3.Distance(fromPosition, animalTransformPair.Key.position);
+
+                    if (distance < closestDistance)
                     {
-                            closestDistance = distance;
-                            closestTransform = animalTransformPair.Key;
-                        }
+                        closestDistance = distance;
+                        closestTransform = animalTransformPair.Key;
                     }
                 }
-    
-                return closestTransform;        
+            }
+
+            return closestTransform;
         }
 
         public void RegisterAnimalOfTeam(Transform animalTransform, ColorEnum.TEAMCOLOR teamColor)

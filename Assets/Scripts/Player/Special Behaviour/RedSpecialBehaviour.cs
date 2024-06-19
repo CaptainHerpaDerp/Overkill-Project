@@ -2,6 +2,7 @@ using GaiaElements;
 using System.Collections;
 using TeamColors;
 using UnityEngine;
+using Core;
 
 public class RedSpecialBehaviour : SpecialBehaviour
 {
@@ -31,6 +32,8 @@ public class RedSpecialBehaviour : SpecialBehaviour
     {
         onCooldown = true;
         yield return new WaitForSeconds(activationDelay);
+
+        SoundManager.Instance.PlayRedAbilityAtPoint(transform.position);
 
         ParticleSystem newSystem = Instantiate(particleGameObject.gameObject, transform.position, particleGameObject.transform.rotation).GetComponent<ParticleSystem>();
         RedExpandingSphereCollider newSphereCollider = Instantiate(sphereCollider.gameObject, transform.position, sphereCollider.transform.rotation).GetComponent<RedExpandingSphereCollider>();
