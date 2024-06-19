@@ -277,7 +277,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""path"": ""<Gamepad>/dpad/up"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""DPadUp"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -288,7 +288,7 @@ public partial class @PlayerControlsGamepad: IInputActionCollection2, IDisposabl
                     ""path"": ""<Gamepad>/dpad/down"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""DPadDown"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

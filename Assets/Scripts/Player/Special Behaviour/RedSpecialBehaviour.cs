@@ -12,20 +12,31 @@ public class RedSpecialBehaviour : SpecialBehaviour
     [SerializeField] private ParticleSystem particleGameObject;
     [SerializeField] private RedExpandingSphereCollider sphereCollider;
 
-    public override void Activate()
+    [Header("The time before the ability takes effect")]
+    [SerializeField] private float activationDelay;
+
+    public override bool Activate()
     {
         if (onCooldown)
         {
-            return;
+            return false;
         }
+
+        StartCoroutine(DoAbility());
+
+        return true;
+    }
+
+    private IEnumerator DoAbility()
+    {
+        onCooldown = true;
+        yield return new WaitForSeconds(activationDelay);
 
         ParticleSystem newSystem = Instantiate(particleGameObject.gameObject, transform.position, particleGameObject.transform.rotation).GetComponent<ParticleSystem>();
         RedExpandingSphereCollider newSphereCollider = Instantiate(sphereCollider.gameObject, transform.position, sphereCollider.transform.rotation).GetComponent<RedExpandingSphereCollider>();
 
         newSystem.Play();
         StartCoroutine(DestroyParticlesOnFinish(newSystem));
-
-        onCooldown = true;
         DoCooldown();
     }
 

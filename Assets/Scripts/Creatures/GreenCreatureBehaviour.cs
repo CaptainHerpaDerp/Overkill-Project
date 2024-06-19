@@ -1,3 +1,4 @@
+using Core;
 using Creatures;
 using GaiaElements;
 using System.Collections;
@@ -19,8 +20,20 @@ public class GreenCreatureBehaviour : Creature
     [SerializeField] private GameObject particleGameObject;
 
     private Coroutine pulseCoroutine;
-   
+
     public bool forceActive = false;
+
+    [SerializeField] private AudioSource audioSource;
+
+    public override void Start()
+    {
+        base.Start();
+
+        if (audioSource != null)
+        {
+            SoundManager.Instance.RegisterAudioSource(audioSource);
+        }
+    }
 
     //Temp
     public void Update()
@@ -44,7 +57,7 @@ public class GreenCreatureBehaviour : Creature
         sphereRenderer.material.color = newColor;
 
         // Activate the particle system
-        if (particleGameObject != null) 
+        if (particleGameObject != null)
             particleGameObject.SetActive(true);
 
         pulseCoroutine ??= StartCoroutine(DoPulse(2));
@@ -69,6 +82,8 @@ public class GreenCreatureBehaviour : Creature
         sphereObject.transform.localScale = Vector3.zero;
         pulseCollider.radius = 0;
 
+        audioSource.Stop();
+            
         StopAllCoroutines();
         pulseCoroutine = null;
     }
@@ -80,12 +95,15 @@ public class GreenCreatureBehaviour : Creature
         StopAllCoroutines();
         pulseCoroutine = null;
 
+        audioSource.Stop();
+
         base.TriggerColorChange(newColor);
     }
 
     private IEnumerator DoPulse(int delay = 0)
     {
         yield return new WaitForSeconds(delay);
+        audioSource.Play();
 
         while (true)
         {
@@ -97,12 +115,16 @@ public class GreenCreatureBehaviour : Creature
 
                 yield return new WaitForSeconds(pulseCooldown);
 
+                audioSource.Play();
+
                 Color newColor = sphereRenderer.material.color;
+
                 // Reset the alpha
                 newColor.a = 1;
                 sphereRenderer.material.color = newColor;
                 pulseCollider.radius = 0;
-             }
+                // Stop the sound so that it can be played again
+            }
 
             sphereObject.transform.localScale = new Vector3(pulseCollider.radius * 2, pulseCollider.radius * 2, pulseCollider.radius * 2);
 
@@ -113,7 +135,7 @@ public class GreenCreatureBehaviour : Creature
 
     private IEnumerator FadeOutSphere()
     {
-        while(true)
+        while (true)
         {
             if (sphereRenderer.material.color.a > 0)
             {

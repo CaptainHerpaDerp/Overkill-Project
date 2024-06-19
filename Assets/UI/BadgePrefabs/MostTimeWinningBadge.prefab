@@ -10,11 +10,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_text
-      value: Dominator
+      value: Mr. Monopoly
       objectReference: {fileID: 0}
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_fontSize
-      value: 65.8
+      value: 53.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 53.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_enableWordWrapping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4797768585119115365, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 129
       objectReference: {fileID: 0}
     - target: {fileID: 6126303113274669510, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_Name

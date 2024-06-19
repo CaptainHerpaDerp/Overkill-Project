@@ -36,6 +36,8 @@ namespace Players
         public Transform orientation;
         public Camera playerCamera;
 
+        [SerializeField] private PlayerModelController playerModelController;
+
         private Vector2 movementInput;
         private Vector2 lookInput;
 
@@ -127,6 +129,7 @@ namespace Players
                     return;
                 }
 
+                if (value > 0)
                 createPlants.GetComponent<SphereCollider>().radius = value;   
             }
         }
@@ -150,7 +153,9 @@ namespace Players
 
                 OnPlayerNumberChange?.Invoke();
 
-                transform.GetComponentInChildren<MeshRenderer>().material.color = ColorEnum.GetColor(value);    
+                transform.GetComponentInChildren<MeshRenderer>().material.color = ColorEnum.GetColor(value);
+
+                playerModelController.SetPlayerModel((int)value);
 
                 teamColor = value;
             }
@@ -174,6 +179,7 @@ namespace Players
         private bool fallIncreased = false;
 
         [SerializeField] private Rigidbody rb;
+        [SerializeField] private ParticleSystem pushParticleSystem;
 
         // TEMP
         public Vector3 SpawnPoint;
@@ -197,7 +203,6 @@ namespace Players
 
             inputAsset = GetComponent<PlayerInput>().actions;
             player = inputAsset.FindActionMap("Controls");
-
 
             Application.targetFrameRate = 120;
         }
@@ -247,6 +252,19 @@ namespace Players
             }
         }
 
+        private void OnDestroy()
+        {
+            move = null;
+            aim = null;
+            push = null;
+            special = null;
+            jump = null;
+            dPadUp = null;
+            dPadDown = null;
+            player = null;
+            inputAsset = null;
+        }
+
         private void OnDisable()
         {
             player.Disable();
@@ -257,10 +275,9 @@ namespace Players
             if (isLocked)
                 return;
 
-            GetInput();
-
-            
+            GetInput();       
             OffsetJumpSpeed();
+            HandleAnimations();
 
             if (UpdatePlayerValues)
             {
@@ -279,9 +296,28 @@ namespace Players
                 if (IsGrounded())
                 {
                     rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                    playerModelController.PlayAnimation(AnimationState.Jump);
                 }
 
                 doJump = false;
+            }
+
+            // If "Voice" is being used 
+            if (IsPushing)
+            {
+                playerModelController.SetPushing(true);
+
+                // Set the push particle emission rate to 5
+                var emission = pushParticleSystem.emission;
+                emission.rateOverTime = 5;
+            }
+            else
+            {
+                playerModelController.SetPushing(false);
+
+                // Set the push particle emission rate to 0
+                var emission = pushParticleSystem.emission;
+                emission.rateOverTime = 0;
             }
 
             if (special.triggered)
@@ -289,24 +325,30 @@ namespace Players
                 //Temp
                 // find child with name "RedBehaviour"
                 // call Activate on that child
+                bool activation = false;
+
                 switch(specialAbility)
                 {
                     case SpecialAbility.MassConversion:
-                        GetComponentInChildren<RedSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<RedSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.Green:
-                        GetComponentInChildren<GreenSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<GreenSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.SmokeScreen:
-                        GetComponentInChildren<BlueSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<BlueSpecialBehaviour>().Activate();
                         break;
                     case SpecialAbility.LightBeam:
-                        GetComponentInChildren<PurpleSpecialBehaviour>().Activate();
+                        activation = GetComponentInChildren<PurpleSpecialBehaviour>().Activate();
                         break;
                     default:
                         Debug.LogWarning("Player Special Behaviour Not Found!");
                         break;
                 }
+
+                // Play the animation for the special ability
+                if (activation)
+                playerModelController.PlayAnimation(AnimationState.Special);
             }
         }
 
@@ -389,7 +431,7 @@ namespace Players
 
             // Get the direction the player should move based on the movement input
             moveDirection = new(movementInput.x, 0f, movementInput.y);
-            LimitSpeed();
+            //LimitSpeed();
             moveDirection = transform.TransformDirection(moveDirection);
 
             if (moveDirection.magnitude != 0) {
@@ -432,6 +474,30 @@ namespace Players
             //transform.rotation = Quaternion.Euler(newRotationX, transform.eulerAngles.y, transform.eulerAngles.z);
         }
 
+        private void HandleAnimations()
+        {
+            if (movementInput.magnitude > 0)
+            {
+                playerModelController.SetMagnitude(1);
+            }
+            else
+            {
+                playerModelController.SetMagnitude(-1);
+            }
+
+            // Set the animator state to walk if the player is moving
+            if (movementInput.magnitude > 0)
+            {               
+                playerModelController.PlayAnimation(AnimationState.Walk);
+            }
+            else
+            {
+                playerModelController.PlayAnimation(AnimationState.Idle);
+            }
+
+            playerModelController.SetGrounded(IsGrounded());
+        }
+
         private void LimitSpeed()
         {
             Vector3 flatVelocity = new Vector3(moveDirection.x, 0, moveDirection.z);
@@ -439,10 +505,8 @@ namespace Players
             if (!IsGrounded()) {
                 flatVelocity *= jumpSpeedMultiplier;
             }
-
-            
-            moveDirection = flatVelocity * movementSpeed;
-            
+           
+            moveDirection = flatVelocity * movementSpeed;           
         }
 
         private void OffsetJumpSpeed() {

@@ -44,7 +44,7 @@ public class PaintManager : Singleton<PaintManager>{
         RenderTexture support = paintable.getSupport();
         Renderer rend = paintable.getRenderer();
 
-        command.SetRenderTarget(mask);
+        command.SetRenderTarget(mask);  
         command.SetRenderTarget(normalMask);
         command.SetRenderTarget(extend);
         command.SetRenderTarget(support);

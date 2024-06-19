@@ -7,6 +7,7 @@ using Players;
 using TeamColors;
 using UnityEngine.Rendering;
 using System;
+using Core;
 
 namespace GameManagement
 {
@@ -73,6 +74,9 @@ namespace GameManagement
             print("player join");
 
             players.Add(player);
+
+            // Add the player to the sound manager so that the sound manager can track the player's position
+            SoundManager.Instance.AddPlayer(player.transform);
 
             // Get the device that the player is using
             InputDevice device = player.devices[0];
@@ -142,8 +146,6 @@ namespace GameManagement
 
                 playerParent.transform.position = spawnPoints[selectedCharacter].position;
 
-                playerParent.GetComponentInChildren<DfaultsController>().dfaultsConfig = capsuleFaces[selectedCharacter];
-
                 PlayerLocator.Instance.RegisterPlayerOfTeam(parentPlayer.TeamColor, playerParent.transform);
 
                 // Include the respective player's layer in the camera culling mask
@@ -177,7 +179,7 @@ namespace GameManagement
                 // If the player count is 3, change the last player's camera settings
                 if (players.Count == 3 && i == 2)
                 {
-                    print("appied 3rd player cam");
+                    print("applied 3rd player cam");
                     parentPlayer.playerCamera.rect = new Rect(0, 0, 1.0f, 0.5f);
                 }
             }

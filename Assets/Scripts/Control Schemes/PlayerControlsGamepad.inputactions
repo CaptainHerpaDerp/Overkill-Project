@@ -255,7 +255,7 @@
                     "path": "<Gamepad>/dpad/up",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "DPadUp",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -266,7 +266,7 @@
                     "path": "<Gamepad>/dpad/down",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
+                    "groups": "Gamepad",
                     "action": "DPadDown",
                     "isComposite": false,
                     "isPartOfComposite": false

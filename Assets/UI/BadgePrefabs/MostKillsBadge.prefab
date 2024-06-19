@@ -10,15 +10,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_text
-      value: Persuasive
+      value: Class Bully
       objectReference: {fileID: 0}
     - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_fontSize
-      value: 65.8
+      value: 61.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3697285932906479001, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 61.6
       objectReference: {fileID: 0}
     - target: {fileID: 6126303113274669510, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_Name
-      value: MostFallsBadge Variant 2
+      value: MostKillsBadge
       objectReference: {fileID: 0}
     - target: {fileID: 6588345019215369579, guid: 589fd69ec7c6cca48bc804c5dea4c50f, type: 3}
       propertyPath: m_text

@@ -11083,7 +11083,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &1716180695
 MonoBehaviour:
-  m_ObjectHideFlags: 10
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
