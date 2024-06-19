@@ -15,6 +15,7 @@ MonoBehaviour:
   GrowthRate: 0.1
   PlantSpreadCreep: 0
   AnimalProximityGrowth: 1
-  MinAnimalProximityGrowthRate: 3
+  MinAnimalProximityGrowthRate: 0.1
   MaxDistanceToAnimal: 100
-  DistanceMultiplier: 0.01
+  DistanceMultiplier: 1
+  HasRemovalTrail: 0
