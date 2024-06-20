@@ -2,6 +2,7 @@ using GaiaElements;
 using TeamColors;
 using UnityEngine;
 using Core;
+using System;
 
 namespace Creatures
 {
@@ -12,7 +13,9 @@ namespace Creatures
 
         // Copies the ScoreManager array using observed values
         private int[] playerTeamScore = new int[5];
-         
+
+        public static Action OnRedEnabled;
+
         public override void Act()
         {
             gameObject.SetActive(true); 
@@ -22,6 +25,7 @@ namespace Creatures
         private void OnEnable()
         {
             ScoreReceptionManager.OnValueChanged += UpdateScore;
+            OnRedEnabled?.Invoke();
         }
 
         private void OnDisable()
@@ -40,6 +44,7 @@ namespace Creatures
             Plant targetPlant = null;
 
             ColorEnum.TEAMCOLOR highestOtherPlayerScore = FindHighestScoreNotRed();
+            Debug.Log("highest other score = " + highestOtherPlayerScore);
 
             if (plantsHierarchyParent == null)
             {
@@ -82,6 +87,8 @@ namespace Creatures
             int blueScore = playerTeamScore[(int)ColorEnum.TEAMCOLOR.BLUE];
             int greenScore = playerTeamScore[(int)ColorEnum.TEAMCOLOR.GREEN];
             int purpleScore = playerTeamScore[(int)ColorEnum.TEAMCOLOR.PURPLE];
+
+            Debug.Log($"blue score = {blueScore}, green score = {greenScore}, purple score = {purpleScore}");
 
             if (blueScore > greenScore)
                 return blueScore > purpleScore ? ColorEnum.TEAMCOLOR.BLUE : ColorEnum.TEAMCOLOR.PURPLE;

@@ -209,6 +209,7 @@ MonoBehaviour:
   - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
   teamColor: 4
   plantAnimator: {fileID: 4903612896744174771}
+  plantSpreadCreep: 0
   PlayerParentTransform: {fileID: 0}
 --- !u!136 &5338406014094490111
 CapsuleCollider:
@@ -326,7 +327,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6489956252228744724, guid: d3a3dd8037d3b2245929845798322d69, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6489956252228744724, guid: d3a3dd8037d3b2245929845798322d69, type: 3}
       propertyPath: m_ReceiveShadows

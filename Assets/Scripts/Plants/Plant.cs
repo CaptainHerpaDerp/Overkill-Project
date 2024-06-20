@@ -91,6 +91,16 @@ namespace GaiaElements
             plantRenderer.enabled = false;
         }
 
+       // private void Update()
+        //{
+        //    if (teamColor != TEAMCOLOR.DEFAULT) return;
+
+        //    if (!plantAnimator.enabled) {
+         //       plantRenderer.enabled = false;
+         //   }
+        //}
+
+
         public bool IsOnSurface()
         {
             return Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 2f, layerMask: 6);

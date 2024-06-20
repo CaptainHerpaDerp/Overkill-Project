@@ -9,6 +9,7 @@ using Core;
 using System;
 using Crore;
 using UnityEngine.Playables;
+using Creatures;
 
 namespace GameManagement
 {
@@ -47,7 +48,6 @@ namespace GameManagement
 
         // Create a public accessor for the player list that is not modifiable
         public List<Player> PlayerList { get { return playerList; } }
- 
 
         // TEMP
         [SerializeField] private GameObject victoryGroup;
@@ -102,6 +102,8 @@ namespace GameManagement
 
             StartCoroutine(GiveCrownToPlayer());
             StartCoroutine(AdjustPlayerPlacementSpheres());
+
+            RedCreatureBehaviour.OnRedEnabled += UpdateAllPlantScores;
         }
 
         public void AddPlayer(Player player)
@@ -282,6 +284,12 @@ namespace GameManagement
             else
             {
                 Debug.LogError("Plant " + plantID + " is not registered");
+            }
+        }
+
+        public void UpdateAllPlantScores() {
+            for (int i = 0; i < playerTeamScore.Length; i++) {
+                ScoreReceptionManager.ChangePlayerScore(i, playerTeamScore[i]);
             }
         }
 

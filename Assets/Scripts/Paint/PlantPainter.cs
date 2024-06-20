@@ -42,6 +42,7 @@ public class PlantPainter : MonoBehaviour{
 
     private void ChangePlantOwner(int iD, ColorEnum.TEAMCOLOR newColor, ColorEnum.TEAMCOLOR oldColor) {
         paintRadius = initialPaintRadius;
+        StopAllCoroutines();
         StartCoroutine(PaintCourutine(newColor));
     }
 
@@ -52,7 +53,7 @@ public class PlantPainter : MonoBehaviour{
         yield return new WaitForSeconds(captureDelay);
 
         colorTextureID = newColor;
-        Debug.Log("newColor = " + paintTextures[(int)colorTextureID]);
+        //Debug.Log("newColor = " + paintTextures[(int)colorTextureID]);
         while (paintRadius < maxPaintRadius) {
             Paint();
             yield return new WaitForSeconds(spreadTextureDelay);
