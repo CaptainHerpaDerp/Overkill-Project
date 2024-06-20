@@ -55,10 +55,11 @@ namespace UIManagement
             float totalScore = player1Score + player2Score + player3Score + player4Score;
 
             float p1Width = 0, p2Width = 0, p3Width = 0, p4Width = 0;
-
+                 
             if (player1Score > 0)
             {
                 p1Width = (player1Score / totalScore) * maxWidth;
+                Debug.Log($"i want to kill myself = {p1Width}");
                 pp1.rectTransform.sizeDelta = new Vector2(p1Width, pp1.rectTransform.sizeDelta.y);
                 pp1.rectTransform.position = new Vector3(startWidth, pp1.rectTransform.position.y, pp1.rectTransform.position.z);
             }
