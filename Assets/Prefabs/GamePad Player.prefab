@@ -850,6 +850,12 @@ MonoBehaviour:
   sphereCollider: {fileID: 4859271549984920191}
   TeamColour: 0
   excludeNeutralPlants: 0
+  plantLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  expandOnEmptyList: 0
+  incrementExpandAmount: 0
+  maxExpandAmount: 0
 --- !u!135 &4859271549984920191
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1264,7 +1270,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 65536
   laserLineRenderer: {fileID: 7990888569138141163}
-  laserEndEffect: {fileID: 0}
+  laserEndEffect: {fileID: 3037745546354839061, guid: c4e9f9f5eca8c7e43a8fe5b0447900ac, type: 3}
   laserTime: 0.5
   laserPushback: 0
   laserWidth: 3

@@ -45,6 +45,9 @@ namespace Players
         // The minimum angle for the curve to be sharp
         [SerializeField] private float straightLaserAngle = 10f;
 
+        // The time the endpoint of the laser should be visible
+        private const float endpointLifeTime = 1f;
+
         private void OnDisable()
         {
             targetFinder.gameObject.SetActive(false);
@@ -82,6 +85,10 @@ namespace Players
             laserLineRenderer.material = aimMat;
 
             Transform laserTarget = targetFinder.GetPlayerTarget().transform;
+
+            // Create a laser end effect instance at the position of the target
+            GameObject endEffect = Instantiate(laserEndEffect, laserTarget.position, Quaternion.identity);
+            StartCoroutine(DestoryEndEffect(endEffect));
 
             // Calculate the curve points
             Vector3[] curvePoints = CalculateBezierCurve(laserOrigin.position, laserTarget.position, turnSharpness);
@@ -201,6 +208,12 @@ namespace Players
             laserLineRenderer.startWidth = 1;
 
             yield break;
+        }
+
+        private IEnumerator DestoryEndEffect(GameObject objToDestroy)
+        {
+            yield return new WaitForSeconds(endpointLifeTime);
+            Destroy(objToDestroy);
         }
     }
 }
