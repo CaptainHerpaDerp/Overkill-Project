@@ -48,7 +48,7 @@ public class CreatePlants : MonoBehaviour
         HasRemovalTrail = parentPlayer.HasRemovalTrail;
 
         playerRenderer.material.color = GetColor(teamColor);
-        print("create plants");
+        //print("create plants");
     }
 
     private float GetGrowthRate()
@@ -73,7 +73,7 @@ public class CreatePlants : MonoBehaviour
         }
 
         float finalRate = Mathf.Clamp(DistanceMultiplier * (distance / MaxAnimalDistance), MinAnimalProximityGrowthRate, 1);
-        print("Final Rate: " + finalRate);
+        //print("Final Rate: " + finalRate);
         return finalRate;
     }
 

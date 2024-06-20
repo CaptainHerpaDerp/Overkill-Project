@@ -16,6 +16,8 @@ public class BlueSpecialBehaviour : SpecialBehaviour
             return false;
         }
 
+        playerModelController.PlayAnimation(Players.AnimationState.Special);
+
         GameObject smokeGroup = Instantiate(smokeGroupPrefab, transform.position, Quaternion.identity);
         StartCoroutine(DestroyEffectGroup(smokeGroup));
 

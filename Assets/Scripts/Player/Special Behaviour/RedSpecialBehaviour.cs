@@ -3,6 +3,7 @@ using System.Collections;
 using TeamColors;
 using UnityEngine;
 using Core;
+using Players;
 
 public class RedSpecialBehaviour : SpecialBehaviour
 {
@@ -31,6 +32,9 @@ public class RedSpecialBehaviour : SpecialBehaviour
     private IEnumerator DoAbility()
     {
         onCooldown = true;
+
+        playerModelController.PlayAnimation(Players.AnimationState.Special);
+
         yield return new WaitForSeconds(activationDelay);
 
         SoundManager.Instance.PlayRedAbilityAtPoint(transform.position);

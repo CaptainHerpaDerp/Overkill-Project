@@ -9,7 +9,9 @@ namespace Players
         Idle,
         Voice,
         Special,
-        Jump
+        Jump,
+        HoldSpecial,
+        ReleaseSpecial
     }
 
     public class PlayerModelController : MonoBehaviour
@@ -144,6 +146,12 @@ namespace Players
                                 break;
                             case AnimationState.Jump:
                                 animator.SetTrigger(JUMP);
+                                break;
+                            case AnimationState.HoldSpecial:
+                                animator.SetBool("HoldSpecial", true);
+                                break;
+                            case AnimationState.ReleaseSpecial:
+                                animator.SetBool("HoldSpecial", false);
                                 break;
                         }
                     }

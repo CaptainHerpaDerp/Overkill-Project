@@ -73,7 +73,7 @@ public class PlantPainter : MonoBehaviour{
                 continue;
             }
                 
-            Debug.Log(paintTextures[(int)colorTextureID]);
+            //Debug.Log(paintTextures[(int)colorTextureID]);
             Vector3 closestPoint = col.ClosestPoint(transform.position);
             PaintManager.instance.paint(p, closestPoint, paintRadius, hardness, strength, paintTextures[(int)colorTextureID], normalPaintMap, paintColor);
 

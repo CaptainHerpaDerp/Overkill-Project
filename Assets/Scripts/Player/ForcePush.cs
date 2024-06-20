@@ -122,7 +122,7 @@ public class ForcePush : MonoBehaviour
 
                 if (creatureSelector.selectedCreature != null)
                 {
-                    print("creature selected");
+                   // print("creature selected");
                     creatureSelector.selectedCreature.Convert(Player.TeamColor);
                 }
 
@@ -152,7 +152,7 @@ public class ForcePush : MonoBehaviour
                     // Only apply force if the opponent is within the push angle
                     if (angle < pushAngle)
                     {
-                        Debug.Log("Total force: " + totalForce);
+                        //Debug.Log("Total force: " + totalForce);
                         item.GetComponent<Player>().PushCountStart(Player, pushedStatusTimer);
 
                         totalForce = Mathf.Max(minPushForce, totalForce);

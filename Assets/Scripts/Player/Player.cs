@@ -52,7 +52,7 @@ namespace Players
         public bool UseMouseClick;
 
         // Achievement Variables
-        public float timeMoving = 0;
+        public float timeMoving = 1;
 
         [SerializeField] private TEAMCOLOR teamColor;
 
@@ -213,7 +213,7 @@ namespace Players
         /// <returns></returns>
         public void LockCharacter()
         {
-            print("locked");
+            //print("locked");
             rb.useGravity = false;
             isLocked = true;
         }
@@ -295,7 +295,15 @@ namespace Players
             {
                 if (IsGrounded())
                 {
-                    rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                    if (LockMovement)
+                    {
+                        rb.AddForce(Vector3.up * (jumpForce / 2), ForceMode.Impulse);
+                    }
+                    else
+                    {
+                        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+                    }
+
                     playerModelController.PlayAnimation(AnimationState.Jump);
                 }
 
@@ -303,7 +311,7 @@ namespace Players
             }
 
             // If "Voice" is being used 
-            if (IsPushing)
+            if (IsPushing && !LockMovement)
             {
                 playerModelController.SetPushing(true);
 
@@ -347,8 +355,8 @@ namespace Players
                 }
 
                 // Play the animation for the special ability
-                if (activation)
-                playerModelController.PlayAnimation(AnimationState.Special);
+ //               if (activation)
+              //  playerModelController.PlayAnimation(AnimationState.Special);
             }
         }
 
@@ -379,39 +387,41 @@ namespace Players
 
             // Assuming the control scheme's push button is a button, detect if it's pressed
 
-            if (UseMouseClick)
+            if (!LockMovement)
             {
-                pushValue = Input.GetMouseButton(0) ? 1 : 0;
-                specialValue = Input.GetMouseButton(1) ? 1 : 0;
-            }
-            else
-            {
-                pushValue = push.ReadValue<float>();
-                specialValue = special.ReadValue<float>();
-            }
-
-
-            if (dPadDown.IsPressed())
-            {
-                if (playerCamera.fieldOfView < 130)
+                if (UseMouseClick)
                 {
-                    playerCamera.fieldOfView++;
-
-                    // Move the camera farther from the player
-                    Vector3 diffNormalized = transform.position - playerCamera.transform.position;
-                    playerCamera.transform.position += diffNormalized * fovZoomFactor;
+                    pushValue = Input.GetMouseButton(0) ? 1 : 0;
+                    specialValue = Input.GetMouseButton(1) ? 1 : 0;
                 }
-            }
-
-            if (dPadUp.IsPressed())
-            {
-                if (playerCamera.fieldOfView > 30)
+                else
                 {
-                    playerCamera.fieldOfView--;
+                    pushValue = push.ReadValue<float>();
+                    specialValue = special.ReadValue<float>();
+                }
 
-                    // Move the camera closer to the player
-                    Vector3 diffNormalized = transform.position - playerCamera.transform.position;
-                    playerCamera.transform.position -= diffNormalized * fovZoomFactor;
+                if (dPadDown.IsPressed())
+                {
+                    if (playerCamera.fieldOfView < 130)
+                    {
+                        playerCamera.fieldOfView++;
+
+                        // Move the camera farther from the player
+                        Vector3 diffNormalized = transform.position - playerCamera.transform.position;
+                        playerCamera.transform.position += diffNormalized * fovZoomFactor;
+                    }
+                }
+
+                if (dPadUp.IsPressed())
+                {
+                    if (playerCamera.fieldOfView > 30)
+                    {
+                        playerCamera.fieldOfView--;
+
+                        // Move the camera closer to the player
+                        Vector3 diffNormalized = transform.position - playerCamera.transform.position;
+                        playerCamera.transform.position -= diffNormalized * fovZoomFactor;
+                    }
                 }
             }
 
@@ -476,7 +486,7 @@ namespace Players
 
         private void HandleAnimations()
         {
-            if (movementInput.magnitude > 0)
+            if (movementInput.magnitude > 0 && !LockMovement)
             {
                 playerModelController.SetMagnitude(1);
             }
@@ -486,7 +496,7 @@ namespace Players
             }
 
             // Set the animator state to walk if the player is moving
-            if (movementInput.magnitude > 0)
+            if (movementInput.magnitude > 0 && !LockMovement)
             {               
                 playerModelController.PlayAnimation(AnimationState.Walk);
             }

@@ -4,6 +4,7 @@ using Players;
 using TeamColors;
 using System.Collections.Generic;
 using System.Linq;
+using Creatures;
 
 namespace GameManagement
 {
@@ -64,14 +65,17 @@ namespace GameManagement
 
             GameManager.Instance.OnGameEnd += () =>
             {
-                Player mostMovePlayer = GameManager.Instance.GetMostMovePlayerWinner();
-                AchievementList[mostMovePlayer].timeMoving = mostMovePlayer.timeMoving;
+                var (mostMovePlayer, moveTime) = GameManager.Instance.GetMostMovePlayer();
+                AchievementList[mostMovePlayer].timeMoving = moveTime;
+
+                var (leastMovePlayer, campTime) = GameManager.Instance.GetLeastMovePlayer();
+                AchievementList[leastMovePlayer].timeStanding = campTime;
+
+                var (mostWinPlayer, winTime) = GameManager.Instance.GetMostWinPlayerWinner();
+                AchievementList[mostWinPlayer].timeWinning = winTime;
             };
 
-            foreach (KeyValuePair<Transform, ColorEnum.TEAMCOLOR> kvp in AnimalLocator.Instance.animalTransformPairs)
-            {
-                AnimalLocator.Instance.OnCreatureColorChanged += ProcessCreatureColorTurn;
-            }
+            CreatureManager.OnConvert += ProcessCreatureColorTurn;
         }
 
         private void ProcessRespawn(Player pusherPlayer, Player respawnedPlayer)
@@ -88,7 +92,10 @@ namespace GameManagement
             foreach (Player player in AchievementList.Keys)
             {
                 if (player.TeamColor == newColor)
+                {
+                    print($"asshole: {AchievementList[player].creatureTurnCount}, colour: {newColor}");
                     AchievementList[player].creatureTurnCount++;
+                }
             }
         }
 
@@ -103,24 +110,42 @@ namespace GameManagement
         public string GetAchievementValue(AchievementType type, int winnerIndex)
         {
             Player winner = GameManager.Instance.PlayerList[winnerIndex];
+            int value = 0;
+            string stringAddition = "";
 
             switch (type)
             {
                 case AchievementType.MostDeaths:
-                    return AchievementList[winner].respawnCount.ToString();
+                    value = AchievementList[winner].respawnCount;
+                    break;
                 case AchievementType.MostKills:
-                    return AchievementList[winner].pushCount.ToString();
+                    value = AchievementList[winner].pushCount;
+                    break;
                 case AchievementType.MostCreaturesTamed:
-                    return AchievementList[winner].creatureTurnCount.ToString();
+                    value = AchievementList[winner].creatureTurnCount;
+                    break;
                 case AchievementType.MostTimeWinning:
-                    return (int)AchievementList[winner].timeWinning + " Sec";
+                    value = (int)AchievementList[winner].timeWinning;
+                    stringAddition = " Sec";
+                    break;
                 case AchievementType.MostCamper:
-                    return (int)AchievementList[winner].timeStanding + " Sec";
+                    value = (int)AchievementList[winner].timeStanding;
+                    stringAddition = " Sec";
+                    break;
                 case AchievementType.MostMover:
-                    return (int)AchievementList[winner].timeMoving + " Sec";
+                    value = (int)AchievementList[winner].timeMoving;
+                    stringAddition = " Sec";
+                    break;
             }
 
-            return "none";
+            if (value == 0)
+            {
+                return "none";
+            }
+            else
+            {
+                return value.ToString() + stringAddition;
+            }
         }
 
         public Player GetAchievementWinner(AchievementType type)
