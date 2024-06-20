@@ -1,6 +1,7 @@
 using GaiaElements;
 using TeamColors;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Creatures
 {
@@ -17,7 +18,7 @@ namespace Creatures
 
         private void ChooseDefaultPlant()
         {
-            float distToPlant = 1000f;
+            float distToPlant = 10000f;
             Plant targetPlant = null;
 
             if (plantsHierarchyParent == null)
@@ -36,10 +37,36 @@ namespace Creatures
 
                 if (plantScript.TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
                     continue;
+                Vector3 tmpDist = plant.transform.position - transform.position;
 
-                float TMPDist = Vector3.Distance(transform.position, plant.transform.position);
-                if (TMPDist > distToPlant) continue;
-                distToPlant = TMPDist;
+                float TMPDistance = tmpDist.sqrMagnitude;
+                /*
+                NavMeshPath tmpPath = new NavMeshPath();
+                if (!NavMesh.CalculatePath(transform.position, plant.transform.position, NavMesh.AllAreas, tmpPath))
+                {
+                    Debug.Log("Blue Path cannot be calculated");
+                    continue;
+                }
+
+                if (tmpPath.status != NavMeshPathStatus.PathComplete)
+                {
+                    Debug.Log("Blue Path is not complete");
+                    continue;
+                }
+
+                float tmpDistance = 0f;
+                Vector3 previousCorner = tmpPath.corners[0];
+                for (int i = 1; i < tmpPath.corners.Length; i++)
+                {
+                    Vector3 currentCorner = tmpPath.corners[i];
+                    Vector3 cornerDist = currentCorner - previousCorner;
+                    tmpDistance += cornerDist.sqrMagnitude;
+                    previousCorner = currentCorner;
+
+                }
+                */
+                if (!(TMPDistance < distToPlant)) continue;
+                distToPlant = TMPDistance;
                 targetPlant = plantScript;
             }
 
