@@ -48,7 +48,7 @@ public class CreatePlants : MonoBehaviour
         HasRemovalTrail = parentPlayer.HasRemovalTrail;
 
         playerRenderer.material.color = GetColor(teamColor);
-        print("create plants");
+        //print("create plants");
     }
 
     private float GetGrowthRate()
@@ -73,7 +73,7 @@ public class CreatePlants : MonoBehaviour
         }
 
         float finalRate = Mathf.Clamp(DistanceMultiplier * (distance / MaxAnimalDistance), MinAnimalProximityGrowthRate, 1);
-        print("Final Rate: " + finalRate);
+        //print("Final Rate: " + finalRate);
         return finalRate;
     }
 
@@ -93,6 +93,9 @@ public class CreatePlants : MonoBehaviour
         {
             if (!collider.TryGetComponent(out Plant plant)) continue;
 
+            if (plant.TeamColor == teamColor)
+                continue;
+
             if (!plantSet.Contains(plant))
             {
                 plantSet.Add(plant);
@@ -105,6 +108,11 @@ public class CreatePlants : MonoBehaviour
     {
         while (true)
         {
+            if (teamColor == TEAMCOLOR.RED)
+            {
+                print("isRed"); 
+            }
+
             List<Plant> plantsToRemove = new List<Plant>();
 
             for (int i = 0; i < surroundingPlants.Count; i++)
@@ -113,8 +121,11 @@ public class CreatePlants : MonoBehaviour
 
                 if (HasRemovalTrail)
                 {
+                    print("hasRemoval");
+
                     if (plant.TeamColor != TEAMCOLOR.RED)
                     {
+                        print("unPlant");
                         plant.UnPlant();
                     }
                 }

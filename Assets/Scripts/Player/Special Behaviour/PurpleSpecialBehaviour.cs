@@ -7,7 +7,7 @@ namespace Players
 {
     public class PurpleSpecialBehaviour : SpecialBehaviour
     {
-        public Transform laserOrigin;
+        public Transform laserOrigin; 
         public float laserRange = 100f;
         public LayerMask collisionMask; // Layer mask for detecting collisions
 
@@ -16,8 +16,6 @@ namespace Players
 
         // The particle object at the end of the laser
         [SerializeField] private GameObject laserEndEffect;
-
-        [SerializeField] private LaserCollider laserCapsule;
 
         [SerializeField] private float laserTime;
         [SerializeField] private float laserPushback;
@@ -69,8 +67,7 @@ namespace Players
                 return false;
             }
 
-            laserCapsule.capsuleCollider.height = laserRange;
-            laserCapsule.capsuleCollider.center = new Vector3(0, laserRange / 2, 0);
+            playerModelController.PlayAnimation(Players.AnimationState.Special);        
 
             TrajectoryCoroutine ??= StartCoroutine(FireLaserCoroutine());
 

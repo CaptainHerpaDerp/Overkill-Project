@@ -65,6 +65,7 @@ namespace Creatures
 
         // Green-Specific Action
         public Action OnTeleport;
+        public static Action<ColorEnum.TEAMCOLOR> OnConvert;
 
         private void Start()
         {
@@ -149,7 +150,9 @@ namespace Creatures
 
             if (conversionProgress >= conversionThreshold - baseConversionSpeed)
             {
-                print("Converted");
+                //print("Converted");
+                OnConvert?.Invoke(newColor);
+
                 ChangeThisCreatureColor(newColor);
 
                 if (newColor == ColorEnum.TEAMCOLOR.GREEN)
@@ -326,11 +329,11 @@ namespace Creatures
                 plant.PlayerParentTransform = PlayerLocator.Instance.GetTransformOfTeam(ColorEnum.TEAMCOLOR.BLUE);
             }
 
-            if (plant.plantRenderer.enabled == false)
-            {
-                plant.Activate(newColor);
-                return;
-            }
+            //if (plant.plantRenderer.enabled == false)
+            //{
+            //    plant.Activate(newColor);
+            //    return;
+            //}
 
             plant.TeamColor = newColor;
         }

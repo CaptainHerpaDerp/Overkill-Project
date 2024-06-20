@@ -46,10 +46,12 @@ public class GreenSpecialBehaviour : SpecialBehaviour
 
             trajectoryDrawer.DrawTrajectory(x, transform);
 
+            playerModelController.PlayAnimation(Players.AnimationState.HoldSpecial);
+
             // Check if the player has let got of the trigger
             if (!parentPlayer.IsSpecial)
             {
-                print("released");
+                playerModelController.PlayAnimation(Players.AnimationState.ReleaseSpecial);
 
                 // Move the selected creature to the landing point
                 if (trajectoryDrawer.IsOnGround())

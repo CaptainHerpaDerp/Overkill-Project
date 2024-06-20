@@ -116,7 +116,6 @@ namespace Players
                 }
             }
         }
-
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;

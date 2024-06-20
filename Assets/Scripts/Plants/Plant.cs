@@ -12,7 +12,6 @@ namespace GaiaElements
         public Renderer plantRenderer;
 
         [SerializeField] private MeshFilter plantMeshFilter;
-
         [SerializeField] private List<Mesh> plantMeshes = new();
 
         [SerializeField] private ColorEnum.TEAMCOLOR teamColor;
@@ -50,12 +49,12 @@ namespace GaiaElements
             get => teamColor;
             set
             {
-         
-                if (plantMeshes.Count >= (int)value )
-                plantMeshFilter.mesh = plantMeshes[(int)value];
+                if (plantMeshes.Count >= (int)value)
+                    plantMeshFilter.mesh = plantMeshes[(int)value];
+
 
                 //Stop any current animations
-                plantAnimator.enabled = true;   
+                plantAnimator.enabled = true;
 
                 if (teamColor == TEAMCOLOR.DEFAULT)
                 {
@@ -66,13 +65,16 @@ namespace GaiaElements
                 if (value != teamColor)
                 {
                     if (value != TEAMCOLOR.DEFAULT)
-                    plantAnimator.SetTrigger("Grow");
+                    {
+                        if (plantAnimator.gameObject.activeInHierarchy)
+                        plantAnimator.SetTrigger("Grow");
+                    }
                     SetColor(ColorEnum.GetColor(value));
                     OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
                 }
 
                 plantSpreadCreep = false;
-     
+
                 teamColor = value;
             }
         }
