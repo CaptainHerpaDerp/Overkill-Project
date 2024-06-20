@@ -33,7 +33,22 @@ namespace Crore
         // Action to be invoked when the screen has gone dark
         public Action OnDarkened;
 
-        public void DarkenScreen(float delay = 0) => StartCoroutine(DarkenScreenCoroutine(delay));
+        public void DarkenScreen(float delay = 0)
+        {
+            StopAllCoroutines();
+            StartCoroutine(DarkenScreenCoroutine(delay));
+        }
+
+        public void UnDarkenScreen()
+        {
+            StopAllCoroutines();
+
+            Color color = image.color;
+            color.a = 1;
+            image.color = color;
+
+            StartCoroutine(UnDarkenScreenCoroutine());
+        }
 
         private IEnumerator DarkenScreenCoroutine(float delay)
         {

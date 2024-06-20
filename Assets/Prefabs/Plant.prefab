@@ -202,17 +202,11 @@ MonoBehaviour:
   plantRenderer: {fileID: 8511711106090656897}
   plantMeshFilter: {fileID: 3328823820703100933}
   plantMeshes:
-  - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
   - {fileID: -5495902117074765545, guid: d6b4522041b2b2a4a8deb35aa712c40b, type: 3}
   - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
   - {fileID: -5495902117074765545, guid: d6b4522041b2b2a4a8deb35aa712c40b, type: 3}
   - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
-  bluePlantMeshes:
-  - {fileID: 323765763850112754, guid: f6c1a9b844017274e85ca617dba03953, type: 3}
-  - {fileID: 2420309156196531342, guid: 5e35f3222fbec1f4f96c0de24c7e7af1, type: 3}
-  bluePlantMaterials:
-  - {fileID: 2100000, guid: 06be744d3ea2f6446a5060a085843d17, type: 2}
-  - {fileID: 2100000, guid: 3c75604545e56544988b2572fe66ef80, type: 2}
+  - {fileID: 2534964839176971238, guid: b3eac6e037b658342aa716b5242bdffc, type: 3}
   teamColor: 4
   plantAnimator: {fileID: 4903612896744174771}
   plantSpreadCreep: 0
@@ -353,7 +347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9096616654278580084, guid: d3a3dd8037d3b2245929845798322d69, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9096616654278580084, guid: d3a3dd8037d3b2245929845798322d69, type: 3}
       propertyPath: m_StaticEditorFlags

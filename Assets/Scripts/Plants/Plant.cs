@@ -14,9 +14,6 @@ namespace GaiaElements
         [SerializeField] private MeshFilter plantMeshFilter;
         [SerializeField] private List<Mesh> plantMeshes = new();
 
-        [SerializeField] private List<Mesh> bluePlantMeshes = new();
-        [SerializeField] private List<Material> bluePlantMaterials = new();
-
         [SerializeField] private ColorEnum.TEAMCOLOR teamColor;
 
         [SerializeField] private Animator plantAnimator;
@@ -52,28 +49,9 @@ namespace GaiaElements
             get => teamColor;
             set
             {
-                if (value == TEAMCOLOR.BLUE)
-                {
-                    // Apply a random Y rotation to the plant transform
-                    transform.localEulerAngles = new Vector3(0, UnityEngine.Random.Range(0, 360), 0);
+                if (plantMeshes.Count >= (int)value)
+                    plantMeshFilter.mesh = plantMeshes[(int)value];
 
-                    if (UnityEngine.Random.Range(0, 3) == 0)
-                    {
-                        plantMeshFilter.mesh = bluePlantMeshes[1];
-                        plantRenderer.material = bluePlantMaterials[1];
-                    }
-                    else
-                    {
-                        plantMeshFilter.mesh = bluePlantMeshes[0];
-                        plantRenderer.material = bluePlantMaterials[0];
-                    }
-                }
-
-                else
-                {
-                    if (plantMeshes.Count >= (int)value)
-                        plantMeshFilter.mesh = plantMeshes[(int)value];
-                }
 
                 //Stop any current animations
                 plantAnimator.enabled = true;
@@ -87,7 +65,10 @@ namespace GaiaElements
                 if (value != teamColor)
                 {
                     if (value != TEAMCOLOR.DEFAULT)
+                    {
+                        if (plantAnimator.gameObject.activeInHierarchy)
                         plantAnimator.SetTrigger("Grow");
+                    }
                     SetColor(ColorEnum.GetColor(value));
                     OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
                 }

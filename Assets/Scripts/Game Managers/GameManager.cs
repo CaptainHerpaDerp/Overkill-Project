@@ -10,6 +10,7 @@ using System;
 using Crore;
 using UnityEngine.Playables;
 using Creatures;
+using UnityEngine.SceneManagement;
 
 namespace GameManagement
 {
@@ -70,6 +71,7 @@ namespace GameManagement
 
         // An Action to tell the badge assigner to show and start assigning badges
         public Action<float, List<Player>> OnAssignBadges;
+        public Action OnEndPostGame;
 
         //[Header("The time after the game ends before the awards should start to be given in the badge assigner")]
         private const float badgeAssignStartDelay = 5;
@@ -111,7 +113,6 @@ namespace GameManagement
             playerList.Add(player);
             OnPlayerAdded?.Invoke(player);
         }
-
 
         /// <summary>
         /// Returns the player (and move time) that has moved for the least duration
@@ -464,8 +465,8 @@ namespace GameManagement
         {
             yield return new WaitForSeconds(victoryIslandTime);
 
+            OnEndPostGame?.Invoke();
             ScreenDarkener.Instance.DarkenScreen(0.5f);
-
             ScreenDarkener.Instance.OnDarkened += ExitPostGame;
 
             yield break;    
@@ -482,6 +483,10 @@ namespace GameManagement
 
         private void ExitPostGame()
         {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+
+            return;
+
             // Disable the Game UI
             GameUI.SetActive(false);
             victoryGroup.SetActive(false);

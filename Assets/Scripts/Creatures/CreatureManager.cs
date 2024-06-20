@@ -329,11 +329,11 @@ namespace Creatures
                 plant.PlayerParentTransform = PlayerLocator.Instance.GetTransformOfTeam(ColorEnum.TEAMCOLOR.BLUE);
             }
 
-            if (plant.plantRenderer.enabled == false)
-            {
-                plant.Activate(newColor);
-                return;
-            }
+            //if (plant.plantRenderer.enabled == false)
+            //{
+            //    plant.Activate(newColor);
+            //    return;
+            //}
 
             plant.TeamColor = newColor;
         }
