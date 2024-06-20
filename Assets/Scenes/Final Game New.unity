@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
+  m_IndirectSpecularColor: {r: 7798.831, g: 7897.544, b: 8618.673, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3898,10 +3898,6 @@ MonoBehaviour:
   m_Script: {fileID: 660244485}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Entries:
-  - id: 0
-    category: 0
-    gameObject: {fileID: 1707307771}
 --- !u!4 &209608913
 Transform:
   m_ObjectHideFlags: 19
@@ -7380,7 +7376,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &508155147
 Transform:
   m_ObjectHideFlags: 0
@@ -8698,7 +8694,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EndGameNow: 0
   gameTime: 300
-  postGameTime: 50
+  cameraZoomOutTime: 0
+  victoryIslandTime: 0
   timerText: {fileID: 1743416592}
   CharacterSelectionUIObj: {fileID: 1239249166}
   crownPrefab: {fileID: 6166187808937482971, guid: ec56fe58ef1b74e4486d07b229951281, type: 3}
@@ -16380,6 +16377,7 @@ MonoBehaviour:
   - {fileID: 1753216066283412701, guid: fa7cac97563f3f14d83f76132299b0a1, type: 3}
   - {fileID: 191334517085667798, guid: e3d582c2e184c17468a08f2a547ae726, type: 3}
   BadgeTypes: 000000000100000002000000050000000400000003000000
+  badgeParent: {fileID: 0}
   newBadgeSpeed: 2.5
 --- !u!114 &1040887262
 MonoBehaviour:
@@ -33958,11 +33956,6 @@ PrefabInstance:
 --- !u!4 &1707307770 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8163962146814548482, guid: 8b92bad036cc19040942e724bb4d7413, type: 3}
-  m_PrefabInstance: {fileID: 1707307769}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1707307771 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7641390017649436096, guid: 8b92bad036cc19040942e724bb4d7413, type: 3}
   m_PrefabInstance: {fileID: 1707307769}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1716180694
