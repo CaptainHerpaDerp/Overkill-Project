@@ -11742,7 +11742,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b58d3db95f9a6048b7cfdc125f3e5fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantsHierarchyParent: {fileID: 0}
+  plantLocator: {fileID: 0}
+  weightCoefficient: 0
   plantsAroundCollider: {fileID: 7482962864810848263}
   plantLayer:
     serializedVersion: 2
@@ -11793,8 +11794,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sphereCollider: {fileID: 595295513517544556}
-  TeamColour: 0
+  TeamColour: 4
   excludeNeutralPlants: 0
+  plantLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  expandOnEmptyList: 1
+  incrementExpandAmount: 1
+  maxExpandAmount: 35
 --- !u!135 &595295513517544556
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -12009,7 +12016,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 856e7ec41f36a794ea134ea48dd7cb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantsHierarchyParent: {fileID: 0}
+  plantLocator: {fileID: 6564477704066252425}
+  weightCoefficient: 0
   pulseCollider: {fileID: 7158027996659428081}
   sphereObject: {fileID: 2932430198470494847}
   sphereRenderer: {fileID: 2361045525045929705}
@@ -12445,7 +12453,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5dc942f21a5edd4cb52a243ba1b37f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantsHierarchyParent: {fileID: 0}
+  plantLocator: {fileID: 6564477704066252425}
+  weightCoefficient: 50
   targetTurnDistance: 1.3
 --- !u!1 &7143240213936805857
 GameObject:
@@ -12522,7 +12531,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b8c6aa0c37b0854aa36a90f30aba80e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantsHierarchyParent: {fileID: 0}
+  plantLocator: {fileID: 6564477704066252425}
+  weightCoefficient: 50
   TargetTurnDistance: 1.3
   maxDistanceFromPlayer: 15
   playerStopDistance: 10
@@ -12570,8 +12580,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62a8fa3bd4aeda14ba91571b231be156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantsHierarchyParent: {fileID: 0}
-  TargetTurnDistance: 1.3
+  plantLocator: {fileID: 6564477704066252425}
+  weightCoefficient: 50
+  targetConversionDistance: 1
+  retargetTime: 2.5
 --- !u!1001 &2403554718986683798
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12850,7 +12862,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3015f14f24fa46749a911879e263fac2, type: 3}
       propertyPath: m_Name
-      value: DeerRigged
+      value: Model
       objectReference: {fileID: 0}
     - target: {fileID: 940161816618940304, guid: 3015f14f24fa46749a911879e263fac2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

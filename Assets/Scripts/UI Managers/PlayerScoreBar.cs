@@ -59,7 +59,6 @@ namespace UIManagement
             if (player1Score > 0)
             {
                 p1Width = (player1Score / totalScore) * maxWidth;
-                Debug.Log($"i want to kill myself = {p1Width}");
                 pp1.rectTransform.sizeDelta = new Vector2(p1Width, pp1.rectTransform.sizeDelta.y);
                 pp1.rectTransform.position = new Vector3(startWidth, pp1.rectTransform.position.y, pp1.rectTransform.position.z);
             }

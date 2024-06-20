@@ -25,10 +25,8 @@ public class GreenCreatureBehaviour : Creature
 
     [SerializeField] private AudioSource audioSource;
 
-    public override void Start()
+    public void Start()
     {
-        base.Start();
-
         if (audioSource != null)
         {
             SoundManager.Instance.RegisterAudioSource(audioSource);
