@@ -52,7 +52,7 @@ public class PlantPainter : MonoBehaviour{
         yield return new WaitForSeconds(captureDelay);
 
         colorTextureID = newColor;
-        Debug.Log("newColor = " + paintTextures[(int)colorTextureID]);
+        //Debug.Log("newColor = " + paintTextures[(int)colorTextureID]);
         while (paintRadius < maxPaintRadius) {
             Paint();
             yield return new WaitForSeconds(spreadTextureDelay);
@@ -72,7 +72,7 @@ public class PlantPainter : MonoBehaviour{
                 continue;
             }
                 
-            Debug.Log(paintTextures[(int)colorTextureID]);
+            //Debug.Log(paintTextures[(int)colorTextureID]);
             Vector3 closestPoint = col.ClosestPoint(transform.position);
             PaintManager.instance.paint(p, closestPoint, paintRadius, hardness, strength, paintTextures[(int)colorTextureID], normalPaintMap, paintColor);
 

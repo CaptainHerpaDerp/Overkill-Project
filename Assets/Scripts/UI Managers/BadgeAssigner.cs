@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using GameManagement;
 using UI;
+using Players;
 
 namespace UIManagement
 {
@@ -64,20 +65,24 @@ namespace UIManagement
             GameManager.Instance.OnAssignBadges -= StartBadgeAssign;
         }
 
-        private void StartBadgeAssign(float startDelay)
+        private void StartBadgeAssign(float startDelay, List<Player> placementList)
         {
-            StartCoroutine(AssignPlacementsAndBadges(startDelay));
+            StartCoroutine(AssignPlacementsAndBadges(startDelay, placementList));
         }
 
-        private IEnumerator AssignPlacementsAndBadges(float startDelay)
+        private IEnumerator AssignPlacementsAndBadges(float startDelay, List<Player> placementList)
         {
             yield return new WaitForSeconds(startDelay);
 
             // Show all placement numbers with a delay in between each
             for (int i = 0; i < placementNumbersParent.Count; i++)
             {
-                placementNumbersParent[i].gameObject.SetActive(true);
-                yield return new WaitForSeconds(placementDisplayDelay);
+                // Only show the placement number if the index of the placement number is less than or equal to the player count
+                if (i <= placementList.Count)
+                {
+                    placementNumbersParent[i].gameObject.SetActive(true);
+                    yield return new WaitForSeconds(placementDisplayDelay);
+                }
             }           
 
             // Get length of AchievementType enum
@@ -88,38 +93,49 @@ namespace UIManagement
                 for (int i = 0; i < achievementTypeLength; i++)
                 {
                     print("Assigning badge: " + (AchievementType.MostDeaths + i));
-
-                    int winnerIndex = achievementManager.GetIndexOfAchievementWinner(AchievementType.MostDeaths + i);
+                    int playerIndex = achievementManager.GetIndexOfAchievementWinner(AchievementType.MostDeaths + i);
+                    int playerPlacementIndex = placementList.IndexOf(achievementManager.GetAchievementWinner(AchievementType.MostDeaths + i));
 
                     // Get the index of the enum value
                     int badgeIndex = (int)BadgeTypes[i];
 
                     // If 1 is returned, no player has achieved this badge
-                    if (winnerIndex == -1)
+                    if (playerIndex == -1)
                     {
                         print("no winner for badge: " + (AchievementType.MostDeaths + i));
                         continue;
                     }
 
                     // The value of the badge (eg. Kill Count)
-                    string badgeValue = achievementManager.GetAchievementValue((AchievementType.MostDeaths + i), winnerIndex);
+                    string badgeValue = achievementManager.GetAchievementValue((AchievementType.MostDeaths + i), playerIndex);
+                    
+                    // If badgeValue is 0, no player has achieved this badge
+                    if (badgeValue == "none")
+                    {
+                        print("no winner for badge: " + (AchievementType.MostDeaths + i));
+                        continue;
+                    }
 
-                    if (ChildActivationIndex[winnerIndex] >= playerBadgePositionGroups[winnerIndex].transform.childCount)
+                    if (ChildActivationIndex[playerIndex] >= playerBadgePositionGroups[playerIndex].transform.childCount)
                     {
                         Debug.LogError("The badge placement index is out of range. Please check the layout group child count.");
                     }
+
+                    Debug.Log($"Awarding badge {(AchievementType.MostDeaths + i)} to player {playerIndex} with placement {playerPlacementIndex}");
                     
                     AwardBadgeMovement badge = Instantiate(badgeTypeGameObjectPairs[(BadgeType)badgeIndex], Vector3.zero, Quaternion.identity, parent: this.transform).GetComponent<AwardBadgeMovement>();
-                    badge.AnimateToPosition(playerBadgePositionGroups[winnerIndex].transform.GetChild(ChildActivationIndex[winnerIndex]).position);
+
+                    // Move the badge to the placement index of the player 
+
+                    badge.AnimateToPosition(playerBadgePositionGroups[playerPlacementIndex].transform.GetChild(ChildActivationIndex[playerIndex]).position);
                     badge.transform.localPosition = Vector3.zero;
                     badge.SetBadgeText(badgeValue);
 
-                    ChildActivationIndex[winnerIndex]++;
-
+                    ChildActivationIndex[playerIndex]++;
+                        
                     yield return new WaitForSeconds(newBadgeSpeed);
                 }
-
-          
+     
                 yield break;
             }
         }

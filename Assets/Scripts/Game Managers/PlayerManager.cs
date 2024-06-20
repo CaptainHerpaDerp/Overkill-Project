@@ -71,7 +71,7 @@ namespace GameManagement
 
         private void AddPlayer(PlayerInput player)
         {
-            print("player join");
+            //print("player join");
 
             players.Add(player);
 
@@ -183,6 +183,7 @@ namespace GameManagement
                     parentPlayer.playerCamera.rect = new Rect(0, 0, 1.0f, 0.5f);
                 }
             }
+
             OnPlayersSelected?.Invoke();
 
         }

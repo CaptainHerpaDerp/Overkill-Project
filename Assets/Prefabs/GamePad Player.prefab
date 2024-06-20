@@ -438,6 +438,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aef081cabade944c87fcdefcf3d5760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModelController: {fileID: 804895536692614938}
   cooldownTime: 2
   influenceRadius: 10
   layerMask: 7
@@ -488,6 +489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca9cced94d3632a488376faa2ee419b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModelController: {fileID: 804895536692614938}
   cooldownTime: 1
   smokeGroupPrefab: {fileID: 8161962787033080713, guid: 326a25cc589e3d84194bd09fb9aa07d6, type: 3}
   destroyTime: 20
@@ -1179,6 +1181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 648a67bb7eb4d194698816fec6a26d78, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModelController: {fileID: 804895536692614938}
   cooldownTime: 1
   laserOrigin: {fileID: 2111497816963260412}
   laserRange: 100
@@ -1879,6 +1882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb6220ed1ab91e489cb85dd608740b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerModelController: {fileID: 804895536692614938}
   cooldownTime: 0
   trajectoryDrawer: {fileID: 3595214099820707869}
   orientation: {fileID: 1702798230530849574}

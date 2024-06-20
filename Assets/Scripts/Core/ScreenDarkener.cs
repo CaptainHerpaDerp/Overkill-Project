@@ -60,7 +60,7 @@ namespace Crore
 
             if (color.a >= 1)
             {
-                print("invoked");
+                //print("invoked");
                 OnDarkened?.Invoke();
                 StartCoroutine(UnDarkenScreenCoroutine());
             }

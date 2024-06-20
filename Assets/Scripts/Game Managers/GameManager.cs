@@ -9,6 +9,7 @@ using Core;
 using System;
 using Crore;
 using UnityEngine.Playables;
+using Creatures;
 
 namespace GameManagement
 {
@@ -28,7 +29,7 @@ namespace GameManagement
         [SerializeField] private int gameTime;
 
         [Header("The Duration of the Ending Screen in Seconds")]
-        [SerializeField] private int postGameTime;
+        [SerializeField] private float cameraZoomOutTime, victoryIslandTime;
 
         [SerializeField] private TextMeshProUGUI timerText;
 
@@ -37,7 +38,7 @@ namespace GameManagement
         // The currently winning player
         Player topPlayer;
 
-        public Dictionary<Player, int> winningTimeCount = new();
+        public Dictionary<Player, int> WinningTimeCount = new();
 
         // The crown prefab and instance that will be placed on the winning player during the game 
         [SerializeField] private GameObject crownPrefab;
@@ -48,7 +49,6 @@ namespace GameManagement
         // Create a public accessor for the player list that is not modifiable
         public List<Player> PlayerList { get { return playerList; } }
  
-
         // TEMP
         [SerializeField] private GameObject victoryGroup;
 
@@ -69,7 +69,7 @@ namespace GameManagement
         [SerializeField] PlayableDirector director;
 
         // An Action to tell the badge assigner to show and start assigning badges
-        public Action<float> OnAssignBadges;
+        public Action<float, List<Player>> OnAssignBadges;
 
         //[Header("The time after the game ends before the awards should start to be given in the badge assigner")]
         private const float badgeAssignStartDelay = 5;
@@ -110,7 +110,34 @@ namespace GameManagement
             OnPlayerAdded?.Invoke(player);
         }
 
-        public Player GetMostMovePlayerWinner()
+
+        /// <summary>
+        /// Returns the player (and move time) that has moved for the least duration
+        /// </summary>
+        /// <returns></returns>
+        public (Player player, int moveTime) GetLeastMovePlayer()
+        {
+            Player leastMovePlayer = null;
+            float leastMove = float.MaxValue;
+
+            foreach (Player player in playerList)
+            {
+                if (player.timeMoving < leastMove)
+                {
+                    leastMove = player.timeMoving;
+                    leastMovePlayer = player;
+                }
+            }
+
+            return (leastMovePlayer, (int)leastMove);
+        }
+
+
+        /// <summary>
+        /// Returns the player (and move time) that has moved for the most duration
+        /// </summary>
+        /// <returns></returns>
+        public (Player player, int moveTime) GetMostMovePlayer()
         {
             Player mostMovePlayer = null;
             float mostMove = 0;
@@ -124,7 +151,28 @@ namespace GameManagement
                 }
             }
 
-            return mostMovePlayer;
+            return (mostMovePlayer, (int)mostMove);
+        }
+
+        /// <summary>
+        /// Returns the player that has been winning for the longest 
+        /// </summary>
+        /// <returns></returns>
+        public (Player player, int winTime) GetMostWinPlayerWinner()
+        {
+            Player mostWinPlayer = null;
+            int mostTimeWinning = 0;
+
+            foreach (Player player in playerList)
+            {
+                if (WinningTimeCount.ContainsKey(player) && WinningTimeCount[player] > mostTimeWinning)
+                {
+                    mostTimeWinning = WinningTimeCount[player];
+                    mostWinPlayer = player;
+                }
+            }
+
+            return (mostWinPlayer, mostTimeWinning);
         }
 
         /// <summary>
@@ -199,12 +247,12 @@ namespace GameManagement
                     topPlayer = winningPlayer;
                     crownInstance.SetActive(true);
 
-                    if (winningTimeCount.ContainsKey(winningPlayer))
+                    if (WinningTimeCount.ContainsKey(winningPlayer))
                     {
-                        winningTimeCount[winningPlayer]++;
+                        WinningTimeCount[winningPlayer]++;
                     }
                     else {
-                        winningTimeCount[winningPlayer] = 1;
+                        WinningTimeCount[winningPlayer] = 1;
                     }
 
 
@@ -287,6 +335,9 @@ namespace GameManagement
 
         private void EndGame()
         {
+            // Invoke endgame so the badge assigner can start assigning badges
+            OnGameEnd?.Invoke();
+
             // Mark as game not running
             isGameRunning = false;
 
@@ -298,13 +349,6 @@ namespace GameManagement
 
             // Hide the score bar ui
             GameUI.SetActive(false);
-
-            // Invoke endgame so the badge assigner can start assigning badges
-            OnGameEnd?.Invoke();
-            OnAssignBadges?.Invoke(badgeAssignStartDelay);   
-
-            // Show the victory area
-            victoryGroup.SetActive(true);
 
             // disable all of the player cameras and lock movement
             foreach (Player player in playerList)
@@ -320,6 +364,9 @@ namespace GameManagement
             // Determine the top 3 players
             foreach (Player player in playerList)
             {
+                // Set the player's Y rotation to 90 degrees
+                player.transform.rotation = Quaternion.Euler(0, 90, 0);
+
                 int score = GetScoreForPlayer(player.TeamColor);
 
                 if (firstPlace == null || score > firstPlaceScore)
@@ -375,6 +422,12 @@ namespace GameManagement
             if (fourthPlace != null)
                 fourthPlace.transform.position = playerPositionParent.GetChild(3).position + playerOffset;
 
+            // Creates a list to track the player's placements from winner to loser
+            List<Player> placementList = new()
+            {
+                firstPlace, secondPlace, thirdPlace, fourthPlace
+            };
+
             // Ensure the crown is placed on the first place player
             if (firstPlace != null)
             {
@@ -382,17 +435,41 @@ namespace GameManagement
                 crownInstance.transform.localPosition = new Vector3(0, 2, 0);
             }
 
-            // Darken the screen to show the victory routine
-            StartCoroutine(DarkenCRToExit());
+            StartCoroutine(DarkenCRToVictoryIsland(placementList));
         }
 
-        private IEnumerator DarkenCRToExit()
+        private IEnumerator DarkenCRToVictoryIsland(List<Player> placementList)
         {
-            yield return new WaitForSeconds(postGameTime);
+            yield return new WaitForSeconds(cameraZoomOutTime);
+
+            ScreenDarkener.Instance.DarkenScreen(0.5f);
+
+            ScreenDarkener.Instance.OnDarkened += () => 
+            {
+                ShowVictoryIsland(placementList);
+            };
+
+            yield break;
+        }
+
+        private IEnumerator DarkenCRToRestart()
+        {
+            yield return new WaitForSeconds(victoryIslandTime);
 
             ScreenDarkener.Instance.DarkenScreen(0.5f);
 
             ScreenDarkener.Instance.OnDarkened += ExitPostGame;
+
+            yield break;    
+        }
+
+        private void ShowVictoryIsland(List<Player> placementList)
+        {
+            victoryGroup.gameObject.SetActive(true);
+            OnAssignBadges?.Invoke(badgeAssignStartDelay, placementList);
+
+            // Darken the screen to show the camera zoom out 
+            StartCoroutine(DarkenCRToRestart());
         }
 
         private void ExitPostGame()
@@ -406,8 +483,8 @@ namespace GameManagement
             // Clear the list of tracked players from the sound manager 
             SoundManager.Instance.ClearPlayers();
 
-            winningTimeCount.Clear();
-            winningTimeCount = new Dictionary<Player, int>();
+            WinningTimeCount.Clear();
+            WinningTimeCount = new Dictionary<Player, int>();
 
             // Reset the player registration
             PlayerLocator.Instance.ResetPlayerRegistration();

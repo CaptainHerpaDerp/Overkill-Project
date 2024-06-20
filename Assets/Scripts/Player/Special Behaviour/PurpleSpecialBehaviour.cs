@@ -7,7 +7,7 @@ namespace Players
 {
     public class PurpleSpecialBehaviour : SpecialBehaviour
     {
-        public Transform laserOrigin;
+        public Transform laserOrigin; 
         public float laserRange = 100f;
         public LayerMask collisionMask; // Layer mask for detecting collisions
 
@@ -68,6 +68,8 @@ namespace Players
             {
                 return false;
             }
+
+            playerModelController.PlayAnimation(Players.AnimationState.Special);        
 
             laserCapsule.capsuleCollider.height = laserRange;
             laserCapsule.capsuleCollider.center = new Vector3(0, laserRange / 2, 0);

@@ -1,3 +1,4 @@
+using Players;
 using System;
 using System.Collections;
 using UnityEngine;
@@ -9,6 +10,9 @@ public class SpecialBehaviour : MonoBehaviour
 
     // Activated when the special ability is refreshed
     public Action OnSpecialAbilityRefreshed;
+
+    // Reference to the player's model controller
+    public PlayerModelController playerModelController;
 
     protected bool onCooldown = false;
 

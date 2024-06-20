@@ -143,7 +143,7 @@ namespace GameManagement
                 {
                     if (!hit.transform.gameObject.CompareTag("PlantSurface"))
                     {
-                        Debug.Log("destroying the thing without tag");
+                        //Debug.Log("destroying the thing without tag");
                         Destroy(plantParent.GetChild(i).gameObject);
                     }
 
