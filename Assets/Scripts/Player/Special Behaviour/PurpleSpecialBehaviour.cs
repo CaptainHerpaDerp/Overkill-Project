@@ -86,16 +86,16 @@ namespace Players
             // Calculate the curve points
             Vector3[] curvePoints = CalculateBezierCurve(laserOrigin.position, laserTarget.position, turnSharpness);
 
+            curvePoints[curvePoints.Length - 1] = laserTarget.position + (laserTarget.position - curvePoints[curvePoints.Length - 2]) * .5f;
             // Update the line renderer positions
             laserLineRenderer.positionCount = curvePoints.Length;
             laserLineRenderer.SetPositions(curvePoints);
 
             // Calculate the angle between the forward direction and the transform of the target
             float angle = Vector3.Angle(laserOrigin.forward, (laserTarget.position - laserOrigin.position).normalized);
-            Debug.Log(angle);
 
             // If the angle is less than 10 degrees, the sharpness of the curve should be 0, otherwise it should be 1   
-            turnSharpness = angle < straightLaserAngle ? 0 : 1;
+            //turnSharpness = angle < straightLaserAngle ? 0 : 1;
 
             laserTarget.GetComponent<Rigidbody>().AddForce((laserTarget.position - laserOrigin.position).normalized * laserPushback);
 
@@ -116,26 +116,23 @@ namespace Players
         }
 
 
-        // Calculate the points of the Bezier curve with an initial straight segment
+        // Calculate the points of the Bezier curve
         private Vector3[] CalculateBezierCurve(Vector3 startPoint, Vector3 endPoint, float sharpness)
         {
-            // Calculate the end of the straight segment
-            Vector3 straightSegmentEnd = startPoint + laserOrigin.forward * straightSegmentLength;
 
-            // Use the end of the straight segment as the new start point for the curve
-            Vector3 directionToTarget = (endPoint - straightSegmentEnd).normalized;
-            Vector3 controlPointOffset = Vector3.Cross(directionToTarget, Vector3.up) * sharpness * Vector3.Distance(straightSegmentEnd, endPoint);
+            Vector3 vectorToTarget = endPoint - startPoint;
+            Vector3 controlPointOffset = Vector3.up * sharpness * vectorToTarget.magnitude;
+            Debug.Log($"distance = {vectorToTarget.magnitude}; offset = {controlPointOffset}");
 
-            Vector3 controlPoint = straightSegmentEnd + controlPointOffset;
+            Vector3 controlPoint = startPoint + vectorToTarget / 2 + controlPointOffset;
 
-            Vector3[] curvePoints = new Vector3[numSegments + 2];
+            Vector3[] curvePoints = new Vector3[numSegments + 1];
             curvePoints[0] = startPoint;
-            curvePoints[1] = straightSegmentEnd;
 
-            for (int i = 2; i <= numSegments + 1; i++)
+            for (int i = 1; i < numSegments + 1; i++)
             {
                 float t = (i - 1) / (float)numSegments;
-                curvePoints[i] = CalculateQuadraticBezierPoint(t, straightSegmentEnd, controlPoint, endPoint);
+                curvePoints[i] = CalculateQuadraticBezierPoint(t, startPoint, controlPoint, endPoint);
             }
 
             return curvePoints;

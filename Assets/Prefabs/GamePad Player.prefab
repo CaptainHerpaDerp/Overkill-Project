@@ -1265,16 +1265,15 @@ MonoBehaviour:
     m_Bits: 65536
   laserLineRenderer: {fileID: 7990888569138141163}
   laserEndEffect: {fileID: 0}
-  laserCapsule: {fileID: 0}
   laserTime: 0.5
-  laserPushback: 5000
+  laserPushback: 0
   laserWidth: 3
   parentPlayer: {fileID: 2149499087766023847}
   aimMat: {fileID: 2100000, guid: f2c8d42f1e4c98945b8deed5b84f92b0, type: 2}
   fireMat: {fileID: 2100000, guid: 3f64cb7be348aec4eb665c420604db53, type: 2}
   targetFinder: {fileID: 6285751509470494515}
-  numSegments: 50
-  turnSharpness: 1
+  numSegments: 15
+  turnSharpness: 0.5
   straightSegmentLength: 10
   straightLaserAngle: 10
 --- !u!120 &7990888569138141163
