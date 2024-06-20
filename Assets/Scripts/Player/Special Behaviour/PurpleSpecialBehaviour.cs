@@ -17,8 +17,6 @@ namespace Players
         // The particle object at the end of the laser
         [SerializeField] private GameObject laserEndEffect;
 
-        [SerializeField] private LaserCollider laserCapsule;
-
         [SerializeField] private float laserTime;
         [SerializeField] private float laserPushback;
 
@@ -70,9 +68,6 @@ namespace Players
             }
 
             playerModelController.PlayAnimation(Players.AnimationState.Special);        
-
-            laserCapsule.capsuleCollider.height = laserRange;
-            laserCapsule.capsuleCollider.center = new Vector3(0, laserRange / 2, 0);
 
             TrajectoryCoroutine ??= StartCoroutine(FireLaserCoroutine());
 

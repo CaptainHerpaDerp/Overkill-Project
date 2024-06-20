@@ -63,11 +63,9 @@ public class PlantCreepSpread : MonoBehaviour
         }
         else
         {
-            print("starting spread");
+            gameObject.SetActive(true);
             surroundingPlants.TeamColour = teamColor;
             spreadCoroutine ??= StartCoroutine(SpreadToSurroundingPlants());
-
-            gameObject.SetActive(true);
         }
     }
 

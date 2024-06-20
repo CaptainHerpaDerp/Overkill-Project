@@ -60,6 +60,7 @@ namespace UIElements
             playerManager = PlayerManager.Instance;
             screenDarkener = ScreenDarkener.Instance;
             GameManager.Instance.OnGameReload += ActivateSelection;
+            screenDarkener.UnDarkenScreen();
 
             // On game start, allow character selection
             doCharacterSelection = true;
