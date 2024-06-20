@@ -12533,9 +12533,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   plantLocator: {fileID: 6564477704066252425}
   weightCoefficient: 50
+  agent: {fileID: 8470760029407560290}
   TargetTurnDistance: 1.3
   maxDistanceFromPlayer: 15
   playerStopDistance: 10
+  followPlayerSpeed: 5
 --- !u!1 &8246348001092430842
 GameObject:
   m_ObjectHideFlags: 0
