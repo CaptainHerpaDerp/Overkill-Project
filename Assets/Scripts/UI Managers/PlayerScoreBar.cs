@@ -15,6 +15,8 @@ namespace UIManagement
 
         [SerializeField] private float startWidth, maxWidth;
 
+        [SerializeField] private float barGrowSpeed;
+
         [SerializeField] private float updateInterval = 1f;
 
         private GameManager gameManager;
@@ -53,37 +55,73 @@ namespace UIManagement
         private void RecalculateSizes()
         {
             float totalScore = player1Score + player2Score + player3Score + player4Score;
+            float targetP1Width = 0, targetP2Width = 0, targetP3Width = 0, targetP4Width = 0;
+            float p1Diff = 0, p2Diff = 0, p3Diff = 0, p4Diff = 0;
 
-            float p1Width = 0, p2Width = 0, p3Width = 0, p4Width = 0;
-                 
-            if (player1Score > 0)
-            {
-                p1Width = (player1Score / totalScore) * maxWidth;
-                Debug.Log($"i want to kill myself = {p1Width}");
-                pp1.rectTransform.sizeDelta = new Vector2(p1Width, pp1.rectTransform.sizeDelta.y);
-                pp1.rectTransform.position = new Vector3(startWidth, pp1.rectTransform.position.y, pp1.rectTransform.position.z);
-            }
 
-            if (player2Score > 0)
-            {
-                p2Width = (player2Score / totalScore) * maxWidth;
-                pp2.rectTransform.sizeDelta = new Vector2(p2Width, pp2.rectTransform.sizeDelta.y);
-                pp2.rectTransform.position = new Vector3(pp1.rectTransform.position.x + p1Width, pp2.rectTransform.position.y, pp2.rectTransform.position.z);
-            }
+            if (totalScore == 0)
+                targetP1Width = 0;
+            else
+                targetP1Width = (player1Score / totalScore) * maxWidth;
 
-            if (player3Score > 0)
-            {
-                p3Width = (player3Score / totalScore) * maxWidth;
-                pp3.rectTransform.sizeDelta = new Vector2(p3Width, pp3.rectTransform.sizeDelta.y);
-                pp3.rectTransform.position = new Vector3(pp2.rectTransform.position.x + p2Width, pp3.rectTransform.position.y, pp3.rectTransform.position.z);
-            }
+            p1Diff = Mathf.Abs(targetP1Width - pp1.rectTransform.sizeDelta.x);
+            if (p1Diff <= barGrowSpeed) 
+                pp1.rectTransform.sizeDelta = new Vector2(targetP1Width, pp1.rectTransform.sizeDelta.y);
+            else  
+                pp1.rectTransform.sizeDelta = new Vector2(pp1.rectTransform.sizeDelta.x + Mathf.Sign(targetP1Width - pp1.rectTransform.sizeDelta.x) * barGrowSpeed,
+                    pp1.rectTransform.sizeDelta.y);
 
-            if (player4Score > 0)
-            {
-                p4Width = (player4Score / totalScore) * maxWidth;
-                pp4.rectTransform.sizeDelta = new Vector2(p4Width, pp4.rectTransform.sizeDelta.y);
-                pp4.rectTransform.position = new Vector3(pp3.rectTransform.position.x + p3Width, pp4.rectTransform.position.y, pp4.rectTransform.position.z);
-            }
+            pp1.rectTransform.position = new Vector3(startWidth, pp1.rectTransform.position.y, 
+                pp1.rectTransform.position.z);
+
+
+            if (totalScore == 0)
+                targetP2Width = 0;
+            else
+                targetP2Width = (player2Score / totalScore) * maxWidth;
+
+            p2Diff = Mathf.Abs(targetP2Width - pp2.rectTransform.sizeDelta.x);
+            if (p2Diff <= barGrowSpeed)
+                pp2.rectTransform.sizeDelta = new Vector2(targetP2Width, pp2.rectTransform.sizeDelta.y);
+            else
+                pp2.rectTransform.sizeDelta = new Vector2(pp2.rectTransform.sizeDelta.x + Mathf.Sign(targetP2Width - pp2.rectTransform.sizeDelta.x) * barGrowSpeed,
+                    pp2.rectTransform.sizeDelta.y);
+
+            pp2.rectTransform.position = new Vector3(pp1.rectTransform.position.x + pp1.rectTransform.sizeDelta.x, pp2.rectTransform.position.y, 
+                pp2.rectTransform.position.z);
+
+
+            if (totalScore == 0)
+                targetP3Width = 0;
+            else
+                targetP3Width = (player3Score / totalScore) * maxWidth;
+
+            p3Diff = Mathf.Abs(targetP3Width - pp3.rectTransform.sizeDelta.x);
+            if (p3Diff <= barGrowSpeed)
+                pp3.rectTransform.sizeDelta = new Vector2(targetP3Width, pp3.rectTransform.sizeDelta.y);
+            else
+                pp3.rectTransform.sizeDelta = new Vector2(pp3.rectTransform.sizeDelta.x + Mathf.Sign(targetP3Width - pp3.rectTransform.sizeDelta.x) * barGrowSpeed,
+                    pp3.rectTransform.sizeDelta.y);
+
+            pp3.rectTransform.position = new Vector3(pp2.rectTransform.position.x + pp2.rectTransform.sizeDelta.x, pp3.rectTransform.position.y, 
+                pp3.rectTransform.position.z);
+
+
+            if (totalScore == 0)
+                targetP4Width = 0;
+            else
+                targetP4Width = (player4Score / totalScore) * maxWidth;
+
+            p4Diff = Mathf.Abs(targetP4Width - pp4.rectTransform.sizeDelta.x);
+            if (p4Diff <= barGrowSpeed)
+                pp4.rectTransform.sizeDelta = new Vector2(targetP4Width, pp4.rectTransform.sizeDelta.y);
+            else
+                pp4.rectTransform.sizeDelta = new Vector2(pp4.rectTransform.sizeDelta.x + Mathf.Sign(targetP4Width - pp4.rectTransform.sizeDelta.x) * barGrowSpeed,
+                    pp4.rectTransform.sizeDelta.y);
+
+            pp4.rectTransform.position = new Vector3(pp3.rectTransform.position.x + pp3.rectTransform.sizeDelta.x, pp4.rectTransform.position.y, 
+                pp4.rectTransform.position.z);
+            
         }
     }
 }

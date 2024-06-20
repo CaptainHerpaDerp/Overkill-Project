@@ -3898,6 +3898,7 @@ MonoBehaviour:
   m_Script: {fileID: 660244485}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_Entries: []
 --- !u!4 &209608913
 Transform:
   m_ObjectHideFlags: 19
@@ -7850,6 +7851,7 @@ MonoBehaviour:
   pp4: {fileID: 46339451}
   startWidth: 932.1
   maxWidth: 1969
+  barGrowSpeed: 10
   updateInterval: 0.25
 --- !u!114 &542856962
 MonoBehaviour:
