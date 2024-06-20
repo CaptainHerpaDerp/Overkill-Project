@@ -129,6 +129,7 @@ namespace GaiaElements
             }
 
             PlantSpreadCreep = false;
+            if (plantAnimator.gameObject.activeInHierarchy)
             plantAnimator.SetTrigger("UnGrow");
             TeamColor = TEAMCOLOR.DEFAULT;
         }

@@ -2,6 +2,7 @@ using Core;
 using Creatures;
 using GaiaElements;
 using System.Collections;
+using System.Collections.Generic;
 using TeamColors;
 using UnityEngine;
 using UnityEngine.AI;
@@ -14,9 +15,8 @@ public class PurpleCreatureBehaviour : Creature
         PLANTING
     }
 
-    private NavMeshAgent agent;
+    [SerializeField] private NavMeshAgent agent;
     private PlayerLocator playerLocator;
-
     private Coroutine playerFollowCoroutine;
 
     private int[] playerTeamScore = new int[5];
@@ -30,33 +30,34 @@ public class PurpleCreatureBehaviour : Creature
 
     private CreatureState state = CreatureState.FOLLOWING_PLAYER;
 
+    [SerializeField] private float followPlayerSpeed = 5f;
+    private float baseSpeed;
+
     private float playerDistance
     {
         get => Vector3.Distance(transform.position, playerLocator.GetPositionOfPlayer(ColorEnum.TEAMCOLOR.PURPLE));
     }
 
+    private Vector3 playerPosition => playerLocator.GetPositionOfPlayer(ColorEnum.TEAMCOLOR.PURPLE);
+    private Transform playerTransform => playerLocator.GetTransformOfTeam(ColorEnum.TEAMCOLOR.PURPLE);
+
     private void OnEnable()
     {
-        agent = transform.parent.GetComponent<NavMeshAgent>();
         playerLocator = PlayerLocator.Instance;
-        ScoreReceptionManager.OnValueChanged += UpdateScore;
     }
 
-    private void OnDisable()
+    public override void StopBehaviour()
     {
-        ScoreReceptionManager.OnValueChanged -= UpdateScore;
+        agent.speed = baseSpeed;
+        base.StopBehaviour();
     }
 
-    private void UpdateScore(int playerIndex, int newScore)
+    public override void Act()
     {
-        playerTeamScore[playerIndex] = newScore;
-    }
-
-    public override void Act() 
-    {
+        agent.speed = followPlayerSpeed;
         gameObject.SetActive(true);
         CheckTarget();
-        playerFollowCoroutine ??= StartCoroutine(FollowPlayer());
+        //playerFollowCoroutine ??= StartCoroutine(FollowPlayer());
     }
 
     private IEnumerator FollowPlayer()
@@ -65,22 +66,25 @@ public class PurpleCreatureBehaviour : Creature
         {
             if (state == CreatureState.PLANTING)
             {
+                agent.speed = baseSpeed;
+
                 // While planting, check if the player is out of range
                 if (playerDistance > maxDistanceFromPlayer)
                 {
                     print("Following player");
-
                     state = CreatureState.FOLLOWING_PLAYER;
                 }
                 else
                 {
                     if (plantTarget != null)
-                    agent.SetDestination(plantTarget.position);
+                        agent.SetDestination(plantTarget.position);
                 }
             }
 
             if (state == CreatureState.FOLLOWING_PLAYER)
             {
+                agent.speed = followPlayerSpeed;
+
                 // If the player is within the stopping distance, stop following and start planting
                 if (playerDistance < playerStopDistance)
                 {
@@ -91,7 +95,7 @@ public class PurpleCreatureBehaviour : Creature
                 {
                     // Follow the purple player
                     agent.SetDestination(playerLocator.GetPositionOfPlayer(ColorEnum.TEAMCOLOR.PURPLE));
-                    yield return new WaitForSeconds(0.5f);  
+                    yield return new WaitForSeconds(0.5f);
                 }
 
             }
@@ -100,50 +104,11 @@ public class PurpleCreatureBehaviour : Creature
         }
     }
 
-    private void ChooseClosestPlant()
-    {
-        if (plantsHierarchyParent == null)
-        {
-            plantsHierarchyParent = GameObject.Find("Plants").transform;
-        }
-
-        float distToPlant = maxDistanceFromPlayer;
-        Plant targetPlant = null;
-
-        foreach (Transform plant in plantsHierarchyParent)
-        {
-            Plant plantScript = plant.GetComponent<Plant>();
-            if (plantScript == null)
-            {
-                Debug.LogError("Plant component not found");
-                continue;
-            }
-
-            if (plantScript.TeamColor == ColorEnum.TEAMCOLOR.PURPLE)
-                continue;
-
-            float TMPDist = Vector3.Distance(transform.position, plant.transform.position);
-            if (TMPDist > distToPlant) continue;
-            distToPlant = TMPDist;
-            targetPlant = plantScript;
-        }
-
-        if (targetPlant != null)
-        {
-            plantTarget = targetPlant.transform;
-            //TriggerTargetChange(plantTarget.position);
-        }
-        else
-        {
-            Debug.LogError("Blue plantTarget is null");
-        }
-    }
-
     private void CheckTarget()
     {
         if (plantTarget == null)
         {
-            ChooseClosestPlant();
+            ChooseClosestOpponentPlant();
         }
 
         if (plantTarget == null)
@@ -159,6 +124,60 @@ public class PurpleCreatureBehaviour : Creature
         }
 
         CheckDistanceToTarget();
+    }
+
+    protected override void ChooseClosestOpponentPlant()
+    {
+        if (plantLocator == null)
+        {
+            Debug.LogWarning("Plant locator not found, please assign!");
+            return;
+        }
+
+        List<Plant> opponentPlants = plantLocator.GetSurroundingOpponentPlantsList(playerTransform);
+
+        float smallestWeight = float.MaxValue;
+        Plant targetPlant = null;
+
+        foreach (Plant plant in opponentPlants)
+        {
+            if (plant == null)
+            {
+                Debug.LogError("Plant component not found");
+                continue;
+            }
+
+            // Get the forward vector of the current object
+            Vector3 forward = transform.forward;
+
+            // Calculate the direction vector from the object to the target
+            Vector3 toTarget = (plant.transform.position - transform.position).normalized;
+
+            // Calculate the angle between the forward vector and the direction to the target
+            float givenAngle = Vector3.Angle(forward, toTarget);
+            float distance = Vector3.Distance(transform.position, plant.transform.position);
+
+            if (givenAngle > 180)
+            {
+                givenAngle = 360 - givenAngle;
+            }
+
+            givenAngle = Mathf.Clamp(givenAngle, 0, weightCoefficient);
+
+            float weight = givenAngle * distance;
+            if (weight < smallestWeight)
+            {
+                smallestWeight = weight;
+                targetPlant = plant;
+            }
+        }
+
+        if (targetPlant != null)
+        {
+            print("found plant target");
+            plantTarget = targetPlant.transform;
+            TriggerTargetChange(plantTarget.position);
+        }
     }
 
     private void CheckDistanceToTarget()

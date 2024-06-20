@@ -11,11 +11,18 @@ public class SurroundingPlant : MonoBehaviour
     public ColorEnum.TEAMCOLOR TeamColour;
 
     [SerializeField] private bool excludeNeutralPlants;
+    [SerializeField] private LayerMask plantLayer;
+
+    [Header("If the resulting list of plants is empty, expand the sphere collider and retry the method until a plant is found")]
+    [SerializeField] private bool expandOnEmptyList;
+    [SerializeField] private float incrementExpandAmount;
+    [SerializeField] private float maxExpandAmount;
+    private float initialSphereRadius;
 
     private void Start()
     {
         sphereCollider = GetComponent<SphereCollider>();
-
+        initialSphereRadius = sphereCollider.radius;
         sphereCollider.isTrigger = true;
     }
 
@@ -24,10 +31,9 @@ public class SurroundingPlant : MonoBehaviour
         sphereCollider.radius = radius;
     }
 
-    public List<Plant> GetSurroundingOpponentPlantsList()
+    public List<Plant> GetSurroundingOpponentPlantsList(Transform atTransform = null)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius);
-
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius, layerMask: plantLayer);
         List<Plant> opponentPlants = new();
 
         foreach (var hitCollider in hitColliders)
@@ -38,7 +44,65 @@ public class SurroundingPlant : MonoBehaviour
                 continue;
           
             // Check if the plant is owned by the player
-            if (plant.TeamColor != TeamColour)
+            if (plant.TeamColor != TeamColour && plant.TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
+            {
+                opponentPlants.Add(plant);
+            }
+        }
+
+        // If the list of opponent plants is 0, expand the sphere collider and try again
+        if (expandOnEmptyList && opponentPlants.Count == 0)
+        {
+            bool foundPlant = false;
+            while (!foundPlant && sphereCollider.radius < maxExpandAmount)
+            {
+                sphereCollider.radius += incrementExpandAmount;
+
+                Vector3 overlapPos;
+                if (atTransform != null)
+                    overlapPos = atTransform.position;
+                else
+                    overlapPos = transform.position;
+
+                hitColliders = Physics.OverlapSphere(overlapPos, sphereCollider.radius, layerMask: plantLayer);
+
+                foreach (var hitCollider in hitColliders)
+                {
+                    hitCollider.TryGetComponent(out Plant plant);
+
+                    if (plant == null)
+                        continue;
+
+                    // Check if the plant is owned by the player
+                    if (plant.TeamColor != TeamColour && plant.TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
+                    {
+                        opponentPlants.Add(plant);
+                        foundPlant = true;
+                    }
+                }
+            }
+
+            // Reset the sphere collider radius regardless of the result
+            sphereCollider.radius = initialSphereRadius;
+        }
+
+        return opponentPlants;
+    }
+
+    public List<Plant> GetSurroundingNeutralPlantsList()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius, layerMask: plantLayer);
+        List<Plant> opponentPlants = new();
+
+        foreach (var hitCollider in hitColliders)
+        {
+            hitCollider.TryGetComponent(out Plant plant);
+
+            if (plant == null)
+                continue;
+
+            // Check if the plant is owned by the player
+            if (plant.TeamColor == ColorEnum.TEAMCOLOR.DEFAULT)
             {
                 opponentPlants.Add(plant);
             }
@@ -76,8 +140,6 @@ public class SurroundingPlant : MonoBehaviour
                 playerPlants++;
             }
         }
-
-        //Debug.Log("Player " + playerNumber + " has " + playerPlants + " plants out of " + totalPlants);
 
         // With a max value of 1, get the percentage of plants owned by the player
         if (totalPlants == 0)
