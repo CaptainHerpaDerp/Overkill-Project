@@ -150,6 +150,7 @@ namespace Creatures
 
         protected void TriggerTargetChange(Vector3 newTarget)
         {
+            Debug.Log("nice cock");
             ONTargetChanged?.Invoke(newTarget);
         }
 
