@@ -159,10 +159,12 @@ namespace Creatures
                 {
                     agent.velocity = Vector3.zero;
                     agent.isStopped = true;
+                    Debug.Log("stoppedFellaWhenGreen");
                     agent.enabled = false;
                 }
                 else
                 {
+                    agent.isStopped = false;
                     agent.enabled = true;
                 }
 
@@ -204,6 +206,7 @@ namespace Creatures
                     if (!canMoveOnConvert)
                     {
                         agent.isStopped = true;
+                        Debug.Log("StoppedTheFella");
                     }
 
                     // If there are more than 1 converters, there will be no conversion
@@ -271,13 +274,15 @@ namespace Creatures
                     }
                     else
                     {
+                        agent.isStopped = false;
+                        Debug.Log("UnstoppedTheFellaWhenNotInWhile");
                         creatureConversionSound.StopSound();
                     }
                 }
 
                 isConverting = false;
                 converters.Clear();
-                agent.isStopped = false;
+                
                 yield return new WaitForFixedUpdate();
             }
         }

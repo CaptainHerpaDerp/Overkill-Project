@@ -93,7 +93,7 @@ namespace GameManagement
             {
                 if (player.TeamColor == newColor)
                 {
-                    print($"asshole: {AchievementList[player].creatureTurnCount}, colour: {newColor}");
+                    //print($"asshole: {AchievementList[player].creatureTurnCount}, colour: {newColor}");
                     AchievementList[player].creatureTurnCount++;
                 }
             }

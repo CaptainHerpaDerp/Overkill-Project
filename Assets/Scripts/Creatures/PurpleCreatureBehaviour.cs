@@ -48,7 +48,6 @@ public class PurpleCreatureBehaviour : Creature
 
     public override void StopBehaviour()
     {
-        agent.speed = baseSpeed;
         base.StopBehaviour();
     }
 
