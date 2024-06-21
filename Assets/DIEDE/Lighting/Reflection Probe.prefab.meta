@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DIEDE/Lighting/Reflection Probe.prefab.meta
 guid: 8b92bad036cc19040942e724bb4d7413
+========
+guid: f2149bdee21102146af698d8b01c2624
+>>>>>>>> 4708a64 (Lighting):Assets/DIEDE/Lighting/Directional Light.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

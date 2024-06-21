@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DIEDE/Models/Plants/Blue/Big/PF_Blue_High_01a.prefab.meta
 guid: 224466fc76dd08b4586615155c5d6db0
+========
+guid: 61397bff8143ab14e94ca2586cd8d05d
+>>>>>>>> 4708a64 (Lighting):Assets/DIEDE/Lighting/Local Volumetric Fog.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
