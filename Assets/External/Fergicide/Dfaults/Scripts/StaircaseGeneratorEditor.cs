@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+
+#if UNITY_EDITOR
 
 [CustomEditor(typeof(StaircaseGenerator))]
 public class StaircaseGeneratorEditor : Editor
@@ -17,3 +17,5 @@ public class StaircaseGeneratorEditor : Editor
         DrawDefaultInspector();
     }
 }
+
+#endif

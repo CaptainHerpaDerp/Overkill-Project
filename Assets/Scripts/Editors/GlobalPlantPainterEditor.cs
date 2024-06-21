@@ -2,6 +2,8 @@ using GameManagement;
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(GlobalPlantPaint))]
 public class GlobalPlantPainterEditor : Editor
 {
@@ -27,3 +29,4 @@ public class GlobalPlantPainterEditor : Editor
         }
     }
 }
+#endif

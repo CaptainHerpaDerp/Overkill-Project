@@ -1,6 +1,8 @@
 using UnityEditor;
 using UnityEngine;
 
+#if UNITY_EDITOR
+
 [CustomEditor(typeof(PlayerPreferences))]
 public class PlayerPreferencesEditor : Editor
 {
@@ -47,3 +49,4 @@ public class PlayerPreferencesEditor : Editor
     }
 
 }
+#endif

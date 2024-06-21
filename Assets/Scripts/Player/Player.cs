@@ -3,6 +3,7 @@ using System.Collections;
 using TeamColors;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using static TeamColors.ColorEnum;
 
 namespace Players
@@ -423,6 +424,11 @@ namespace Players
                         playerCamera.transform.position -= diffNormalized * fovZoomFactor;
                     }
                 }
+            }
+
+            if (dPadDown.IsPressed() && dPadDown.IsPressed() && jump.triggered)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
 
             // dpadValue = dPadUp.triggered ? 1 : dPadDown.triggered ? -1 : 0;

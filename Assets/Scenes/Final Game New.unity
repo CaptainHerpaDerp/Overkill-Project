@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 7702.417, g: 7801.1494, b: 8617.079, a: 1}
+  m_IndirectSpecularColor: {r: 7510.3975, g: 7298.1025, b: 7090.13, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3988,7 +3988,7 @@ GameObject:
   m_IsActive: 1
 --- !u!114 &147051003
 MonoBehaviour:
-  m_ObjectHideFlags: 10
+  m_ObjectHideFlags: 2
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -52673,7 +52673,7 @@ MonoBehaviour:
   purpleSelectionGroup: {fileID: 1033629061}
   parentUIObject: {fileID: 1239249166}
   countdownText: {fileID: 2147465301}
-  countdownTime: 1
+  countdownTime: 3
 --- !u!114 &2140611702
 MonoBehaviour:
   m_ObjectHideFlags: 0
