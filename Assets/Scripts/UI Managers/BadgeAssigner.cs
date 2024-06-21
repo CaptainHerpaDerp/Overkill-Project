@@ -34,6 +34,8 @@ namespace UIManagement
         [Header("The time that the badge will take to move to its position (match with badge animation time")]
         [SerializeField] private float newBadgeSpeed = 2.5f;
 
+        [SerializeField] private float postBadgeEndTime;
+
         private AchievementManager achievementManager;
 
         private void Start()
@@ -161,7 +163,11 @@ namespace UIManagement
                         
                     yield return new WaitForSeconds(newBadgeSpeed);
                 }
-     
+
+                yield return new WaitForSeconds(postBadgeEndTime);
+
+                GameManager.Instance.RestartGame();
+
                 yield break;
             }
         }

@@ -74,7 +74,7 @@ namespace GameManagement
         public Action OnEndPostGame;
 
         //[Header("The time after the game ends before the awards should start to be given in the badge assigner")]
-        private const float badgeAssignStartDelay = 5;
+        private const float badgeAssignStartDelay = 2.5f;
 
         [SerializeField] private bool OpenCharacterSelectOnStart;
 
@@ -465,8 +465,6 @@ namespace GameManagement
 
         private IEnumerator DarkenCRToRestart()
         {
-            yield return new WaitForSeconds(victoryIslandTime);
-
             OnEndPostGame?.Invoke();
             ScreenDarkener.Instance.DarkenScreen(0.5f);
             ScreenDarkener.Instance.OnDarkened += ExitPostGame;
@@ -478,7 +476,10 @@ namespace GameManagement
         {
             victoryGroup.gameObject.SetActive(true);
             OnAssignBadges?.Invoke(badgeAssignStartDelay, placementList);
+        }
 
+        public void RestartGame()
+        {
             // Darken the screen to show the camera zoom out 
             StartCoroutine(DarkenCRToRestart());
         }
@@ -539,9 +540,8 @@ namespace GameManagement
                 EndGameNow = false;
             }
 
-            QualitySettings.SetQualityLevel(qualitySetting, true);
+            //QualitySettings.SetQualityLevel(qualitySetting, true);
         }
-
 #endif
     }
 }
