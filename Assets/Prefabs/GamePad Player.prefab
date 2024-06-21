@@ -1480,7 +1480,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   force: 400
-  minPushForce: 50
+  minPushForce: 100
   forceMode: 0
   pushAngle: 45
   pushDistance: 9

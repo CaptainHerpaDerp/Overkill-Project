@@ -11801,7 +11801,7 @@ MonoBehaviour:
     m_Bits: 64
   expandOnEmptyList: 1
   incrementExpandAmount: 1
-  maxExpandAmount: 35
+  maxExpandAmount: 80
   overlapRadius: 0
 --- !u!135 &595295513517544556
 SphereCollider:
