@@ -27,7 +27,8 @@ Material:
   m_Shader: {fileID: -6465566751694194690, guid: 70a756d3a8d428f4fac96112ae725390, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
+  m_ValidKeywords: []
+  m_InvalidKeywords:
   - _DISABLE_SSR_TRANSPARENT
   - _MASKMAP
   - _NORMALMAP
@@ -100,8 +101,8 @@ Material:
         m_Texture: {fileID: 2800000, guid: c901d043bd8f6314788caad7c0136c49, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 823055f3d1e0d344f9a92fd13489c67b, type: 3}
+    - _MaskNormalMap:
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTexture:
