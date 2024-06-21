@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 262.33694, g: 325.04984, b: 430.2193, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2213,7 +2213,7 @@ GameObject:
   m_Component:
   - component: {fileID: 150625429}
   - component: {fileID: 150625430}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SelectedPlayersLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2486,7 +2486,7 @@ GameObject:
   - component: {fileID: 165072411}
   - component: {fileID: 165072414}
   - component: {fileID: 165072413}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Green
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2510,9 +2510,9 @@ RectTransform:
   - {fileID: 1081166114}
   m_Father: {fileID: 2140611700}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 1452.2412, y: -80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 828, y: 1510}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &165072413
@@ -6024,6 +6024,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab
@@ -6180,7 +6204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 412011185}
   - component: {fileID: 412011186}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SelectedPlayersLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6780,6 +6804,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
@@ -7385,7 +7433,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &508155147
 Transform:
   m_ObjectHideFlags: 0
@@ -7463,7 +7511,7 @@ GameObject:
   - component: {fileID: 515609208}
   - component: {fileID: 515609210}
   - component: {fileID: 515609209}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8720,6 +8768,7 @@ MonoBehaviour:
   GameUI: {fileID: 1599999564}
   director: {fileID: 40875274}
   OpenCharacterSelectOnStart: 1
+  qualitySetting: 5
 --- !u!1001 &572226861
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8766,6 +8815,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
@@ -10326,7 +10399,7 @@ GameObject:
   - component: {fileID: 629399465}
   - component: {fileID: 629399467}
   - component: {fileID: 629399466}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11118,6 +11191,30 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab (5)
@@ -11392,7 +11489,7 @@ GameObject:
   - component: {fileID: 682384653}
   - component: {fileID: 682384652}
   - component: {fileID: 682384651}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FadingSelectionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -11415,7 +11512,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -14.9592, y: 0}
+  m_AnchoredPosition: {x: -14.959198, y: 0}
   m_SizeDelta: {x: -29.9186, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &682384651
@@ -12253,7 +12350,7 @@ GameObject:
   - component: {fileID: 732012386}
   - component: {fileID: 732012389}
   - component: {fileID: 732012388}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Blue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12277,9 +12374,9 @@ RectTransform:
   - {fileID: 1209306579}
   m_Father: {fileID: 2140611700}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 2399.7588, y: -80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 820, y: 1510}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &732012388
@@ -12497,7 +12594,7 @@ GameObject:
   - component: {fileID: 754856186}
   - component: {fileID: 754856189}
   - component: {fileID: 754856188}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Red
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -12521,9 +12618,9 @@ RectTransform:
   - {fileID: 1333006758}
   m_Father: {fileID: 2140611700}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 515.72375, y: -80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 798, y: 1510}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &754856188
@@ -13965,7 +14062,7 @@ GameObject:
   - component: {fileID: 842401758}
   - component: {fileID: 842401760}
   - component: {fileID: 842401759}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -14548,7 +14645,7 @@ GameObject:
   - component: {fileID: 881094968}
   - component: {fileID: 881094970}
   - component: {fileID: 881094969}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -16248,7 +16345,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1033629061}
   - component: {fileID: 1033629062}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SelectedPlayersLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -17042,7 +17139,7 @@ GameObject:
   - component: {fileID: 1081166114}
   - component: {fileID: 1081166116}
   - component: {fileID: 1081166115}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Frame (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18013,7 +18110,7 @@ GameObject:
   - component: {fileID: 1148604778}
   - component: {fileID: 1148604777}
   - component: {fileID: 1148604779}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FadingSelectionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18152,7 +18249,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1159609450}
   - component: {fileID: 1159609451}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: SelectedPlayersLayoutGroup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18548,7 +18645,7 @@ GameObject:
   - component: {fileID: 1166839356}
   - component: {fileID: 1166839355}
   - component: {fileID: 1166839354}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FadingSelectionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18751,6 +18848,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
@@ -19109,7 +19230,7 @@ GameObject:
   - component: {fileID: 1209306579}
   - component: {fileID: 1209306581}
   - component: {fileID: 1209306580}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Frame (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -19434,13 +19555,13 @@ GameObject:
   - component: {fileID: 1239249169}
   - component: {fileID: 1239249168}
   - component: {fileID: 1239249167}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Pregame UI Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1239249167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21320,7 +21441,7 @@ GameObject:
   - component: {fileID: 1333006758}
   - component: {fileID: 1333006760}
   - component: {fileID: 1333006759}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Frame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -21396,7 +21517,7 @@ GameObject:
   - component: {fileID: 1339318424}
   - component: {fileID: 1339318423}
   - component: {fileID: 1339318422}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: XSelectPromptText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22069,7 +22190,7 @@ GameObject:
   - component: {fileID: 1375900360}
   - component: {fileID: 1375900362}
   - component: {fileID: 1375900361}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: P2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -22489,7 +22610,7 @@ GameObject:
   - component: {fileID: 1403111401}
   - component: {fileID: 1403111403}
   - component: {fileID: 1403111402}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -23455,7 +23576,7 @@ GameObject:
   - component: {fileID: 1450161291}
   - component: {fileID: 1450161293}
   - component: {fileID: 1450161292}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24799,7 +24920,7 @@ GameObject:
   - component: {fileID: 1491789432}
   - component: {fileID: 1491789434}
   - component: {fileID: 1491789433}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Character Selection Group
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32949,7 +33070,7 @@ GameObject:
   - component: {fileID: 1671514944}
   - component: {fileID: 1671514943}
   - component: {fileID: 1671514942}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: OptionsJoinPromptText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33097,7 +33218,7 @@ GameObject:
   - component: {fileID: 1680941502}
   - component: {fileID: 1680941504}
   - component: {fileID: 1680941503}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Frame (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -33317,7 +33438,7 @@ GameObject:
   - component: {fileID: 1691888300}
   - component: {fileID: 1691888302}
   - component: {fileID: 1691888301}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Panel (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34500,7 +34621,7 @@ GameObject:
   - component: {fileID: 1749357869}
   - component: {fileID: 1749357868}
   - component: {fileID: 1749357867}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: FadingSelectionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34984,7 +35105,7 @@ GameObject:
   - component: {fileID: 1774681801}
   - component: {fileID: 1774681803}
   - component: {fileID: 1774681802}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Player Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35964,7 +36085,7 @@ GameObject:
   - component: {fileID: 1843907503}
   - component: {fileID: 1843907506}
   - component: {fileID: 1843907505}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Purple
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35988,9 +36109,9 @@ RectTransform:
   - {fileID: 1680941502}
   m_Father: {fileID: 2140611700}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 3338.2764, y: -80}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 810, y: 1510}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1843907505
@@ -38783,7 +38904,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea73cb8e9da863045ace573568d18602, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  plantPrefab: {fileID: 6488628123260554814, guid: 1eb1d0bded77e5d459e3736756618e68, type: 3}
+  plantPrefab: {fileID: 6488628123260554814, guid: f412b7dce58cbf649bacb20b92e189d0, type: 3}
   radius: 2.5
   targetCount: 7
   plantSurfaces:
@@ -39258,6 +39379,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3818188244390244366, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4446811912739162626, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
@@ -40071,7 +40216,7 @@ GameObject:
   - component: {fileID: 2140611700}
   - component: {fileID: 2140611702}
   - component: {fileID: 2140611701}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Character Selection
   m_TagString: Untagged
   m_Icon: {fileID: 0}

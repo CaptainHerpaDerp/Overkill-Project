@@ -1460,6 +1460,7 @@ MonoBehaviour:
   expandOnEmptyList: 0
   incrementExpandAmount: 0
   maxExpandAmount: 0
+  overlapRadius: 0
 --- !u!135 &4859271549984920191
 SphereCollider:
   m_ObjectHideFlags: 0

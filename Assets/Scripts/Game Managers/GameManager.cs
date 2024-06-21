@@ -81,6 +81,8 @@ namespace GameManagement
         public Action OnGameReload, OnGameEnd;
         public Action<Player> OnPlayerAdded;
 
+        [SerializeField] private int qualitySetting;
+
         public void Awake()
         {
             if (Instance == null)
@@ -536,6 +538,8 @@ namespace GameManagement
 
                 EndGameNow = false;
             }
+
+            QualitySettings.SetQualityLevel(qualitySetting, true);
         }
 
 #endif
