@@ -25,11 +25,14 @@ namespace UIElements
         private ColorEnum.TEAMCOLOR teamColour;
 
         private Image backgroundImage, fillImage, readyImage;
+        [SerializeField] private float readyImageFadeSpeed = 0.1f, readyImageFadeTime = 0.5f;
+
+        // The maximum fill amount of the cooldown bar
+        private float targetFillAmount;
 
         public void Start()
         {
-            parentPlayer = transform.parent.GetComponent<Player>();
-            parentPlayer.OnPlayerStart += () => 
+            parentPlayer.OnPlayerStart += () =>
             {
                 teamColour = parentPlayer.TeamColor;
 
@@ -38,6 +41,13 @@ namespace UIElements
 
                 // Select the corresponding cooldown group based on the team index
                 Transform cooldownGroup = playerCooldownGroups[teamIndex];
+
+                if (cooldownGroup == null)
+                {
+                    Debug.LogError("CooldownUI: Cooldown group not found for the player!");
+                }
+
+                cooldownGroup.gameObject.SetActive(true);
 
                 // Assuiming the child order of the group is: Background, Fill, Ready
 
@@ -50,7 +60,10 @@ namespace UIElements
                     Debug.LogError("CooldownUI: Background, Fill or Ready image not found in the cooldown group!");
                 }
 
-                //TriggerLoop();
+                // Set the target fill amount to the height of the fill image
+                targetFillAmount = fillImage.rectTransform.rect.height;
+
+                UseAbilityPromptLoop();
             };
         }
 
@@ -60,54 +73,82 @@ namespace UIElements
             {
                 if (child.TryGetComponent(out SpecialBehaviour specialBehaviour))
                 {
-                    //specialBehaviour.OnSpecialAbilityRefreshed += () => TriggerLoop();
-                    //specialBehaviour.OnSpecialTriggered += (time) => CooldownLoop(time);
+                    specialBehaviour.OnSpecialAbilityRefreshed += () => UseAbilityPromptLoop();
+                    specialBehaviour.OnSpecialTriggered += (time) => CooldownLoop(time);
                 }
             }
         }
 
-        //private void TriggerLoop()
-        //{
-        //    StopAllCoroutines();
+        private void UseAbilityPromptLoop()
+        {
+            StopAllCoroutines();
+            StartCoroutine(AbilityPromptLoop());
+        }
 
-        //    cooldownText.enabled = false;
-        //    triggerImage.enabled = true;
+        private void CooldownLoop(float time)
+        {
+            print("cooldown loop");
+            StopAllCoroutines();
 
-        //    StartCoroutine(DoTriggerLoop());
-        //}
+            // The ability is on cooldown, so hide the ready image
+            readyImage.enabled = false;
 
-        //private void CooldownLoop(float time)
-        //{
-        //    print("cooldown loop");
+            StartCoroutine(DoCooldownLoop(time));
+        }
 
-        //    StopAllCoroutines();
+        private IEnumerator AbilityPromptLoop()
+        {
+            readyImage.enabled = true;
 
-        //    cooldownText.enabled = true;
-        //    triggerImage.enabled = false;
+            // Set the alpha of the ready image to 0
+            Color color = readyImage.color;
+            color.a = 0;
+            readyImage.color = color;
 
-        //    cooldownText.text = time.ToString("F0");
+            // Constantly fade the ready image in and out
+            while (true)
+            {
+                yield return new WaitForSeconds(readyImageFadeTime);
 
-        //    StartCoroutine(DoCooldownLoop());
-        //}
+                for (float i = 0; i <= 1; i += readyImageFadeSpeed)
+                {
+                    color.a = i;
+                    readyImage.color = color;
+                    yield return new WaitForSeconds(readyImageFadeSpeed);
+                }
 
-        //private IEnumerator DoTriggerLoop()
-        //{
-        //    while (true)
-        //    {
-        //        yield return new WaitForSeconds(triggerTime);
-        //        triggerImage.sprite = pressedTrigger;
-        //        yield return new WaitForSeconds(triggerTime);
-        //        triggerImage.sprite = defaultTrigger;
-        //    }
-        //}
+                for (float i = 1; i >= 0; i -= readyImageFadeSpeed)
+                {
+                    color.a = i;
+                    readyImage.color = color;
+                    yield return new WaitForSeconds(readyImageFadeSpeed);
+                }
+            }
+        }
 
-        //private IEnumerator DoCooldownLoop()
-        //{
-        //    while (true)
-        //    {
-        //        yield return new WaitForSeconds(1f);
-        //        cooldownText.text = (int.Parse(cooldownText.text) - 1).ToString();
-        //    }
-        //}
+        private IEnumerator DoCooldownLoop(float fillTime)
+        {
+            print("Filling with time: " + fillTime);
+
+            // Set the fill image's height to 0
+            fillImage.rectTransform.sizeDelta = new Vector2(fillImage.rectTransform.sizeDelta.x, 0);
+
+            float currentHeight;
+            float timeFactor;
+            float time = 0;
+
+            // Increase the fill bar from 0 to the target fill amount over the fill time
+            while (time < fillTime)
+            {
+                timeFactor = time / fillTime;
+
+                currentHeight = Mathf.Lerp(0, targetFillAmount, timeFactor);
+                fillImage.rectTransform.sizeDelta = new Vector2(fillImage.rectTransform.sizeDelta.x, currentHeight);
+                time += Time.deltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+
+            yield break;
+        }
     }
 }

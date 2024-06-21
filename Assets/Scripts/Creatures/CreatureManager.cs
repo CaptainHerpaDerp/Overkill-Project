@@ -12,7 +12,6 @@ namespace Creatures
 
     public class CreatureManager : MonoBehaviour
     {
-
         [SerializeField] private NavMeshAgent agent;
 
         // The component that plays the conversion sound
@@ -67,6 +66,8 @@ namespace Creatures
         public Action OnTeleport;
         public static Action<ColorEnum.TEAMCOLOR> OnConvert;
 
+        private static float creatureBaseSpeed = 3.5f;
+
         private void Start()
         {
             if (creatureAnimator == null)
@@ -74,6 +75,14 @@ namespace Creatures
                 Debug.LogError("Creature Animator is null! Please Assign!");
                 return;
             }
+
+            if (agent == null)
+            {
+                Debug.LogError("NavMeshAgent is null! Please Assign!");
+                return;
+            }
+
+            agent.speed = creatureBaseSpeed;
 
             Init();
             ChangeThisCreatureColor(creatureColor);

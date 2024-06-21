@@ -19,7 +19,6 @@ public class PurpleCreatureBehaviour : Creature
     private PlayerLocator playerLocator;
     private Coroutine playerFollowCoroutine;
 
-    private int[] playerTeamScore = new int[5];
     [SerializeField] private float TargetTurnDistance;
 
     [Header("The creature will plant while it is within this radius of the player, otherwise it will move to the player")]
@@ -31,7 +30,6 @@ public class PurpleCreatureBehaviour : Creature
     private CreatureState state = CreatureState.FOLLOWING_PLAYER;
 
     [SerializeField] private float followPlayerSpeed = 5f;
-    private float baseSpeed;
 
     private float playerDistance
     {
@@ -48,61 +46,59 @@ public class PurpleCreatureBehaviour : Creature
 
     public override void StopBehaviour()
     {
-        agent.speed = baseSpeed;
         base.StopBehaviour();
     }
 
     public override void Act()
     {
-        agent.speed = followPlayerSpeed;
         gameObject.SetActive(true);
         CheckTarget();
         //playerFollowCoroutine ??= StartCoroutine(FollowPlayer());
     }
 
-    private IEnumerator FollowPlayer()
-    {
-        while (true)
-        {
-            if (state == CreatureState.PLANTING)
-            {
-                agent.speed = baseSpeed;
+    //private IEnumerator FollowPlayer()
+    //{
+    //    while (true)
+    //    {
+    //        if (state == CreatureState.PLANTING)
+    //        {
+    //            agent.speed = baseSpeed;
 
-                // While planting, check if the player is out of range
-                if (playerDistance > maxDistanceFromPlayer)
-                {
-                    print("Following player");
-                    state = CreatureState.FOLLOWING_PLAYER;
-                }
-                else
-                {
-                    if (plantTarget != null)
-                        agent.SetDestination(plantTarget.position);
-                }
-            }
+    //            // While planting, check if the player is out of range
+    //            if (playerDistance > maxDistanceFromPlayer)
+    //            {
+    //                print("Following player");
+    //                state = CreatureState.FOLLOWING_PLAYER;
+    //            }
+    //            else
+    //            {
+    //                if (plantTarget != null)
+    //                    agent.SetDestination(plantTarget.position);
+    //            }
+    //        }
 
-            if (state == CreatureState.FOLLOWING_PLAYER)
-            {
-                agent.speed = followPlayerSpeed;
+    //        if (state == CreatureState.FOLLOWING_PLAYER)
+    //        {
+    //            agent.speed = followPlayerSpeed;
 
-                // If the player is within the stopping distance, stop following and start planting
-                if (playerDistance < playerStopDistance)
-                {
-                    print("Stopping follow");
-                    state = CreatureState.PLANTING;
-                }
-                else
-                {
-                    // Follow the purple player
-                    agent.SetDestination(playerLocator.GetPositionOfPlayer(ColorEnum.TEAMCOLOR.PURPLE));
-                    yield return new WaitForSeconds(0.5f);
-                }
+    //            // If the player is within the stopping distance, stop following and start planting
+    //            if (playerDistance < playerStopDistance)
+    //            {
+    //                print("Stopping follow");
+    //                state = CreatureState.PLANTING;
+    //            }
+    //            else
+    //            {
+    //                // Follow the purple player
+    //                agent.SetDestination(playerLocator.GetPositionOfPlayer(ColorEnum.TEAMCOLOR.PURPLE));
+    //                yield return new WaitForSeconds(0.5f);
+    //            }
 
-            }
+    //        }
 
-            yield return new WaitForFixedUpdate();
-        }
-    }
+    //        yield return new WaitForFixedUpdate();
+    //    }
+    //}
 
     private void CheckTarget()
     {

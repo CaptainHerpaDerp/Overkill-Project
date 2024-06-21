@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 7798.9795, g: 7897.536, b: 8618.72, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -7850,7 +7850,7 @@ MonoBehaviour:
   pp3: {fileID: 555498721}
   pp4: {fileID: 46339451}
   startWidth: 932.1
-  maxWidth: 1969
+  maxWidth: 1976
   barGrowSpeed: 10
   updateInterval: 0.25
 --- !u!114 &542856962

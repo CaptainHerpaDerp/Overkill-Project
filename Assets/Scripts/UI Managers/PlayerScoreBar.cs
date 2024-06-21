@@ -71,7 +71,7 @@ namespace UIManagement
                 pp1.rectTransform.sizeDelta = new Vector2(pp1.rectTransform.sizeDelta.x + Mathf.Sign(targetP1Width - pp1.rectTransform.sizeDelta.x) * barGrowSpeed,
                     pp1.rectTransform.sizeDelta.y);
 
-            pp1.rectTransform.position = new Vector3(startWidth, pp1.rectTransform.position.y, 
+            pp1.rectTransform.position = new Vector3(startWidth - 1, pp1.rectTransform.position.y, 
                 pp1.rectTransform.position.z);
 
 
@@ -87,7 +87,7 @@ namespace UIManagement
                 pp2.rectTransform.sizeDelta = new Vector2(pp2.rectTransform.sizeDelta.x + Mathf.Sign(targetP2Width - pp2.rectTransform.sizeDelta.x) * barGrowSpeed,
                     pp2.rectTransform.sizeDelta.y);
 
-            pp2.rectTransform.position = new Vector3(pp1.rectTransform.position.x + pp1.rectTransform.sizeDelta.x, pp2.rectTransform.position.y, 
+            pp2.rectTransform.position = new Vector3(pp1.rectTransform.position.x + pp1.rectTransform.sizeDelta.x - 1, pp2.rectTransform.position.y, 
                 pp2.rectTransform.position.z);
 
 
@@ -103,7 +103,7 @@ namespace UIManagement
                 pp3.rectTransform.sizeDelta = new Vector2(pp3.rectTransform.sizeDelta.x + Mathf.Sign(targetP3Width - pp3.rectTransform.sizeDelta.x) * barGrowSpeed,
                     pp3.rectTransform.sizeDelta.y);
 
-            pp3.rectTransform.position = new Vector3(pp2.rectTransform.position.x + pp2.rectTransform.sizeDelta.x, pp3.rectTransform.position.y, 
+            pp3.rectTransform.position = new Vector3(pp2.rectTransform.position.x + pp2.rectTransform.sizeDelta.x - 1, pp3.rectTransform.position.y, 
                 pp3.rectTransform.position.z);
 
 
@@ -119,7 +119,7 @@ namespace UIManagement
                 pp4.rectTransform.sizeDelta = new Vector2(pp4.rectTransform.sizeDelta.x + Mathf.Sign(targetP4Width - pp4.rectTransform.sizeDelta.x) * barGrowSpeed,
                     pp4.rectTransform.sizeDelta.y);
 
-            pp4.rectTransform.position = new Vector3(pp3.rectTransform.position.x + pp3.rectTransform.sizeDelta.x, pp4.rectTransform.position.y, 
+            pp4.rectTransform.position = new Vector3(pp3.rectTransform.position.x + pp3.rectTransform.sizeDelta.x - 1, pp4.rectTransform.position.y, 
                 pp4.rectTransform.position.z);
             
         }
