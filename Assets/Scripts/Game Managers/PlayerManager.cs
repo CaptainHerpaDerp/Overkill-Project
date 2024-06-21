@@ -36,6 +36,8 @@ namespace GameManagement
         // The parent of the creature selection crystals visible to each player
         [SerializeField] private Transform selectionCrystalTransform;
 
+        public bool DoCharacterAddition = true;
+
         // DEBUG
         public int firstPlayerIndex = 0;
 
@@ -71,6 +73,10 @@ namespace GameManagement
 
         private void AddPlayer(PlayerInput player)
         {
+            // Instantly destroy the player
+            if (!DoCharacterAddition)
+            Destroy(player.gameObject);
+
             //print("player join");
 
             players.Add(player);

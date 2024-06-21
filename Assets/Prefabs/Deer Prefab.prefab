@@ -12254,7 +12254,7 @@ MonoBehaviour:
   canMoveOnConvert: 0
   isConverting: 0
   surroundingPlant: {fileID: 6564477704066252425}
-  conversionParticles: {fileID: 748266391087432111}
+  conversionParticles: {fileID: 0}
   isRedConversion: 0
   IsHighlighted: 0
   selectionCrystalParent: {fileID: 0}

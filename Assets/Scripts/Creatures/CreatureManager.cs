@@ -120,7 +120,8 @@ namespace Creatures
             surroundingPlant.TeamColour = creatureColor;
             initialColor = ColorEnum.GetColor(ColorEnum.TEAMCOLOR.DEFAULT);
             meshRenderer.material.color = initialColor;
-            conversionParticles.gameObject.SetActive(false);
+
+            conversionParticles?.gameObject.SetActive(false);
         }
 
 
@@ -283,7 +284,12 @@ namespace Creatures
                     }
                     else
                     {
-                        agent.isStopped = false;
+                        // This fixes nav mesh complaining
+                        if (creatureColor != ColorEnum.TEAMCOLOR.GREEN)
+                        {
+                            agent.isStopped = false;
+                        }
+
                         creatureConversionSound.StopSound();
                     }
                 }
@@ -304,7 +310,7 @@ namespace Creatures
             // Only play particle effects if the color is not the default color
             if (newColor != ColorEnum.TEAMCOLOR.DEFAULT)
             {
-                conversionParticles.ActivateWithColor(ColorEnum.GetColor(creatureColor));
+                conversionParticles?.ActivateWithColor(ColorEnum.GetColor(creatureColor));
             }
 
             for (int i = 0; i < creatureColorScripts.Count; i++)

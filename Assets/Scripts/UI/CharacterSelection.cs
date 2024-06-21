@@ -1,10 +1,11 @@
 using GameManagement;
 using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
-using Core;
 using Crore;
+using TMPro;
 
 namespace UIElements
 {
@@ -36,6 +37,10 @@ namespace UIElements
         private bool doCharacterSelection;
 
         private ScreenDarkener screenDarkener;
+
+        [SerializeField] private TextMeshProUGUI countdownText;
+        [SerializeField] private int countdownTime;
+        private bool onCountdown;
 
         public bool AllPlayersReady
         {
@@ -141,17 +146,23 @@ namespace UIElements
 
         private void Update()
         {
-            if (!doCharacterSelection)
-                return;
+            playerManager.DoCharacterAddition = doCharacterSelection;
 
-            DoPlayerSelecting();
-            DoPlayerLockIn();
-
-            FinalizeCharacterSelection();
+            CancelCountDown();
+            if (doCharacterSelection)
+            {
+                DoPlayerSelecting();
+                DoPlayerLockIn();
+                FinalizeCharacterSelection();
+            }
+            
         }
 
         private void DoPlayerLockIn()
         {
+            if (onCountdown)
+                return;
+
             foreach (var playerInput in playerInputs)
             {
                 // If the player presses the "X" (selection) button on the gamepad or "Space" on the keyboard
@@ -167,7 +178,7 @@ namespace UIElements
                         int selectedCharacter = playerSelectionIndexes[playerIndex];
                         playerSelections[selectedCharacter] = false;
 
-                        playerSelectionGameObjects[playerIndex].GetComponent<Image>().color = Color.white;
+                        playerSelectionGameObjects[playerIndex].transform.GetChild(0).GetComponent<Image>().color = Color.white;
 
                         playerSelectionGameObjects[playerIndex].transform.parent.parent.GetComponentInChildren<CharacterSelectionFadeRect>().FadeOutRect();
                         return;
@@ -181,7 +192,7 @@ namespace UIElements
                         playerSelections[selectedCharacter] = true;
 
                         Color selectedColours = characterColours[selectedCharacter];
-                        playerSelectionGameObjects[playerIndex].GetComponent<Image>().color = selectedColours;
+                        playerSelectionGameObjects[playerIndex].transform.GetChild(0).GetComponent<Image>().color = selectedColours;
 
                         // Set the selection object's child hierarchy index to be the first (visually appealing)
                         playerSelectionGameObjects[playerIndex].transform.SetAsFirstSibling();
@@ -317,6 +328,36 @@ namespace UIElements
             if (!AllPlayersReady)
                 return;
 
+            if (!onCountdown)
+            {
+                onCountdown = true;
+                doCharacterSelection = false;
+                StartCoroutine(DoCountdown());
+            }       
+        }
+
+        private IEnumerator DoCountdown()
+        {
+            float time = 0;
+
+            while (time < countdownTime)
+            {
+                // If countdown is cancelled
+                if (!onCountdown)
+                {
+                    print("Cancelled");
+                    doCharacterSelection = true;
+                    countdownText.text = "";
+                    yield break;
+                }
+
+                countdownText.text = Mathf.RoundToInt(countdownTime - time).ToString();
+                time += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+
+            countdownText.text = "";
+
             // Start the screen darkening process
             screenDarkener.DarkenScreen(0.5f);
 
@@ -325,16 +366,10 @@ namespace UIElements
 
             doCharacterSelection = false;
 
-            //// Reset all player selections
-            //foreach (var playerSelection in playerSelections)
-            //{
-            //    playerSelections[playerSelection.Key] = false;
-            //}
-
             // Make all player selection objects white
             foreach (var playerSelectionObj in playerSelectionGameObjects)
             {
-                playerSelectionObj.Value.GetComponent<Image>().color = Color.white;
+                playerSelectionObj.Value.transform.GetChild(0).GetComponent<Image>().color = Color.white;
                 playerSelectionObj.Value.SetActive(false);
             }
 
@@ -344,17 +379,58 @@ namespace UIElements
                 playerSelectionObj.Value.transform.SetParent(redSelectionGroup);
             }
 
-            //// Reset all player ready states
-            //foreach (var playerReadyState in playerReady)
-            //{
-            //    playerReady[playerReadyState.Key] = false;
-            //}
+            yield break;
+        }
 
-            //// Reset all player selection indexes
-            //foreach (var playerSelectionIndex in playerSelectionIndexes)
-            //{
-            //    playerSelectionIndexes[playerSelectionIndex.Key] = 0;
-            //}
+        /// <summary>
+        /// While countdown is active, check if a player has clicked the select button, if so, cancel the countdown
+        /// </summary>
+        private void CancelCountDown()
+        {
+            if (!onCountdown)
+                return;
+
+            foreach (var playerInput in playerInputs)
+            {
+                print("marker");
+
+                // If the player presses the "X" (selection) button on the gamepad or "Space" on the keyboard
+                if (playerInput.FindAction("Jump").triggered)
+                {
+                    print("trigger on countdown");
+
+                    // Have the player deselect their character
+                    int playerIndex = playerInputs.IndexOf(playerInput);
+
+                    playerReady[playerIndex] = false;
+
+                    int selectedCharacter = playerSelectionIndexes[playerIndex];
+                    playerSelections[selectedCharacter] = false;
+
+                    playerSelectionGameObjects[playerIndex].transform.GetChild(0).GetComponent<Image>().color = Color.white;
+
+                    playerSelectionGameObjects[playerIndex].transform.parent.parent.GetComponentInChildren<CharacterSelectionFadeRect>().FadeOutRect();
+
+                    countdownText.text = "";
+                    onCountdown = false;
+
+
+                    // Use a coroutine to delay the re-enabling of the countdown so that it cannot be spammed
+                    StartCoroutine(waitDelay(0.5f));
+
+                    return;
+                }
+            }
+        }
+
+        private IEnumerator waitDelay(float time)
+        {
+            yield return new WaitForSeconds(time);
+
+            // Enable character selection and disable the countdown
+            doCharacterSelection = true;
+            onCountdown = false;
+            yield break;
         }
 
         private void DoGameActivation()
