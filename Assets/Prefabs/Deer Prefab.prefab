@@ -12218,7 +12218,7 @@ MonoBehaviour:
   ratioPenalty: 0.5
   meshRenderer: {fileID: 5010783038058050123}
   colorShiftMod: 50
-  canMoveOnConvert: 1
+  canMoveOnConvert: 0
   isConverting: 0
   surroundingPlant: {fileID: 6564477704066252425}
   conversionParticles: {fileID: 748266391087432111}

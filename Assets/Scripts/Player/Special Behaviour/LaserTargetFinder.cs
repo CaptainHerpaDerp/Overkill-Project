@@ -16,9 +16,10 @@ namespace Players
             targetPlayers = GameObject.FindObjectsOfType<Player>();
         }
 
-        public Player GetPlayerTarget()
+        public Player GetPlayerTarget(float pDistance)
         {
             float smallestAngle = 360;
+            Player returnPlayer = null;
 
             foreach (Player player in targetPlayers)
             {
@@ -35,17 +36,16 @@ namespace Players
 
                 // Calculate the angle between the forward vector and the direction to the target
                 float angle = Vector3.Angle(forward, toTarget);
+                float distance = Vector3.Distance(transform.position, player.transform.position);
 
-                Debug.Log(angle);
-
-                if (angle < smallestAngle && angle < minAngle)
+                if (angle < smallestAngle && angle < minAngle && distance <= pDistance)
                 {
                     smallestAngle = angle;
-                    return player;
+                    returnPlayer = player;
                 }
             }
 
-            return null;
+            return returnPlayer;
         }
     }
 }

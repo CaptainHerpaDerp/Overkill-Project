@@ -1944,14 +1944,14 @@ MonoBehaviour:
   playerModelController: {fileID: 804895536692614938}
   cooldownTime: 1
   laserOrigin: {fileID: 2111497816963260412}
-  laserRange: 100
+  laserRange: 40
   collisionMask:
     serializedVersion: 2
     m_Bits: 65536
   laserLineRenderer: {fileID: 7990888569138141163}
   laserEndEffect: {fileID: 3037745546354839061, guid: c4e9f9f5eca8c7e43a8fe5b0447900ac, type: 3}
   laserTime: 0.5
-  laserPushback: 0
+  laserPushback: 1000
   laserWidth: 3
   parentPlayer: {fileID: 2149499087766023847}
   aimMat: {fileID: 2100000, guid: f2c8d42f1e4c98945b8deed5b84f92b0, type: 2}
@@ -1959,8 +1959,6 @@ MonoBehaviour:
   targetFinder: {fileID: 6285751509470494515}
   numSegments: 15
   turnSharpness: 0.5
-  straightSegmentLength: 10
-  straightLaserAngle: 10
 --- !u!120 &7990888569138141163
 LineRenderer:
   serializedVersion: 2

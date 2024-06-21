@@ -6028,6 +6028,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Deer Prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 8470760029407560290, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6781,6 +6785,10 @@ PrefabInstance:
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470760029407560290, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8763,6 +8771,10 @@ PrefabInstance:
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470760029407560290, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -11109,6 +11121,10 @@ PrefabInstance:
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470760029407560290, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18740,6 +18756,10 @@ PrefabInstance:
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470760029407560290, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -39243,6 +39263,10 @@ PrefabInstance:
     - target: {fileID: 5430402309493397963, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
       propertyPath: m_Name
       value: Deer Prefab (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470760029407560290, guid: 0187e2ff36554bb498e4af879b619415, type: 3}
+      propertyPath: m_Speed
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

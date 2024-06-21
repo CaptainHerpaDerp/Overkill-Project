@@ -39,12 +39,6 @@ namespace Players
         // The sharpness of the turn
         [SerializeField] private float turnSharpness = 1.0f;
 
-        // The length of the straight segment before the curve
-        [SerializeField] private float straightSegmentLength = 10f;
-
-        // The minimum angle for the curve to be sharp
-        [SerializeField] private float straightLaserAngle = 10f;
-
         // The time the endpoint of the laser should be visible
         private const float endpointLifeTime = 1f;
 
@@ -65,7 +59,7 @@ namespace Players
                 return false;
             }
 
-            if (targetFinder.GetPlayerTarget() == null)
+            if (targetFinder.GetPlayerTarget(laserRange) == null)
             {
                 return false;
             }
@@ -84,7 +78,7 @@ namespace Players
             // Apply the aiming material to the line renderer
             laserLineRenderer.material = aimMat;
 
-            Transform laserTarget = targetFinder.GetPlayerTarget().transform;
+            Transform laserTarget = targetFinder.GetPlayerTarget(laserRange).transform;
 
             // Create a laser end effect instance at the position of the target
             GameObject endEffect = Instantiate(laserEndEffect, laserTarget.position, Quaternion.identity);
