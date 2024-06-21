@@ -39,8 +39,9 @@ namespace GameManagement
         {
             if (plantPrefab == null)
             {
-                Debug.LogError("Plant prefab not set in GlobalPlantPaint");
-                return;
+                // Locate the plant prefab in the assets folder
+                Debug.LogWarning("Plant prefab not set in GlobalPlantPaint");
+                plantPrefab = transform.GetChild(0).gameObject;
             }
 
             // Find all surfaces with the "plant" layer
@@ -65,6 +66,7 @@ namespace GameManagement
                     Vector3 randomOffset = new(Random.Range(-randomizationOffset, randomizationOffset), 0, Random.Range(-randomizationOffset, randomizationOffset));
 
                     Plant newPlant = Instantiate(plantPrefab, hit.point + offset + randomOffset, Quaternion.identity, parent: plantParent).GetComponent<Plant>();
+                    newPlant.gameObject.SetActive(true);
 
                     // Make the score manager listen for plant ownership changes
                     newPlant.OnPlantOwnershipChanged += gameManager.UpdatePlantOwnership;

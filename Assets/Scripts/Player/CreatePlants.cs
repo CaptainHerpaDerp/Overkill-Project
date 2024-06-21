@@ -108,11 +108,6 @@ public class CreatePlants : MonoBehaviour
     {
         while (true)
         {
-            if (teamColor == TEAMCOLOR.RED)
-            {
-                print("isRed"); 
-            }
-
             List<Plant> plantsToRemove = new List<Plant>();
 
             for (int i = 0; i < surroundingPlants.Count; i++)

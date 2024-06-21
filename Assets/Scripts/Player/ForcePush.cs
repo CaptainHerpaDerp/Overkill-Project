@@ -116,10 +116,12 @@ public class ForcePush : MonoBehaviour
     {
         while (true)
         {
+            if (Player.LockMovement)
+                yield break;
+
             // Only apply force if the player is pressing the push button
             if (Player.IsPushing)
             {
-
                 if (creatureSelector.selectedCreature != null)
                 {
                    // print("creature selected");

@@ -391,9 +391,7 @@ namespace UIElements
                 return;
 
             foreach (var playerInput in playerInputs)
-            {
-                print("marker");
-
+            {   
                 // If the player presses the "X" (selection) button on the gamepad or "Space" on the keyboard
                 if (playerInput.FindAction("Jump").triggered)
                 {
@@ -413,7 +411,7 @@ namespace UIElements
 
                     countdownText.text = "";
                     onCountdown = false;
-
+                    screenDarkener.OnDarkened -= DoGameActivation;
 
                     // Use a coroutine to delay the re-enabling of the countdown so that it cannot be spammed
                     StartCoroutine(waitDelay(0.5f));

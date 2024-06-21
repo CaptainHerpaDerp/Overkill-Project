@@ -315,12 +315,17 @@ namespace GameManagement
             else
             {
                 registeredPlants.Add(plantID, teamColor);
+
+                if (!isGameRunning)
                 playerTeamScore[(int)teamColor]++;
             }
         }
 
         public void UpdatePlantOwnership(int plantID, TEAMCOLOR newTeamColor, TEAMCOLOR oldTeamColor)
         {
+            if (!isGameRunning)
+                return;
+
             if (registeredPlants.ContainsKey(plantID))
             {
                 registeredPlants[plantID] = newTeamColor;
@@ -377,6 +382,9 @@ namespace GameManagement
             {
                 // Set the player's Y rotation to 90 degrees
                 player.transform.rotation = Quaternion.Euler(0, 90, 0);
+
+                // Set the player's rigidbody velocity to 0
+                player.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
                 int score = GetScoreForPlayer(player.TeamColor);
 

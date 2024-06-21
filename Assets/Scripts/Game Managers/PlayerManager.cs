@@ -75,7 +75,10 @@ namespace GameManagement
         {
             // Instantly destroy the player
             if (!DoCharacterAddition)
-            Destroy(player.gameObject);
+            {
+                Destroy(player.gameObject);
+                return;
+            }
 
             //print("player join");
 
@@ -120,6 +123,12 @@ namespace GameManagement
 
             for (int i = 0; i < playerSelections.Count; i++)
             {
+                if (players[i] == null)
+                {
+                    Debug.LogWarning("Player " + i + " is null");
+                    continue;
+                }
+
                 // Retrieve the player gameobject corresponding to the player
                 PlayerInput matchedInputPlayer = players[i];
 
