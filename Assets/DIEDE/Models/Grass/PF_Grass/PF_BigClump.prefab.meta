@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/DIEDE/Models/Grass/PF_Grass/PF_BigClump.prefab.meta
 guid: eeb6d35b251c023458a33afaee31c142
+========
+guid: ad9afdbfcfcafa84b9e18d981267df16
+>>>>>>>> 4708a64 (Lighting):Assets/DIEDE/Lighting/Global Volume.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
