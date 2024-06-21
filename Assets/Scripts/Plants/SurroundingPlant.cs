@@ -19,11 +19,16 @@ public class SurroundingPlant : MonoBehaviour
     [SerializeField] private float maxExpandAmount;
     private float initialSphereRadius;
 
+    [SerializeField] private float overlapRadius;
+
     private void Start()
     {
-        sphereCollider = GetComponent<SphereCollider>();
-        initialSphereRadius = sphereCollider.radius;
-        sphereCollider.isTrigger = true;
+        if (sphereCollider != null)
+        {
+            sphereCollider = GetComponent<SphereCollider>();
+            initialSphereRadius = sphereCollider.radius;
+            sphereCollider.isTrigger = true;
+        }
     }
 
     public void SetColliderRadius(float radius)
@@ -31,9 +36,19 @@ public class SurroundingPlant : MonoBehaviour
         sphereCollider.radius = radius;
     }
 
-    public List<Plant> GetSurroundingOpponentPlantsList(Transform atTransform = null)
+    public List<Plant> GetSurroundingOpponentPlantsList(Transform atTransform = null, bool includeNeutral = false)
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius, layerMask: plantLayer);
+        float captureRadius = 0;
+        if (sphereCollider != null)
+        {
+            captureRadius = sphereCollider.radius;
+        }
+        else
+        {
+            captureRadius = overlapRadius;
+        }
+
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, captureRadius, layerMask: plantLayer);
         List<Plant> opponentPlants = new();
 
         foreach (var hitCollider in hitColliders)
@@ -42,9 +57,14 @@ public class SurroundingPlant : MonoBehaviour
 
             if (plant == null)
                 continue;
-          
+
             // Check if the plant is owned by the player
-            if (plant.TeamColor != TeamColour && plant.TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
+            if (includeNeutral && plant.TeamColor != TeamColour)
+            {
+                opponentPlants.Add(plant);
+            }
+
+            if (!includeNeutral && plant.TeamColor != TeamColour && plant.TeamColor != ColorEnum.TEAMCOLOR.DEFAULT)
             {
                 opponentPlants.Add(plant);
             }
@@ -117,7 +137,7 @@ public class SurroundingPlant : MonoBehaviour
     /// <returns></returns>
     public float GetSurroundingPlants()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, sphereCollider.radius, layerMask: plantLayer);
 
         int totalPlants = 0;
         int playerPlants = 0;
@@ -144,7 +164,7 @@ public class SurroundingPlant : MonoBehaviour
         // With a max value of 1, get the percentage of plants owned by the player
         if (totalPlants == 0)
         {
-           // print("No plants found");
+            // print("No plants found");
             return 0.01f;
         }
 

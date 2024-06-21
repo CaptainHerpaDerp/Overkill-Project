@@ -18,8 +18,8 @@ namespace Creatures
         [SerializeField] private CreatureConversionSound creatureConversionSound;
 
         public List<Creature> creatureColorScripts;
-        public List<GameObject> creatureColorMasks;
         private ColorEnum.TEAMCOLOR creatureColor = ColorEnum.TEAMCOLOR.DEFAULT;
+        [SerializeField] private Transform maskParent;
 
         public ColorEnum.TEAMCOLOR CreatureColor
         {
@@ -284,7 +284,6 @@ namespace Creatures
                     else
                     {
                         agent.isStopped = false;
-                        Debug.Log("UnstoppedTheFellaWhenNotInWhile");
                         creatureConversionSound.StopSound();
                     }
                 }
@@ -322,6 +321,18 @@ namespace Creatures
 
             // Set the surrounding plant color to the new color
             surroundingPlant.TeamColour = creatureColor;
+
+            // Disable all masks before enabling the correct one
+            foreach (Transform mask in maskParent)
+            {
+                mask.gameObject.SetActive(false);
+            }
+
+            // Only enable the mask if the color is not the default color
+            if (newColor != ColorEnum.TEAMCOLOR.DEFAULT)
+            {
+                maskParent.GetChild((int)newColor).gameObject.SetActive(true);   
+            }
 
             // Change the color of the creature
             //meshRenderer.material.color = ColorEnum.GetColor(newColor);

@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Compositor.meta
 guid: 5e4dcb5a9b91d5543ad38f204bb8ae3e
 folderAsset: yes
+========
+guid: b18b93d4b5d00384ba417df18aeac5a3
+>>>>>>>> 12cd2fbcbbcd8f4eb9fb44f3a2b3c309193eac30:Assets/JMO Assets/Cartoon FX FREE (old legacy effects).unitypackage.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

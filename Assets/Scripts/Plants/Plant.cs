@@ -49,16 +49,21 @@ namespace GaiaElements
             get => teamColor;
             set
             {
-                if (plantMeshes.Count >= (int)value)
-                    plantMeshFilter.mesh = plantMeshes[(int)value];
+                if (plantRenderer != null)
+                {
+                    if (plantMeshes.Count >= (int)value)
+                        plantMeshFilter.mesh = plantMeshes[(int)value];
+                }
 
 
                 //Stop any current animations
-                plantAnimator.enabled = true;
+                if (plantRenderer != null)
+                    plantAnimator.enabled = true;
 
                 if (teamColor == TEAMCOLOR.DEFAULT)
                 {
-                    plantRenderer.enabled = true;
+                    if (plantRenderer != null)
+                        plantRenderer.enabled = true;
                 }
 
                 // If the value is new, grow the plant (So that the animation doesnt trigger when the player walks on their own plants)
@@ -66,8 +71,11 @@ namespace GaiaElements
                 {
                     if (value != TEAMCOLOR.DEFAULT)
                     {
-                        if (plantAnimator.gameObject.activeInHierarchy)
-                        plantAnimator.SetTrigger("Grow");
+                        if (plantRenderer != null)
+                        {
+                            if (plantAnimator.gameObject.activeInHierarchy)
+                                plantAnimator.SetTrigger("Grow");
+                        }
                     }
                     SetColor(ColorEnum.GetColor(value));
                     OnPlantOwnershipChanged?.Invoke(PlantID, value, teamColor);
@@ -90,16 +98,17 @@ namespace GaiaElements
         private void Start()
         {
             SetColorInstant(Color.white);
-            plantRenderer.enabled = false;
+            if (plantRenderer != null)
+                plantRenderer.enabled = false;
         }
 
-       // private void Update()
+        // private void Update()
         //{
         //    if (teamColor != TEAMCOLOR.DEFAULT) return;
 
         //    if (!plantAnimator.enabled) {
-         //       plantRenderer.enabled = false;
-         //   }
+        //       plantRenderer.enabled = false;
+        //   }
         //}
 
 
@@ -110,7 +119,8 @@ namespace GaiaElements
 
         public void Activate(ColorEnum.TEAMCOLOR PlayerNumber)
         {
-            plantRenderer.enabled = true;
+            if (plantRenderer != null)
+                plantRenderer.enabled = true;
             TeamColor = PlayerNumber;
             SetColor(ColorEnum.GetColor(teamColor));
         }
@@ -129,14 +139,19 @@ namespace GaiaElements
             }
 
             PlantSpreadCreep = false;
-            if (plantAnimator.gameObject.activeInHierarchy)
-            plantAnimator.SetTrigger("UnGrow");
+            if (plantRenderer != null)
+            {
+                if (plantAnimator.gameObject.activeInHierarchy)
+                    plantAnimator.SetTrigger("UnGrow");
+
+            }
             TeamColor = TEAMCOLOR.DEFAULT;
         }
 
         public void SetColorInstant(Color color)
         {
-            plantRenderer.material.color = color;
+            if (plantRenderer != null)
+                plantRenderer.material.color = color;
         }
 
         public void SetColor(Color color)
@@ -154,14 +169,16 @@ namespace GaiaElements
             while (true)
             {
                 // lerp the color of the plant
-                plantRenderer.material.color = Color.Lerp(plantRenderer.material.color, newColor, SHIFT_SPEED);
+                if (plantRenderer != null)
+                    plantRenderer.material.color = Color.Lerp(plantRenderer.material.color, newColor, SHIFT_SPEED);
 
                 yield return new WaitForFixedUpdate();
 
-                if (plantRenderer.material.color == newColor)
-                {
-                    break;
-                }
+                if (plantRenderer != null)
+                    if (plantRenderer.material.color == newColor)
+                    {
+                        break;
+                    }
             }
         }
     }

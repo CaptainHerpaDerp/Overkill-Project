@@ -77,15 +77,17 @@ public class PlantCreepSpread : MonoBehaviour
         {
             if (Random.Range(1, Mathf.Clamp(rollChance * GetDistanceModifier(), rollChance, int.MaxValue)) != 1)
             {
+                print("failed roll");
                 yield return new WaitForSeconds(1);
                 continue;
             }
 
-            List<Plant> availablePlants = surroundingPlants.GetSurroundingOpponentPlantsList();
+            List<Plant> availablePlants = surroundingPlants.GetSurroundingOpponentPlantsList(includeNeutral: true);
 
             // If there are no plants, wait a long duration before checking again
             if (availablePlants.Count == 0)
             {
+                print("so surrounding plants found, waiting for 10 seconds");
                 yield return new WaitForSeconds(10);
                 continue;
             }
