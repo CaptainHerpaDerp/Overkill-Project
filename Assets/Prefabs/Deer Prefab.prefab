@@ -11801,7 +11801,7 @@ MonoBehaviour:
     m_Bits: 64
   expandOnEmptyList: 1
   incrementExpandAmount: 1
-  maxExpandAmount: 80
+  maxExpandAmount: 50
   overlapRadius: 0
 --- !u!135 &595295513517544556
 SphereCollider:
@@ -11822,7 +11822,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 8
+  m_Radius: 50
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1918207509899546458
 GameObject:
