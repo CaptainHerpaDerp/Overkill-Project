@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using Unity.VisualScripting;
+using TMPro;
 
 /// <summary>
 /// Class that controls the character screen saver, where each character is introduced 
@@ -9,6 +10,9 @@ using Unity.VisualScripting;
 public class CharacterScreenSaver : MonoBehaviour
 {
     [SerializeField] private GameObject redChar, greenChar, blueChar, purpleChar;
+
+    [SerializeField] TextMeshProUGUI characterDescription;
+    [SerializeField] TextMeshProUGUI characterName;
 
     [SerializeField] private int selectedCharacter = 0;
     [SerializeField] private float waitTime = 5f;
@@ -19,6 +23,14 @@ public class CharacterScreenSaver : MonoBehaviour
 
     [Header("The falling time of the character from the start-stop and stop-end points")]
     [SerializeField] private float incrementFallTime;
+
+    [Header("The descriptions of the characters in order (red-purple)")]
+    [SerializeField] private List<string> characterDescriptions = new();
+    [SerializeField] private float descriptionFadeTime = 1f;
+    [SerializeField] private float descriptionWaitTime = 5f;
+
+    [Header("The names of the characters in order (red-purple)")]
+    [SerializeField] private List<string> characterNames = new();
 
     private List<GameObject> characters;
 
@@ -43,6 +55,9 @@ public class CharacterScreenSaver : MonoBehaviour
         characters[selectedCharacter].SetActive(true);
         characters[selectedCharacter].transform.GetChild(0).gameObject.SetActive(true);
 
+        StartCoroutine(FadeOutInText(characterDescription, characterDescriptions[selectedCharacter], descriptionFadeTime));
+        StartCoroutine(FadeOutInText(characterName, characterNames[selectedCharacter], descriptionFadeTime));
+
         StartCoroutine(LoopThroughCharacters());
     }
 
@@ -52,7 +67,7 @@ public class CharacterScreenSaver : MonoBehaviour
         {
             // Get the next character
             GameObject newChar = characters[selectedCharacter];
-            Animator characterAnimator = characters[selectedCharacter].GetComponentInChildren<Animator>();
+            Animator[] characterAnimator = characters[selectedCharacter].GetComponentsInChildren<Animator>();
 
             // Set the character's position to the start position
             Vector3 localCharPos = newChar.transform.localPosition;
@@ -61,7 +76,10 @@ public class CharacterScreenSaver : MonoBehaviour
             newChar.SetActive(true);
 
             // Make the character fall
-            characterAnimator.SetBool("Grounded", false);
+            foreach (var animator in characterAnimator)
+            {
+                animator.SetBool("Grounded", false);
+            }
 
             float time = 0;
             float posY = startY;
@@ -77,11 +95,17 @@ public class CharacterScreenSaver : MonoBehaviour
                 yield return null;
             }
 
-            characterAnimator.SetBool("Grounded", true);
+            foreach (var animator in characterAnimator)
+            {
+                animator.SetBool("Grounded", true);
+            }
 
             yield return new WaitForSeconds(waitTime);
 
-            characterAnimator.SetBool("Grounded", false);
+            foreach (var animator in characterAnimator)
+            {
+                animator.SetBool("Grounded", false);
+            }   
 
             time = 0;
             posY = stopY;
@@ -97,8 +121,40 @@ public class CharacterScreenSaver : MonoBehaviour
                 yield return null;
             }
 
+
+            // Disable the character
+            newChar.SetActive(false);
+
+            // Once the character has fallen out of the screen, repeat the process with the next character
+            selectedCharacter = (selectedCharacter + 1) % characters.Count;
+
+            StartCoroutine(FadeOutInText(characterDescription, characterDescriptions[selectedCharacter], descriptionFadeTime));
+            StartCoroutine(FadeOutInText(characterName, characterNames[selectedCharacter], descriptionFadeTime));
+        }
+    }
+
+    private IEnumerator FadeOutInText(TextMeshProUGUI textComponent, string text, float time)
+    {
+        textComponent.text = text;
+        textComponent.color = new Color(textComponent.color.r, textComponent.color.g, textComponent.color.b, 0);
+
+        float alpha = 0;
+        while (alpha < 1)
+        {
+            alpha += Time.deltaTime / time;
+            textComponent.color = new Color(textComponent.color.r, textComponent.color.g, textComponent.color.b, alpha);
+            yield return null;
         }
 
-        yield break;
+        yield return new WaitForSeconds(descriptionWaitTime);
+
+        while (alpha > 0)
+        {
+            alpha -= Time.deltaTime / time;
+            textComponent.color = new Color(textComponent.color.r, textComponent.color.g, textComponent.color.b, alpha);
+            yield return null;
+        }
+
+        yield return null;
     }
 }

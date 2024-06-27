@@ -42,6 +42,17 @@ namespace UIElements
         [SerializeField] private int countdownTime;
         private bool onCountdown;
 
+        [Header("The parent object that holds all the character selection elements")]
+        [SerializeField] private GameObject elementsParent;
+
+        [Header("The screensaver group to be disabled on game start")]
+        [SerializeField] private GameObject pregameUIGroup;
+
+        [Header("Timeout Settings - When no input is made, go to the character info screensaver")]
+        [SerializeField] private float timeoutTime = 5f;
+
+        private bool playerInputAny = false;
+
         public bool AllPlayersReady
         {
             get
@@ -62,6 +73,8 @@ namespace UIElements
 
         private void Start()
         {
+            StartCoroutine(CheckForTimeout());
+
             playerManager = PlayerManager.Instance;
             screenDarkener = ScreenDarkener.Instance;
             GameManager.Instance.OnGameReload += ActivateSelection;
@@ -90,6 +103,8 @@ namespace UIElements
 
         private void AddPlayer(PlayerInput player)
         {
+            playerInputAny = true;
+
             if (!doCharacterSelection)
                 return;
 
@@ -155,7 +170,7 @@ namespace UIElements
                 DoPlayerLockIn();
                 FinalizeCharacterSelection();
             }
-            
+
         }
 
         private void DoPlayerLockIn()
@@ -168,6 +183,8 @@ namespace UIElements
                 // If the player presses the "X" (selection) button on the gamepad or "Space" on the keyboard
                 if (playerInput.FindAction("Jump").triggered)
                 {
+                    playerInputAny = true;
+
                     int playerIndex = playerInputs.IndexOf(playerInput);
 
                     // If the player is already ready, unready them
@@ -204,6 +221,8 @@ namespace UIElements
 
                 if (playerInput.FindAction("Deselect").triggered)
                 {
+                    playerInputAny = true;
+
                     int playerIndex = playerInputs.IndexOf(playerInput);
 
                     // If the player is already ready, unready them
@@ -233,17 +252,21 @@ namespace UIElements
                 InputAction dPadLeft = playerInput.FindAction("DPadLeft");
                 if (dPadLeft.IsPressed())
                 {
+                    playerInputAny = true;
                     playerMoveInput = new Vector2(-1, 0);
                 }
 
                 InputAction dPadRight = playerInput.FindAction("DPadRight");
                 if (dPadRight.IsPressed())
                 {
+                    playerInputAny = true;
                     playerMoveInput = new Vector2(1, 0);
                 }
 
                 if (playerMoveInput.x != 0)
                 {
+                    playerInputAny = true;
+
                     int playerIndex = playerInputs.IndexOf(playerInput);
 
                     if (!canPlayerSwitch[playerIndex] || playerReady[playerIndex])
@@ -333,7 +356,7 @@ namespace UIElements
                 onCountdown = true;
                 doCharacterSelection = false;
                 StartCoroutine(DoCountdown());
-            }       
+            }
         }
 
         private IEnumerator DoCountdown()
@@ -391,10 +414,12 @@ namespace UIElements
                 return;
 
             foreach (var playerInput in playerInputs)
-            {   
+            {
                 // If the player presses the "X" (selection) button on the gamepad or "Space" on the keyboard
                 if (playerInput.FindAction("Jump").triggered)
                 {
+                    playerInputAny = true;
+
                     print("trigger on countdown");
 
                     // Have the player deselect their character
@@ -433,9 +458,51 @@ namespace UIElements
 
         private void DoGameActivation()
         {
+            pregameUIGroup.SetActive(false);
             playerManager.AssignPlayers(playerSelectionIndexes);
             GameManager.Instance.ExitCharacterSelectionState();
             parentUIObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Check if no player has made any input, if so, enable the character info screensaver
+        /// </summary>
+        /// <returns></returns>
+        private IEnumerator CheckForTimeout()
+        {
+            // Initialize a counter for the time waited
+            float waitTime = 0;
+
+            while (true)
+            {
+                if (playerInputAny)
+                {
+                    if (!elementsParent.activeInHierarchy)
+                    {
+                        elementsParent.SetActive(true);
+                    }
+
+                    waitTime = 0;
+                    playerInputAny = false;
+                }
+
+                if (waitTime > timeoutTime)
+                {
+                    if (elementsParent.activeInHierarchy)
+                    {
+                        screenDarkener.UnDarkenScreen();
+                        elementsParent.SetActive(false);
+                    }
+                }
+                else
+                {
+                    waitTime += Time.fixedDeltaTime;
+                }
+               
+                print($"Waiting Time: {waitTime}");
+
+                yield return new WaitForFixedUpdate();
+            }
         }
 
         private void ActivateSelection()
