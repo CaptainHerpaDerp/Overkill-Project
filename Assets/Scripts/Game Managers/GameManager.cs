@@ -32,6 +32,12 @@ namespace GameManagement
         [Header("The Duration of the Ending Screen in Seconds")]
         [SerializeField] private float cameraZoomOutTime, victoryIslandTime;
 
+        [Header("The Camera that will be used to show the end cinematic")]
+        [SerializeField] private Camera EndCinematicCamera;
+
+        [Header("The Camera that will be used to show the victory island")]
+        [SerializeField] private GameObject WinIslandCamera;
+
         [SerializeField] private TextMeshProUGUI timerText;
 
         [SerializeField] private GameObject CharacterSelectionUIObj;
@@ -223,6 +229,10 @@ namespace GameManagement
             }
         }
 
+        /// <summary>
+        /// Display the winner player crown to the player with the highest score
+        /// </summary>
+        /// <returns></returns>
         private IEnumerator GiveCrownToPlayer()
         {
             while (true)
@@ -459,12 +469,16 @@ namespace GameManagement
 
         private IEnumerator DarkenCRToVictoryIsland(List<Player> placementList)
         {
+            EndCinematicCamera.enabled = true;
+
             yield return new WaitForSeconds(cameraZoomOutTime);
 
             ScreenDarkener.Instance.DarkenScreen(0.5f);
 
             ScreenDarkener.Instance.OnDarkened += () => 
             {
+                EndCinematicCamera.enabled = false;
+                WinIslandCamera.SetActive(true);
                 ShowVictoryIsland(placementList);
             };
 

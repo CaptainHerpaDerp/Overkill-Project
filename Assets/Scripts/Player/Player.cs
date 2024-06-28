@@ -55,6 +55,10 @@ namespace Players
         // Achievement Variables
         public float timeMoving = 1;
 
+        private bool onRespawn;
+
+        [SerializeField] private float respawnTime; 
+
         [SerializeField] private TEAMCOLOR teamColor;
 
         [Header("Player Behaviour Settings")]
@@ -181,10 +185,11 @@ namespace Players
 
         [SerializeField] private Rigidbody rb;
         [SerializeField] private ParticleSystem pushParticleSystem;
-
+         
         // TEMP
         public Vector3 SpawnPoint;
         public Action<Player, Player> OnPlayerRespawn;
+        public Action<int> OnPlayerFall;
         [SerializeField] private float fovZoomFactor;
 
         private const float respawnY = -10f;
@@ -276,7 +281,7 @@ namespace Players
             if (isLocked)
                 return;
 
-            GetInput();       
+            GetInput();
             OffsetJumpSpeed();
             HandleAnimations();
 
@@ -286,11 +291,7 @@ namespace Players
                 UpdatePlayerValues = false;
             }
 
-            if (transform.position.y < respawnY)
-            {
-                OnPlayerRespawn?.Invoke(lastPushedBy, this);
-                transform.position = SpawnPoint;
-            }
+            CheckForFall();
 
             if (doJump)
             {
@@ -336,7 +337,7 @@ namespace Players
                 // call Activate on that child
                 bool activation = false;
 
-                switch(specialAbility)
+                switch (specialAbility)
                 {
                     case SpecialAbility.MassConversion:
                         activation = GetComponentInChildren<RedSpecialBehaviour>().Activate();
@@ -356,9 +357,34 @@ namespace Players
                 }
 
                 // Play the animation for the special ability
- //               if (activation)
-              //  playerModelController.PlayAnimation(AnimationState.Special);
+                //               if (activation)
+                //  playerModelController.PlayAnimation(AnimationState.Special);
             }
+        }
+
+        /// <summary>
+        /// Compares the player's current y position to the respawnY value and respawns the player if they fall below it
+        /// </summary>
+        private void CheckForFall()
+        {
+            if (!onRespawn && transform.position.y < respawnY)
+            {
+                onRespawn = true;
+                OnPlayerFall?.Invoke((int)respawnTime);
+                // Stop the player from doing anything
+                isLocked = true;
+                StartCoroutine(HideForRespawnTime());
+            }
+        }
+
+        private IEnumerator HideForRespawnTime()
+        {
+            yield return new WaitForSeconds(respawnTime);
+
+            isLocked = false;
+            onRespawn = false;
+            OnPlayerRespawn?.Invoke(lastPushedBy, this);
+            transform.position = SpawnPoint;
         }
 
         private void FixedUpdate()

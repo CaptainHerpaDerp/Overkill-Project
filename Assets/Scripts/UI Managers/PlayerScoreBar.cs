@@ -19,6 +19,10 @@ namespace UIManagement
 
         [SerializeField] private float updateInterval = 1f;
 
+        [SerializeField] private Transform startPointTransform;
+
+        [SerializeField] private float widthDivisible;
+
         private GameManager gameManager;
 
         private void Start()
@@ -54,10 +58,19 @@ namespace UIManagement
         /// </summary>
         private void RecalculateSizes()
         {
+            // Get the screen width
+            float screenWidth = Screen.width;
+            float targetWidth = startPointTransform.position.x;
+
+            float referenceWidth = 3840;
+            // Based on the current width, get the ratio of the current width to the reference width
+            float widthRatio = Screen.width / referenceWidth;
+
+            print(widthRatio);
+
             float totalScore = player1Score + player2Score + player3Score + player4Score;
             float targetP1Width = 0, targetP2Width = 0, targetP3Width = 0, targetP4Width = 0;
             float p1Diff = 0, p2Diff = 0, p3Diff = 0, p4Diff = 0;
-
 
             if (totalScore == 0)
                 targetP1Width = 0;
@@ -71,7 +84,7 @@ namespace UIManagement
                 pp1.rectTransform.sizeDelta = new Vector2(pp1.rectTransform.sizeDelta.x + Mathf.Sign(targetP1Width - pp1.rectTransform.sizeDelta.x) * barGrowSpeed,
                     pp1.rectTransform.sizeDelta.y);
 
-            pp1.rectTransform.position = new Vector3(startWidth - 1, pp1.rectTransform.position.y, 
+            pp1.rectTransform.position = new Vector3(targetWidth - 1, pp1.rectTransform.position.y, 
                 pp1.rectTransform.position.z);
 
 
@@ -87,7 +100,7 @@ namespace UIManagement
                 pp2.rectTransform.sizeDelta = new Vector2(pp2.rectTransform.sizeDelta.x + Mathf.Sign(targetP2Width - pp2.rectTransform.sizeDelta.x) * barGrowSpeed,
                     pp2.rectTransform.sizeDelta.y);
 
-            pp2.rectTransform.position = new Vector3(pp1.rectTransform.position.x + pp1.rectTransform.sizeDelta.x - 1, pp2.rectTransform.position.y, 
+            pp2.rectTransform.position = new Vector3(pp1.rectTransform.position.x + (pp1.rectTransform.sizeDelta.x - 1) * widthRatio, pp2.rectTransform.position.y, 
                 pp2.rectTransform.position.z);
 
 

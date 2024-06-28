@@ -499,7 +499,7 @@ namespace UIElements
                     waitTime += Time.fixedDeltaTime;
                 }
                
-                print($"Waiting Time: {waitTime}");
+                //print($"Waiting Time: {waitTime}");
 
                 yield return new WaitForFixedUpdate();
             }
